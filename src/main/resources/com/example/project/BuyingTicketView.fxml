@@ -7,8 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="458.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane prefHeight="458.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="145.0" layoutY="35.0" text="Pick a date" />
       <DatePicker fx:id="datePicker" layoutX="94.0" layoutY="73.0" />
