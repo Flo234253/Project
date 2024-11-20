@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="322.0" prefWidth="364.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.CreatingAccountView">
+<AnchorPane prefHeight="322.0" prefWidth="364.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" >
    <children>
       <Label layoutX="112.0" layoutY="22.0" text="Creating an account" />
       <Label layoutX="17.0" layoutY="72.0" text="Enter ID:" />
