@@ -2,68 +2,32 @@ package com.example.project.Model;
 
 import java.time.LocalDateTime;
 
-public class Client //implements Users
+public class Client
+        //extends User
 {
     /*Name attributes*/
-    public String aName;
-    /*Password attributes*/
-    public String aPassword;
-    /*email attributes*/
-    public String aEmail;
+    private String aName;
     /*ID attributes*/
     public int ID;
     /*Date and time variable*/
     private final LocalDateTime registrationDateTime;
 
-    //@Override
-
     /**
-     *Get the name of the client
-     * @return the name of the client
+     *Get the name of the user
+     * @return the name of the user
      */
     public String getName() {
         return aName;
     }
 
     /**
-     * This method will set the name of the client
-     * @param pName assign the name of the client
+     * This method will set the name of the user
+     * @param pName assign the name of the user
      */
     public void setName(String pName) {
         aName = pName;
     }
 
-    /**
-     * Get the password that the client entered
-     * @return the client's password
-     */
-    public String getPassword() {
-        return aPassword;
-    }
-
-    /**
-     * Set the client's password
-     * @param pPassword assign the password
-     */
-    public void setPassword(String pPassword) {
-        aPassword = pPassword;
-    }
-
-    /**
-     * Get the client's email
-     * @return the client's email
-     */
-    public String getEmail() {
-        return aEmail;
-    }
-
-    /**
-     * Set the client's email
-     * @param pEmail assign the email
-     */
-    public void setEmail(String pEmail) {
-        aEmail = pEmail;
-    }
 
     /**
      * Get the clients ID
@@ -85,7 +49,8 @@ public class Client //implements Users
      * Default constructor.
      * Capture the current date and time when the client sign up
      */
-    public Client() {
+    public Client(String email, String password) {
+       // super(email, password);
         this.registrationDateTime = LocalDateTime.now();
     }
     /**
@@ -98,7 +63,18 @@ public class Client //implements Users
     }
 
 
-
-
+    /**
+     * Assign the user to client
+     * @return client
+     */
+    //@Override
+    //public String getRole() {
+     //   return "Client";
+    //}
 
 }
+
+
+
+
+
