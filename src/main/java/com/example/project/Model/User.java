@@ -15,12 +15,12 @@ public abstract class User {
 
     /*Start the list so we have sample data*/
     static {
-       // userList.add(new Manager("Saboor2@example.com", "Pass1234"));
-        // userList.add(new Manager("sarah.lee@example.com", "Admin2023"));
-        // userList.add(new Manager("john.doe@example.com", "Manager45"));
-       // userList.add(new Client("henryRobert@gmail.ca", "1234"));
-        // userList.add(new Client("avachapman@hotmail.ca", "4321"));
-        // userList.add(new Client("ethanPrice@gmail.ca", "2134"));
+       userList.add(new Manager("Saboor2@example.com", "Pass1234"));
+       userList.add(new Manager("sarah.lee@example.com", "Admin2023"));
+       userList.add(new Manager("john.doe@example.com", "Manager45"));
+       userList.add(new Client("henryRobert@gmail.ca", "1234"));
+       userList.add(new Client("avachapman@hotmail.ca", "4321"));
+       userList.add(new Client("ethanPrice@gmail.ca", "2134"));
 
     }
 

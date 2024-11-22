@@ -1,6 +1,6 @@
 package com.example.project.Model;
 
-public class Manager //extends Users
+public class Manager extends User
 {
     /*Name attributes*/
     public String aName;
@@ -28,7 +28,7 @@ public class Manager //extends Users
      * @param password have the password of the manager
      */
     public Manager(String email, String password) {
-      //  super(email, password);
+       super(email, password);
     }
 
 
@@ -37,7 +37,7 @@ public class Manager //extends Users
      * Overriding the getRole method so it return the manger
      * @return the user manager
      */
-    // @Override
+    @Override
     public String getRole() {
         return "Manager";
     }

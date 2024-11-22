@@ -2,8 +2,7 @@ package com.example.project.Model;
 
 import java.time.LocalDateTime;
 
-public class Client
-        //extends User
+public class Client extends User
 {
     /*Name attributes*/
     private String aName;
@@ -50,7 +49,7 @@ public class Client
      * Capture the current date and time when the client sign up
      */
     public Client(String email, String password) {
-       // super(email, password);
+        super(email, password);
         this.registrationDateTime = LocalDateTime.now();
     }
     /**
@@ -67,10 +66,10 @@ public class Client
      * Assign the user to client
      * @return client
      */
-    //@Override
-    //public String getRole() {
-     //   return "Client";
-    //}
+    @Override
+    public String getRole() {
+        return "Client";
+    }
 
 }
 
