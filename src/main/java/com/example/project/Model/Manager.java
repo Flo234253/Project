@@ -1,18 +1,9 @@
 package com.example.project.Model;
 
-import java.time.LocalDateTime;
-
-public class Manager //implements Users
+public class Manager //extends Users
 {
     /*Name attributes*/
     public String aName;
-    /*Password attributes*/
-    public String aPassword;
-    /*email attributes*/
-    public String aEmail;
-
-
-    //@Override
 
     /**
      *Get the name of the manager
@@ -30,33 +21,25 @@ public class Manager //implements Users
         aName = pName;
     }
 
-    /**
-     * get the manager's password
-     * @return password
-     */
-    public String getPassword() {
-        return aPassword;
-    }
 
     /**
-     * Set the password
-     * @param pPassword assign the password manager
+     * Constructor to create a new manager using their email and their password
+     * @param email have the email of the manager
+     * @param password have the password of the manager
      */
-    public void setPassword(String pPassword) {
-        aPassword = pPassword;
+    public Manager(String email, String password) {
+      //  super(email, password);
     }
+
+
+
     /**
-     * get the manager's email
-     * @return email
+     * Overriding the getRole method so it return the manger
+     * @return the user manager
      */
-    public String getEmail() {
-        return aEmail;
+    // @Override
+    public String getRole() {
+        return "Manager";
     }
-    /**
-     * Set the manager's email
-     * @param pEmail assign the email manager
-     */
-    public void setEmail(String pEmail) {
-        aEmail = pEmail;
-    }
+
 }
