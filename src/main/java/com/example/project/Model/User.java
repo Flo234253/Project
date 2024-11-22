@@ -4,41 +4,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class User {
-    private String aName;
+
+    /*attribute for email*/
     private String aEmail;
+    /*attribute for password*/
     private String aPassword;
 
-    // Static list to store users
+    /*List so we can store the user both client and manager*/
     private static final List<User> userList = new ArrayList<>();
 
-    // Static block to initialize the list
+    /*Start the list so we have sample data*/
     static {
-        //userList.add(new Manager("Tom Manager", "tom.manager@example.com", "admin123"));
-        //userList.add(new Client("Tim Client", "tim.taler@gmail.com", "123456"));
+       // userList.add(new Manager("Saboor2@example.com", "Pass1234"));
+        // userList.add(new Manager("sarah.lee@example.com", "Admin2023"));
+        // userList.add(new Manager("john.doe@example.com", "Manager45"));
+       // userList.add(new Client("henryRobert@gmail.ca", "1234"));
+        // userList.add(new Client("avachapman@hotmail.ca", "4321"));
+        // userList.add(new Client("ethanPrice@gmail.ca", "2134"));
+
     }
 
-    // Constructor
-    public User(String pName, String pEmail, String pPassword) {
-        this.aName = pName;
+    /**
+     * Constructor a new user
+     * @param pEmail assign the attribute to the parameters
+     * @param pPassword assign the attribute to the parameters
+     */
+    public User(String pEmail, String pPassword) {
+
         this.aEmail = pEmail;
         this.aPassword = pPassword;
     }
 
-    /**
-     *Get the name of the user
-     * @return the name of the user
-     */
-    public String getName() {
-        return aName;
-    }
-
-    /**
-     * This method will set the name of the user
-     * @param pName assign the name of the user
-     */
-    public void setName(String pName) {
-        aName = pName;
-    }
     /**
      * Get the client's email
      * @return the client's email
@@ -71,7 +67,7 @@ public abstract class User {
         aPassword = pPassword;
     }
 
-    // Abstract method to define the role
+    /*Get the role of the user Client or Manager*/
     public abstract String getRole();
 
     /**
@@ -82,11 +78,20 @@ public abstract class User {
         return userList;
     }
 
-    // Static method for user authentication
+    /**
+     * This methods uses a for loop so that it goes through each elements of
+     * the userList to see if it matches the user input. If it does then
+     * it will return the user if not then it will be null
+     * @param email verifying if the email matches
+     * @param password verifying if the password matches
+     * @return if the match is found then it will return the user and if not it will return null
+     */
     public static User authenticate(String email, String password) {
-        return userList.stream()
-                .filter(user -> user.getEmail().equals(email) && user.getPassword().equals(password))
-                .findFirst()
-                .orElse(null);
+        for (User user : userList) {
+            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        return null;
     }
 }
