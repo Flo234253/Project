@@ -12,6 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class SignInController {
 
     /**
@@ -102,5 +104,9 @@ public class SignInController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void createAccountButton(ActionEvent event) {
+        openView("/com/example/project/CreatingAccountView.fxml", "Buying Ticket", 390, 340, event);
     }
 }

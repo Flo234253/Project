@@ -14,6 +14,6 @@
       <Label layoutX="14.0" layoutY="156.0" text="Enter your password:" />
       <Button fx:id="signInButton" layoutX="133.0" layoutY="199.0" mnemonicParsing="false" onAction="#SignInButton" text="Sign In" />
       <Label layoutX="182.0" layoutY="249.0" text="Don't have an account?" />
-      <Button fx:id="creatingAccountButton" layoutX="194.0" layoutY="267.0" mnemonicParsing="false" text="Create an account" />
+      <Button fx:id="creatingAccountButton" layoutX="194.0" layoutY="267.0" mnemonicParsing="false" onAction="#createAccountButton" text="Create an account" />
    </children>
 </AnchorPane>
