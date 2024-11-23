@@ -61,7 +61,15 @@ public class SignInController {
         }
     }
 
-    // Method to open any view
+    /**
+     *This method is will open a new JavaFX window, making it a model so you can
+     * only focus on the new window
+     * @param fxmlPath the path where the fxml is situated so it can open the right one
+     * @param title the title of the fxml
+     * @param width how big the page is
+     * @param height how long the page is
+     * @param event when the button is click it will open and get the source window as the owner
+     */
     private void openView(String fxmlPath, String title, double width, double height, ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -106,6 +114,10 @@ public class SignInController {
         alert.showAndWait();
     }
 
+    /**
+     * When the creatAccountButton is click it will call the open Viw method which open the CreatingAccountView.fxml
+     * @param event will be call when the button is clicked
+     */
     public void createAccountButton(ActionEvent event) {
         openView("/com/example/project/CreatingAccountView.fxml", "Buying Ticket", 390, 340, event);
     }
