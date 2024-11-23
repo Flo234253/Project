@@ -99,7 +99,7 @@ public class SignInController {
      * @param event will be called if the user is a manager
      */
     private void openManagerView(ActionEvent event) {
-        //openView("/com/example/project/ManagerDashboardView.fxml", "Manager Dashboard", 600, 600, event);
+        openView("/com/example/project/manager-dashboard-view.fxml", "Manager Dashboard", 600, 600, event);
     }
 
     /**
