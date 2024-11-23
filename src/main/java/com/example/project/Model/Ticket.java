@@ -8,27 +8,27 @@ import java.time.LocalDateTime;
 public class Ticket {
 
     /** The unique identifier for the ticket. */
-    private int id;
+    private int aID;
 
     /** The date and time the ticket was purchased. */
 
-    private LocalDateTime  purchaseDateTime;
+    private LocalDateTime aPurchaseDateTime;
 
     /** The associated showtime for which the ticket was purchased. */
-    private Showtime showtime;
+    private Showtime aShowtime;
 
 
     /**
-     * Constructor to create a new ticket with a unique ID, purchase date and time, and associated showtime.
+     * Constructor to create a new ticket with a unique ID, purchase date and time, and associated pShowtime.
      *
-     * @param id The unique identifier for the ticket.
-     * @param purchaseDateTime The date and time the ticket was purchased.
-     * @param showtime The associated showtime for which the ticket was purchased.
+     * @param pID The unique identifier for the ticket.
+     * @param pPurchaseDateTime The date and time the ticket was purchased.
+     * @param pShowtime The associated pShowtime for which the ticket was purchased.
      */
-    public Ticket(int id, LocalDateTime purchaseDateTime, Showtime showtime) {
-        this.id = id;
-        this.purchaseDateTime = purchaseDateTime;
-        this.showtime = showtime;
+    public Ticket(int pID, LocalDateTime pPurchaseDateTime, Showtime pShowtime) {
+        this.aID = pID;
+        this.aPurchaseDateTime = pPurchaseDateTime;
+        this.aShowtime = pShowtime;
     }
 
 
@@ -37,17 +37,17 @@ public class Ticket {
      *
      * @return The unique identifier for the ticket.
      */
-    public int getId(){
-        return id;
+    public int getID(){
+        return aID;
     }
 
     /**
      * Sets the unique identifier for the ticket.
      *
-     * @param id The unique identifier for the ticket.
+     * @param aID The unique identifier for the ticket.
      */
-    public void setId(int id){
-        this.id = id;
+    public void setID(int aID){
+        this.aID = aID;
     }
 
 
@@ -58,7 +58,7 @@ public class Ticket {
      * @return The date and time the ticket was purchased.
      */
     public LocalDateTime getPurchaseDateTime() {
-        return purchaseDateTime;
+        return aPurchaseDateTime;
     }
 
 
@@ -66,10 +66,10 @@ public class Ticket {
     /**
      * Sets the date and time the ticket was purchased.
      *
-     * @param purchaseDateTime The date and time the ticket was purchased.
+     * @param pPurchaseDateTime The date and time the ticket was purchased.
      */
-    public void setPurchaseDateTime(LocalDateTime purchaseDateTime) {
-        this.purchaseDateTime = purchaseDateTime;
+    public void setPurchaseDateTime(LocalDateTime pPurchaseDateTime) {
+        this.aPurchaseDateTime = pPurchaseDateTime;
     }
 
 
@@ -79,16 +79,16 @@ public class Ticket {
      * @return The associated showtime.
      */
     public Showtime getShowtime() {
-        return showtime;
+        return aShowtime;
     }
 
 
     /**
      * Sets the associated showtime for which the ticket was purchased.
      *
-     * @param showtime The associated showtime.
+     * @param pShowtime The associated showtime.
      */
-    public void setShowtime(Showtime showtime) {
-        this.showtime = showtime;
+    public void setShowtime(Showtime pShowtime) {
+        this.aShowtime = pShowtime;
     }
 }

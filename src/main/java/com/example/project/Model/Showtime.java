@@ -11,31 +11,31 @@ import java.time.LocalDateTime;
 public class Showtime {
 
     /** The unique identifier for the showtime. */
-    private int id;
+    private int aID;
 
     /** Attribute  for The date and time of the showtime. */
-    private LocalDateTime dateTime;
+    private LocalDateTime aDateTime;
 
     /** Attribute  for  The movie being shown. */
-    private String movie;
+    private String aMovie;
 
     /** Attribute  for  The screening room where the movie is shown. */
-    private String screeningRoom;
+    private String aScreeningRoom;
 
 
     /**
      * Constructor to create a new showtime with a unique ID, date and time, movie, and screening room.
      *
-     * @param id The unique identifier for the showtime.
-     * @param dateTime The date and time of the showtime.
-     * @param movie The movie being shown.
-     * @param screeningRoom The screening room where the movie is shown.
+     * @param pID The unique identifier for the showtime.
+     * @param pDateTime The date and time of the showtime.
+     * @param pMovie The movie being shown.
+     * @param pScreeningRoom The screening room where the movie is shown.
      */
-    public Showtime(int id, LocalDateTime dateTime, String movie, String screeningRoom) {
-        this.id = id;
-        this.dateTime = dateTime;
-        this.movie = movie;
-        this.screeningRoom = screeningRoom;
+    public Showtime(int pID, LocalDateTime pDateTime, String pMovie, String pScreeningRoom) {
+        this.aID = pID;
+        this.aDateTime = pDateTime;
+        this.aMovie = pMovie;
+        this.aScreeningRoom = pScreeningRoom;
     }
 
     /**
@@ -43,18 +43,18 @@ public class Showtime {
      *
      * @return The unique identifier for the showtime.
      */
-    public int getId() {
-        return id;
+    public int getaID() {
+        return aID;
     }
 
 
     /**
      * Sets the unique identifier for the showtime.
      *
-     * @param id The unique identifier for the showtime.
+     * @param aID The unique identifier for the showtime.
      */
-    public void setId(int id) {
-        this.id = id;
+    public void setID(int aID) {
+        this.aID = aID;
     }
 
 
@@ -64,17 +64,17 @@ public class Showtime {
      * @return The date and time of the showtime.
      */
     public LocalDateTime getDateTime() {
-        return dateTime;
+        return aDateTime;
     }
 
 
     /**
      * Sets the date and time of the showtime.
      *
-     * @param dateTime The date and time of the showtime.
+     * @param aDateTime The date and time of the showtime.
      */
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDateTime(LocalDateTime aDateTime) {
+        this.aDateTime = aDateTime;
     }
 
     /**
@@ -83,16 +83,16 @@ public class Showtime {
      * @return The movie being shown.
      */
     public String getMovie() {
-        return movie;
+        return aMovie;
     }
 
     /**
      * Sets the movie being shown.
      *
-     * @param movie The movie being shown.
+     * @param aMovie The movie being shown.
      */
-    public void setMovie(String movie) {
-        this.movie = movie;
+    public void setMovie(String aMovie) {
+        this.aMovie = aMovie;
     }
 
 
@@ -102,16 +102,16 @@ public class Showtime {
      * @return The screening room.
      */
     public String getScreeningRoom() {
-        return screeningRoom;
+        return aScreeningRoom;
     }
 
     /**
      * Sets the screening room where the movie is shown.
      *
-     * @param screeningRoom The screening room.
+     * @param aScreeningRoom The screening room.
      */
-    public void setScreeningRoom(String screeningRoom) {
-        this.screeningRoom = screeningRoom;
+    public void setScreeningRoom(String aScreeningRoom) {
+        this.aScreeningRoom = aScreeningRoom;
     }
 
 
