@@ -1,7 +1,11 @@
 package com.example.project.Controllers;
 
+import Helpers.AlertHelper;
 import Helpers.MovieCell;
 import Model.Movie;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -88,10 +92,25 @@ private void loadMovies() {
     @FXML
     private void onSearchButtonClicked() {
         String pQuery = aSearchField.getText().toLowerCase();
+
+        // Filter movies based on the query
         FilteredList<Movie> pFilteredMovies = new FilteredList<>(aMovies, pMovie ->
                 pMovie.getTitle().toLowerCase().contains(pQuery) || pMovie.getGenre().toLowerCase().contains(pQuery));
-        aMovieListView.setItems(pFilteredMovies);
+
+        // Check if the filtered list is empty
+        if (pFilteredMovies.isEmpty()) {
+            // Show an error message if no movies match the query
+            AlertHelper.showWarningAlert(
+                    "No Results Found",
+                    "No movies match your search query.",
+                    "Please check your input and try again."
+            );
+        } else {
+            // Update the ListView with the filtered movies
+            aMovieListView.setItems(pFilteredMovies);
+        }
     }
+
 
     /**
      * Opens the consult movie view to display the details of the selected movie.
@@ -155,11 +174,37 @@ private void loadMovies() {
     //Todo
     @FXML
     private void onDeleteButtonClicked() {
-        Movie pSelectedMovie = aMovieListView.getSelectionModel().getSelectedItem();
-        if (pSelectedMovie != null) {
-            aMovies.remove(pSelectedMovie);
+        Movie selectedMovie = aMovieListView.getSelectionModel().getSelectedItem();
+
+        if (selectedMovie != null) {
+            // Show confirmation alert
+            Optional<ButtonType> result = AlertHelper.showConfirmationAlert(
+                    "Confirm Deletion",
+                    "Are you sure you want to delete this movie?",
+                    "Movie: " + selectedMovie.getTitle()
+            );
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Remove the selected movie
+                aMovies.remove(selectedMovie);
+
+                // Show success message
+                AlertHelper.showInformationAlert(
+                        "Movie Deleted",
+                        null,
+                        "The movie '" + selectedMovie.getTitle() + "' was successfully deleted."
+                );
+            }
+        } else {
+            // Show warning if no movie is selected
+            AlertHelper.showWarningAlert(
+                    "No Movie Selected",
+                    null,
+                    "Please select a movie to delete."
+            );
         }
     }
+
     /**
      * Gets the "Add" button.
      *
