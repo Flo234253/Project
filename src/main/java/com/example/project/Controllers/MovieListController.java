@@ -2,8 +2,7 @@ package com.example.project.Controllers;
 
 import Helpers.AlertHelper;
 import Helpers.MovieCell;
-import Model.Movie;
-import javafx.scene.control.Alert;
+import com.example.project.Model.Movie;
 import javafx.scene.control.ButtonType;
 import java.util.Optional;
 

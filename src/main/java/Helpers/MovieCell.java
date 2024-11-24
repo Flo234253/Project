@@ -1,6 +1,6 @@
 package Helpers;
 
-import Model.Movie;
+import com.example.project.Model.Movie;
 import javafx.scene.control.ListCell;
 
 /**

@@ -1,4 +1,4 @@
-package Model;
+package com.example.project.Model;
 
 /**
  * Represents a movie with detailed information such as title, genre, release date,
