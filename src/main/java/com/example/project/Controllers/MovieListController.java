@@ -1,7 +1,7 @@
 package com.example.project.Controllers;
 
-import com.example.project.Helpers.MovieCell;
-import com.example.project.Model.Movie;
+import Helpers.MovieCell;
+import Model.Movie;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -84,10 +84,10 @@ private void loadMovies() {
         Movie pSelectedMovie = aMovieListView.getSelectionModel().getSelectedItem();
         if (pSelectedMovie != null) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/path/to/consult-movie-view.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/consult-movie-details-view.fxml"));
                 Parent root = loader.load();
 
-                // Access the controller
+                // Access the ConsultMovieController
                 ConsultMovieController controller = loader.getController();
                 controller.setMovieDetails(
                         pSelectedMovie.getTitle(),
@@ -99,11 +99,11 @@ private void loadMovies() {
                         pSelectedMovie.getDescription()
                 );
 
-                // Create and show a new stage
+                // Create and set the stage
                 Stage stage = new Stage();
-                controller.setStage(stage);
-                stage.setTitle("Movie Details");
+                controller.setStage(stage); // Pass the stage to the ConsultMovieController
                 stage.setScene(new Scene(root));
+                stage.setTitle("Movie Details");
                 stage.show();
 
             } catch (IOException e) {
@@ -111,7 +111,9 @@ private void loadMovies() {
             }
         }
     }
-//Todo
+
+
+    //Todo
     @FXML
     private void onAddButtonClicked() {
         System.out.println("Add Movie button clicked!");
@@ -142,5 +144,7 @@ private void loadMovies() {
 
     public void setaAddButton(Button aAddButton) {
         this.aAddButton = aAddButton;
+
+
     }
 }

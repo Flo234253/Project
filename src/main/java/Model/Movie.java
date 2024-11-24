@@ -1,4 +1,4 @@
-package com.example.project.Model;
+package Model;
 
 public class Movie {
     private String aTitle;
@@ -9,7 +9,6 @@ public class Movie {
     private String aDirector;
     private String aDescription;
 
-    // Full constructor
     public Movie(String pTitle, String pGenre, String pReleaseDate, String pDuration, String pActors, String pDirector, String pDescription) {
         this.aTitle = pTitle;
         this.aGenre = pGenre;
@@ -20,7 +19,7 @@ public class Movie {
         this.aDescription = pDescription;
     }
 
-    // Getters
+
     public String getTitle() { return aTitle; }
     public String getGenre() { return aGenre; }
     public String getReleaseDate() { return aReleaseDate; }
