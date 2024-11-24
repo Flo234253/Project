@@ -68,12 +68,12 @@
       </Pane>
       <Pane prefHeight="95.0" prefWidth="574.0" style="-fx-background-color: #252525;">
          <children>
-            <Button layoutX="308.0" layoutY="25.0" mnemonicParsing="false" onAction="#onCancelButtonClicked" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #ff2c2c; -fx-border-color: black; -fx-border-radius: 5px;" text="Cancel">
+            <Button layoutX="398.0" layoutY="25.0" mnemonicParsing="false" onAction="#onCancelButtonClicked" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #ff2c2c; -fx-border-color: black; -fx-border-radius: 5px;" text="Cancel">
                <font>
                   <Font name="Bell MT" size="13.0" />
                </font>
             </Button>
-            <Button layoutX="163.0" layoutY="25.0" mnemonicParsing="false" onAction="#onSaveButtonClicked" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #008000; -fx-border-color: black; -fx-border-radius: 5px;" text="Save">
+            <Button layoutX="208.0" layoutY="25.0" mnemonicParsing="false" onAction="#onSaveButtonClicked" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #008000; -fx-border-color: black; -fx-border-radius: 5px;" text="Save">
                <font>
                   <Font name="Bell MT" size="13.0" />
                </font>
