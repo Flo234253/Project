@@ -17,6 +17,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller class for managing the movie list view.
+ * Provides functionality for searching, consulting, adding, editing, and deleting movies.
+ */
+
 public class MovieListController {
 
     @FXML
@@ -38,18 +43,18 @@ public class MovieListController {
     private Button aDeleteButton;
 
     private ObservableList<Movie> aMovies;
+
+    /**
+     * Initializes the controller.
+     * Loads the list of movies, sets up the ListView, and configures button behavior.
+     */
     //Todo
     @FXML
     public void initialize() {
-        // Load movies into the list
+
         loadMovies();
-
-        // Populate ListView with movies
-        aMovieListView.setItems(aMovies);
-
         // Custom cell factory for better ListView display
         aMovieListView.setCellFactory(listView -> new MovieCell());
-
 
         // Disable buttons when no movie is selected
         aMovieListView.getSelectionModel().selectedItemProperty().addListener((pObs, pOldVal, pNewVal) -> {
@@ -59,7 +64,11 @@ public class MovieListController {
             aDeleteButton.setDisable(!movieSelected);
         });
     }
-//TODO:change this method in a class (importhelper or movieservice)
+
+    /**
+     * Loads movies into the list.
+     * TODO: Move this logic to an external helper or service class
+     */
 private void loadMovies() {
     aMovies = FXCollections.observableArrayList(
             new Movie("Inception", "Sci-Fi/Suspense/Action", "2010-07-16", "148 min", "Leonardo DiCaprio",
@@ -70,6 +79,10 @@ private void loadMovies() {
                     "James Cameron", "A romantic tragedy aboard the ill-fated Titanic.")
     );
 }
+
+    /**
+     * Filters the movie list based on the search query.
+     */
     //Todo
     @FXML
     private void onSearchButtonClicked() {
@@ -78,6 +91,10 @@ private void loadMovies() {
                 pMovie.getTitle().toLowerCase().contains(pQuery) || pMovie.getGenre().toLowerCase().contains(pQuery));
         aMovieListView.setItems(pFilteredMovies);
     }
+
+    /**
+     * Opens the consult movie view to display the details of the selected movie.
+     */
     //Todo
     @FXML
     private void onConsultButtonClicked() {
@@ -87,7 +104,7 @@ private void loadMovies() {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/consult-movie-details-view.fxml"));
                 Parent root = loader.load();
 
-                // Access the ConsultMovieController
+
                 ConsultMovieController controller = loader.getController();
                 controller.setMovieDetails(
                         pSelectedMovie.getTitle(),
@@ -99,7 +116,7 @@ private void loadMovies() {
                         pSelectedMovie.getDescription()
                 );
 
-                // Create and set the stage
+
                 Stage stage = new Stage();
                 controller.setStage(stage); // Pass the stage to the ConsultMovieController
                 stage.setScene(new Scene(root));
@@ -112,39 +129,51 @@ private void loadMovies() {
         }
     }
 
-
-    //Todo
+    /**
+     * Opens the add movie view to allow the user to add a new movie.
+     */
     @FXML
     private void onAddButtonClicked() {
-        System.out.println("Add Movie button clicked!");
-        // Logic to open the Add Movie view
+        // TODO: Implement logic to open the Add Movie view
     }
-    //Todo
+
+    /**
+     * Opens the edit movie view to allow the user to edit the selected movie.
+     */
     @FXML
     private void onEditButtonClicked() {
         Movie pSelectedMovie = aMovieListView.getSelectionModel().getSelectedItem();
         if (pSelectedMovie != null) {
-            System.out.println("Editing movie: " + pSelectedMovie.getTitle());
-            // Logic to open the Edit Movie view and pre-fill data
+            // TODO: Implement logic to open the Edit Movie view and pre-fill data
         }
     }
+
+    /**
+     * Deletes the selected movie from the list.
+     */
     //Todo
     @FXML
     private void onDeleteButtonClicked() {
         Movie pSelectedMovie = aMovieListView.getSelectionModel().getSelectedItem();
         if (pSelectedMovie != null) {
             aMovies.remove(pSelectedMovie);
-            System.out.println("Deleted movie: " + pSelectedMovie.getTitle());
         }
     }
-
+    /**
+     * Gets the "Add" button.
+     *
+     * @return The "Add" button.
+     */
     public Button getaAddButton() {
         return aAddButton;
     }
 
+    /**
+     * Sets the "Add" button.
+     *
+     * @param aAddButton The "Add" button to set.
+     */
     public void setaAddButton(Button aAddButton) {
         this.aAddButton = aAddButton;
-
-
     }
 }

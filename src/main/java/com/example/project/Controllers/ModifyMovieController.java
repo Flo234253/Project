@@ -34,7 +34,7 @@ public class ModifyMovieController {
 
     @FXML
     private void onCancelButtonClicked() {
-        System.out.println("Cancel button clicked!");
+
         //Todo: Add cancel logic
     }
 }
