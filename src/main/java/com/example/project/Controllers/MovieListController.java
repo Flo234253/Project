@@ -54,6 +54,7 @@ public class MovieListController {
 
         loadMovies();
         // Custom cell factory for better ListView display
+        aMovieListView.setItems(aMovies);
         aMovieListView.setCellFactory(listView -> new MovieCell());
 
         // Disable buttons when no movie is selected
