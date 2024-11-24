@@ -41,7 +41,7 @@ public class AlertHelper {
     }
 
     /**
-     * Displays a warning alert with the given title, header, and content.
+     * Displays a warning alert with the given title, header, and content
      *
      * @param title   The title of the alert.
      * @param header  The header text of the alert (can be null).

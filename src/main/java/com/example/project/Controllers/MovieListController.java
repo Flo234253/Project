@@ -92,10 +92,25 @@ private void loadMovies() {
     @FXML
     private void onSearchButtonClicked() {
         String pQuery = aSearchField.getText().toLowerCase();
+
+        // Filter movies based on the query
         FilteredList<Movie> pFilteredMovies = new FilteredList<>(aMovies, pMovie ->
                 pMovie.getTitle().toLowerCase().contains(pQuery) || pMovie.getGenre().toLowerCase().contains(pQuery));
-        aMovieListView.setItems(pFilteredMovies);
+
+        // Check if the filtered list is empty
+        if (pFilteredMovies.isEmpty()) {
+            // Show an error message if no movies match the query
+            AlertHelper.showWarningAlert(
+                    "No Results Found",
+                    "No movies match your search query.",
+                    "Please check your input and try again."
+            );
+        } else {
+            // Update the ListView with the filtered movies
+            aMovieListView.setItems(pFilteredMovies);
+        }
     }
+
 
     /**
      * Opens the consult movie view to display the details of the selected movie.
