@@ -18,7 +18,7 @@ public class Client extends User implements Serializable {
     /*Name attributes*/
     private String aName;
     /*ID attributes*/
-    public int ID;
+    public int aID;
     /*Date and time variable*/
     private final LocalDateTime registrationDateTime;
 
@@ -43,7 +43,7 @@ public class Client extends User implements Serializable {
      * @return the client's ID
      */
     public int getID() {
-        return ID;
+        return aID;
     }
 
     /**
@@ -51,7 +51,7 @@ public class Client extends User implements Serializable {
      * @param pID assign the ID
      */
     public void setID(int pID) {
-        ID = pID;
+        aID = pID;
     }
 
     /**
@@ -65,7 +65,7 @@ public class Client extends User implements Serializable {
     public Client(String name, String email, String password, int ID) {
         super(email, password);
         this.aName = name;
-        this.ID = ID;
+        this.aID = ID;
         this.registrationDateTime = LocalDateTime.now();
     }
 
