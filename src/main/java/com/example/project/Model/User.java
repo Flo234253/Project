@@ -62,6 +62,9 @@ public abstract class User implements Serializable {
      * @param pEmail assign the email
      */
     public void setEmail(String pEmail) {
+        if (pEmail == null || pEmail.isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be empty.");
+        }
         aEmail = pEmail;
     }
 
@@ -78,6 +81,9 @@ public abstract class User implements Serializable {
      * @param pPassword assign the password
      */
     public void setPassword(String pPassword) {
+        if (pPassword == null || pPassword.isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be empty.");
+        }
         aPassword = pPassword;
     }
 

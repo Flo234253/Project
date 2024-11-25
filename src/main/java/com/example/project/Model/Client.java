@@ -18,7 +18,7 @@ public class Client extends User implements Serializable {
     /*Name attributes*/
     private String aName;
     /*ID attributes*/
-    public int ID;
+    public int aID;
     /*Date and time variable*/
     private final LocalDateTime registrationDateTime;
 
@@ -31,10 +31,16 @@ public class Client extends User implements Serializable {
     }
 
     /**
-     * This method will set the name of the user
-     * @param pName assign the name of the user
+     * This method will set the name of the client, and check
+     * that the name is not null or empty.
+     *
+     * @param pName The name to set.
+     * @throws IllegalArgumentException if the name is null or empty.
      */
     public void setName(String pName) {
+        if (pName == null || pName.isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty.");
+        }
         aName = pName;
     }
 
@@ -43,16 +49,24 @@ public class Client extends User implements Serializable {
      * @return the client's ID
      */
     public int getID() {
-        return ID;
+        return aID;
     }
 
     /**
-     * Set the client's ID
-     * @param pID assign the ID
+     * Set the client's ID, and check if the ID is a positive number
+     *
+     *
+     * @param pID The ID to set.
+     * @throws IllegalArgumentException if the ID is less than or equal to 0.
      */
     public void setID(int pID) {
-        ID = pID;
+        if (pID <= 0) {
+            throw new IllegalArgumentException("ID must be a positive number.");
+        }
+        aID = pID;
     }
+
+
 
     /**
      * Constructor with name, email, password, and ID for creating a new client
@@ -65,7 +79,7 @@ public class Client extends User implements Serializable {
     public Client(String name, String email, String password, int ID) {
         super(email, password);
         this.aName = name;
-        this.ID = ID;
+        this.aID = ID;
         this.registrationDateTime = LocalDateTime.now();
     }
 
