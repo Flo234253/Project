@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="531.0" prefWidth="573.0" xmlns="http://javafx.com/javafx/22"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.project.Controllers.AddMovieController">
+   <children>
+      <Pane prefHeight="97.0" prefWidth="416.0" style="-fx-background-color: #90d5ff;">
+         <children>
+            <Text layoutX="153.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Movies " textAlignment="CENTER" wrappingWidth="282.89697265625">
+               <font>
+                  <Font name="Bodoni MT Black Italic" size="40.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Pane prefHeight="354.0" prefWidth="574.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="14.0" prefHeight="30.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Title" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Bodoni MT Black" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="aTitleField" layoutX="198.0" layoutY="16.0" prefHeight="30.0" prefWidth="362.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="54.0" prefHeight="30.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Genre" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Bodoni MT Black" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="97.0" prefHeight="30.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Release Date" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Bodoni MT Black" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="140.0" prefHeight="30.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Duration" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Bodoni MT Black" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="185.0" prefHeight="30.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Actors" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Bodoni MT Black" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="232.0" prefHeight="30.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Director" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Bodoni MT Black" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="277.0" prefHeight="30.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Description" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Bodoni MT Black" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="aGenreField" layoutX="198.0" layoutY="54.0" prefHeight="30.0" prefWidth="362.0" />
+            <TextField fx:id="aReleaseDateField" layoutX="198.0" layoutY="90.0" prefHeight="30.0" prefWidth="362.0" />
+            <TextField fx:id="aDurationField" layoutX="198.0" layoutY="140.0" prefHeight="30.0" prefWidth="362.0" />
+            <TextField fx:id="aActorsField" layoutX="198.0" layoutY="185.0" prefHeight="30.0" prefWidth="362.0" />
+            <TextField fx:id="aDirectorField" layoutX="198.0" layoutY="232.0" prefHeight="30.0" prefWidth="362.0" />
+            <TextField fx:id="aDescriptionField" layoutX="198.0" layoutY="270.0" prefHeight="56.0" prefWidth="362.0" />
+         </children>
+      </Pane>
+      <Pane prefHeight="95.0" prefWidth="574.0" style="-fx-background-color: #252525;">
+         <children>
+            <Button layoutX="308.0" layoutY="25.0" mnemonicParsing="false" onAction="#onCancelButtonClicked" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #ff2c2c; -fx-border-color: black; -fx-border-radius: 5px;" text="Cancel">
+               <font>
+                  <Font name="Bell MT" size="13.0" />
+               </font>
+            </Button>
+            <Button layoutX="163.0" layoutY="25.0" mnemonicParsing="false" onAction="#onSaveButtonClicked" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #008000; -fx-border-color: black; -fx-border-radius: 5px;" text="Save">
+               <font>
+                  <Font name="Bell MT" size="13.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</VBox>
