@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="375.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.ClientsView">
+<AnchorPane prefHeight="375.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.ClientsViewController">
    <children>
       <Button layoutX="280.0" layoutY="332.0" mnemonicParsing="false" text="Back" />
       <Label layoutX="244.0" layoutY="24.0" text="Clients">
@@ -17,12 +17,12 @@
          </font>
       </Label>
       <TableView editable="true" layoutX="144.0" layoutY="100.0" prefHeight="200.0" prefWidth="350.0">
-        <columns>
-          <TableColumn prefWidth="85.0" text="ID" />
-          <TableColumn prefWidth="79.0" text="Name" />
+         <columns>
+            <TableColumn prefWidth="85.0" text="ID" />
+            <TableColumn prefWidth="79.0" text="Name" />
             <TableColumn text="Email" />
             <TableColumn prefWidth="105.0" text="Tickets Purchased" />
-        </columns>
+         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
