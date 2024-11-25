@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.TicketSalesView">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.TicketSalesViewController">
    <children>
-      <Button layoutX="264.0" layoutY="347.0" mnemonicParsing="false" text="Back" />
+      <Button fx:id="backButton" layoutX="264.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleBackButton" text="Back" />
       <Label layoutX="233.0" layoutY="26.0" text="Ticket Sales">
          <font>
             <Font name="System Bold" size="26.0" />
