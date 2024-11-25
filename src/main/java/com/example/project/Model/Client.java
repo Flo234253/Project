@@ -1,9 +1,20 @@
 package com.example.project.Model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Client extends User
-{
+/**
+ * This class will hold the client information id, name and time and date when they sign up and it extends
+ * the user class that holds the email and password and implements serializable to save the new user
+ */
+public class Client extends User implements Serializable {
+    /**
+     * Using for serial to save the data
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /*Name attributes*/
     private String aName;
     /*ID attributes*/
@@ -12,7 +23,7 @@ public class Client extends User
     private final LocalDateTime registrationDateTime;
 
     /**
-     *Get the name of the user
+     * Get the name of the user
      * @return the name of the user
      */
     public String getName() {
@@ -26,7 +37,6 @@ public class Client extends User
     public void setName(String pName) {
         aName = pName;
     }
-
 
     /**
      * Get the clients ID
@@ -45,6 +55,21 @@ public class Client extends User
     }
 
     /**
+     * Constructor with name, email, password, and ID for creating a new client
+     *
+     * @param name     getting the name of the client
+     * @param email     getting the email of the client
+     * @param password  getting the password of the client
+     * @param ID       getting the ID of the client
+     */
+    public Client(String name, String email, String password, int ID) {
+        super(email, password);
+        this.aName = name;
+        this.ID = ID;
+        this.registrationDateTime = LocalDateTime.now();
+    }
+
+    /**
      * Default constructor.
      * Capture the current date and time when the client sign up
      */
@@ -52,6 +77,7 @@ public class Client extends User
         super(email, password);
         this.registrationDateTime = LocalDateTime.now();
     }
+
     /**
      * Gets the registration date and time of the client.
      *
@@ -61,7 +87,6 @@ public class Client extends User
         return registrationDateTime;
     }
 
-
     /**
      * Assign the user to client
      * @return client
@@ -70,10 +95,4 @@ public class Client extends User
     public String getRole() {
         return "Client";
     }
-
 }
-
-
-
-
-
