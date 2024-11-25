@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="672.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.ConsultShowTimeDetailsViewController">
+    <children>
+        <Pane prefHeight="97.0" prefWidth="416.0" style="-fx-background-color: #90d5ff;">
+            <children>
+                <Text layoutX="212.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ShowTime&#10; Details" textAlignment="CENTER" wrappingWidth="282.89697265625">
+                    <font>
+                        <Font name="Bodoni MT Black Italic" size="24.0" />
+                    </font>
+                </Text>
+            </children>
+        </Pane>
+        <Pane prefHeight="303.0" prefWidth="672.0" style="-fx-background-color: white;">
+            <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Movie" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="Bodoni MT Black" size="17.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="61.0" prefHeight="30.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Room" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="Bodoni MT Black" size="17.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="105.0" prefHeight="30.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Date" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="Bodoni MT Black" size="17.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="157.0" prefHeight="30.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Time" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="Bodoni MT Black" size="17.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="aTitleField" editable="false" layoutX="165.0" layoutY="11.0" prefHeight="36.0" prefWidth="472.0" />
+                <TextField fx:id="aGenreField" editable="false" layoutX="165.0" layoutY="61.0" prefHeight="36.0" prefWidth="472.0" />
+                <TextField fx:id="aReleaseDateField" editable="false" layoutX="165.0" layoutY="102.0" prefHeight="36.0" prefWidth="472.0" />
+                <TextField fx:id="aDurationField" editable="false" layoutX="165.0" layoutY="154.0" prefHeight="36.0" prefWidth="472.0" />
+              <Pane layoutY="210.0" prefHeight="79.0" prefWidth="672.0" style="-fx-background-color: #252525;">
+                  <children>
+                      <Button layoutX="274.0" layoutY="32.0" mnemonicParsing="false"  prefHeight="27.0" prefWidth="139.0" style="-fx-background-color: #cbcbcb; -fx-border-color: black; -fx-border-radius: 5px;" text="Close The View">
+                          <font>
+                              <Font name="Arial" size="12.0" />
+                          </font>
+                      </Button>
+                  </children>
+              </Pane>
+            </children>
+        </Pane>
+    </children>
+</VBox>

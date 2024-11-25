@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.ManageShowTimeViewController">
    <children>
       <Label layoutX="174.0" layoutY="31.0" text="Manage ShowTimes">
@@ -24,5 +23,6 @@
       <Button layoutX="272.0" layoutY="353.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="57.0" text="Back" />
       <Button layoutX="374.0" layoutY="127.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="94.0" text="     Add &#10;ShowTime" />
       <Button layoutX="378.0" layoutY="209.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="88.0" text="   Delete&#10;ShowTime" />
+      <Button layoutX="380.0" layoutY="278.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="88.0" text="   Consult&#10; ShowTime" />
    </children>
 </AnchorPane>
