@@ -1,14 +1,13 @@
 package Helpers;
 
 import com.example.project.Model.Movie;
-import javafx.scene.control.ListCell;
 
 /**
  * Custom ListCell implementation for displaying movie details in a ListView.
  * This class customizes the appearance of each cell in the ListView to show the
  * title and genre of a movie.
  */
-public class MovieCell extends ListCell<Movie> {
+public class MovieCell extends javafx.scene.control.ListCell<Movie> {
 
 
     /**
@@ -29,4 +28,5 @@ public class MovieCell extends ListCell<Movie> {
             setText(pMovie.getTitle() + " - " + pMovie.getGenre());
         }
     }
+
 }

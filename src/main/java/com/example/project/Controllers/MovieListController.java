@@ -61,7 +61,7 @@ public class MovieListController {
         aMovieListView.setCellFactory(listView -> new MovieCell());
 
         // Disable buttons when no movie is selected
-        aMovieListView.getSelectionModel().selectedItemProperty().addListener((pObs, pOldVal, pNewVal) -> {
+        aMovieListView.getSelectionModel().selectedItemProperty().addListener((pObservable, pOldValue, pNewVal) -> {
             boolean movieSelected = pNewVal != null;
             aConsultButton.setDisable(!movieSelected);
             aEditButton.setDisable(!movieSelected);
@@ -85,23 +85,23 @@ private void loadMovies() {
 }
 
     /**
-     * Filters the movie list based on the search query.
+     * Filters the movie list based on the search input.
      */
     //Todo
     @FXML
     private void onSearchButtonClicked() {
         String pQuery = aSearchField.getText().toLowerCase();
 
-        // Filter movies based on the query
+        // Filter movies based on the input
         FilteredList<Movie> pFilteredMovies = new FilteredList<>(aMovies, pMovie ->
                 pMovie.getTitle().toLowerCase().contains(pQuery) || pMovie.getGenre().toLowerCase().contains(pQuery));
 
         // Check if the filtered list is empty
         if (pFilteredMovies.isEmpty()) {
-            // Show an error message if no movies match the query
+            // Show an error message if no movies match the input
             AlertHelper.showWarningAlert(
                     "No Results Found",
-                    "No movies match your search query.",
+                    "No movies match your search input.",
                     "Please check your input and try again."
             );
         } else {
@@ -149,7 +149,7 @@ private void loadMovies() {
     }
 
     /**
-     * Opens the add movie view to allow the user to add a new movie.
+     * Opens the add movie view to allow the manager to add a new movie.
      */
     @FXML
     private void onAddButtonClicked() {
@@ -157,7 +157,7 @@ private void loadMovies() {
     }
 
     /**
-     * Opens the edit movie view to allow the user to edit the selected movie.
+     * Opens the edit movie view to allow the manager to edit the selected movie.
      */
     @FXML
     private void onEditButtonClicked() {
