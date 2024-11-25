@@ -57,7 +57,7 @@ public class SignInController {
                 openBuyingTicketView(event);
             }
         } else {
-            showError("No user found. Please try again.");
+            Helpers.AlertHelper.showWarningAlert("Sign In Error", null, "No user found. Please try again.");
         }
     }
 
@@ -100,18 +100,6 @@ public class SignInController {
      */
     private void openManagerView(ActionEvent event) {
         openView("/com/example/project/manager-dashboard-view.fxml", "Manager Dashboard", 600, 600, event);
-    }
-
-    /**
-     * This message will show an error message
-     * @param message the message is what is wrong with the system
-     */
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Sign In Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     /**

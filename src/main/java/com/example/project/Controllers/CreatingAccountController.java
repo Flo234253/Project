@@ -40,7 +40,7 @@ public class CreatingAccountController {
          * Check if the text field are not empty and if they are then you show an error message
          */
         if (name.isEmpty() || email.isEmpty() || password.isEmpty() || ID.isEmpty()) {
-            showError("All text fields must be filled. Please try again.");
+            Helpers.AlertHelper.showWarningAlert("Sign In Error", null, "All text fields must be filled. Please try again.");
             return;
         }
 
@@ -48,7 +48,7 @@ public class CreatingAccountController {
          * Check if the email format is correct so example@example.ca
          */
         if (!email.matches("^[\\w-.]+@[\\w-]+\\.[a-zA-Z]{2,}$")) {
-            showError("Invalid email format!");
+            Helpers.AlertHelper.showWarningAlert("Sign In Error", null, "Invalid email format!");
             return;
         }
 
@@ -64,22 +64,11 @@ public class CreatingAccountController {
             /*If successful it will open the buy ticket view*/
             openBuyingTicketView(event);
         } catch (NumberFormatException e) {
-            showError("ID must be a valid integer!");
+            Helpers.AlertHelper.showWarningAlert("Sign In Error", null, "ID must be a valid integer!");
+
         }
     }
 
-    /**
-     * This method to display error messages.
-     *
-     * @param message The error message to display.
-     */
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
     /**
      * Generalized method to open a new view.
