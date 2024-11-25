@@ -1,7 +1,6 @@
 package com.example.project.Controllers;
 
 import Helpers.AlertHelper;
-import Helpers.MovieCell;
 import com.example.project.Model.Movie;
 import javafx.scene.control.ButtonType;
 import java.util.Optional;
@@ -14,7 +13,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -31,7 +31,14 @@ public class MovieListController {
     private TextField aSearchField;
 
     @FXML
-    private ListView<Movie> aMovieListView;
+    private TableView<Movie> aMovieTableView;
+
+    @FXML
+    private TableColumn<Movie, String> titleColumn;
+
+    @FXML
+    private TableColumn<Movie, String> genreColumn;
+
 
     @FXML
     private Button aConsultButton;
@@ -54,21 +61,25 @@ public class MovieListController {
     //Todo
     @FXML
     public void initialize() {
-
         loadMovies();
-        // Custom cell factory for better ListView display
-        aMovieListView.setItems(aMovies);
-        aMovieListView.setCellFactory(listView -> new MovieCell());
+
+        // Bind the "Title" column to the Movie model's title property
+        titleColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getTitle()));
+
+        // Bind the "Genre" column to the Movie model's genre property
+        genreColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getGenre()));
+
+        // Populate the TableView
+        aMovieTableView.setItems(aMovies);
 
         // Disable buttons when no movie is selected
-        aMovieListView.getSelectionModel().selectedItemProperty().addListener((pObs, pOldVal, pNewVal) -> {
-            boolean movieSelected = pNewVal != null;
-            aConsultButton.setDisable(!movieSelected);
-            aEditButton.setDisable(!movieSelected);
-            aDeleteButton.setDisable(!movieSelected);
+        aMovieTableView.getSelectionModel().selectedItemProperty().addListener((_, _, newVal) -> {
+            boolean isSelected = newVal != null;
+            aConsultButton.setDisable(!isSelected);
+            aEditButton.setDisable(!isSelected);
+            aDeleteButton.setDisable(!isSelected);
         });
     }
-
     /**
      * Loads movies into the list.
      * TODO: Move this logic to an external helper or service class
@@ -85,28 +96,28 @@ private void loadMovies() {
 }
 
     /**
-     * Filters the movie list based on the search query.
+     * Filters the movie list based on the search input.
      */
     //Todo
     @FXML
     private void onSearchButtonClicked() {
         String pQuery = aSearchField.getText().toLowerCase();
 
-        // Filter movies based on the query
+        // Filter movies based on the input
         FilteredList<Movie> pFilteredMovies = new FilteredList<>(aMovies, pMovie ->
                 pMovie.getTitle().toLowerCase().contains(pQuery) || pMovie.getGenre().toLowerCase().contains(pQuery));
 
         // Check if the filtered list is empty
         if (pFilteredMovies.isEmpty()) {
-            // Show an error message if no movies match the query
+            // Show an error message if no movies match the input
             AlertHelper.showWarningAlert(
                     "No Results Found",
-                    "No movies match your search query.",
+                    "No movies match your search input.",
                     "Please check your input and try again."
             );
         } else {
             // Update the ListView with the filtered movies
-            aMovieListView.setItems(pFilteredMovies);
+            aMovieTableView.setItems(pFilteredMovies);
         }
     }
 
@@ -117,7 +128,7 @@ private void loadMovies() {
     //Todo
     @FXML
     private void onConsultButtonClicked() {
-        Movie pSelectedMovie = aMovieListView.getSelectionModel().getSelectedItem();
+        Movie pSelectedMovie = aMovieTableView.getSelectionModel().getSelectedItem();
         if (pSelectedMovie != null) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/consult-movie-details-view.fxml"));
@@ -138,7 +149,7 @@ private void loadMovies() {
 
                 Stage stage = new Stage();
                 controller.setStage(stage); // Pass the stage to the ConsultMovieController
-                stage.setScene(new Scene(root));
+                stage.setScene(new Scene(root, 700, 550));
                 stage.setTitle("Movie Details");
                 stage.show();
 
@@ -149,7 +160,7 @@ private void loadMovies() {
     }
 
     /**
-     * Opens the add movie view to allow the user to add a new movie.
+     * Opens the add movie view to allow the manager to add a new movie.
      */
     @FXML
     private void onAddButtonClicked() {
@@ -157,11 +168,11 @@ private void loadMovies() {
     }
 
     /**
-     * Opens the edit movie view to allow the user to edit the selected movie.
+     * Opens the edit movie view to allow the manager to edit the selected movie.
      */
     @FXML
     private void onEditButtonClicked() {
-        Movie pSelectedMovie = aMovieListView.getSelectionModel().getSelectedItem();
+        Movie pSelectedMovie = aMovieTableView.getSelectionModel().getSelectedItem();
         if (pSelectedMovie != null) {
             // TODO: Implement logic to open the Edit Movie view and pre-fill data
         }
@@ -173,7 +184,7 @@ private void loadMovies() {
     //Todo
     @FXML
     private void onDeleteButtonClicked() {
-        Movie selectedMovie = aMovieListView.getSelectionModel().getSelectedItem();
+        Movie selectedMovie = aMovieTableView.getSelectionModel().getSelectedItem();
 
         if (selectedMovie != null) {
             // Show confirmation alert

@@ -100,6 +100,7 @@ public class Showtime {
      * Gets the screening room where the movie is shown.
      *
      * @return The screening room.
+     * //todo
      */
     public String getScreeningRoom() {
         return aScreeningRoom;
