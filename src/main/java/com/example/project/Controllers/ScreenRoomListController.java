@@ -1,7 +1,6 @@
 package com.example.project.Controllers;
 
 import Helpers.AlertHelper;
-import Helpers.ScreeningRoomCell;
 import com.example.project.Model.ScreeningRoom;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,8 +20,10 @@ public class ScreenRoomListController {
     private TextField aSearchField;
 
     @FXML
-    private ListView<ScreeningRoom> aScreenRoomListView;
+    private TableView<ScreeningRoom> aScreenRoomTableView;
 
+    @FXML
+    private TableColumn<ScreeningRoom, String> nameColumn;
     @FXML
     private Button aConsultButton;
 
@@ -46,20 +47,21 @@ public class ScreenRoomListController {
     public void initialize() {
         loadScreenRooms();
 
-        // Populate the ListView
-        aScreenRoomListView.setItems(aScreenRooms);
+        // Bind the "Name" column to the ScreeningRoom model's name property
+        nameColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getName()));
 
-        // Custom cell factory for better ListView display
-        aScreenRoomListView.setCellFactory(listView -> new ScreeningRoomCell());
+        // Populate the TableView
+        aScreenRoomTableView.setItems(aScreenRooms);
 
         // Disable buttons when no screening room is selected
-        aScreenRoomListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+        aScreenRoomTableView.getSelectionModel().selectedItemProperty().addListener((_, _, newVal) -> {
             boolean isSelected = newVal != null;
             aConsultButton.setDisable(!isSelected);
             aEditButton.setDisable(!isSelected);
             aDeleteButton.setDisable(!isSelected);
         });
     }
+
 
     /**
      * Loads screening rooms into the list.
@@ -94,8 +96,8 @@ public class ScreenRoomListController {
                     "Please check your input and try again."
             );
         } else {
-            // Update the ListView with the filtered screening room
-            aScreenRoomListView.setItems(filteredRooms);
+            // Update the TableView with the filtered screening room
+            aScreenRoomTableView.setItems(filteredRooms);
         }
     }
 
@@ -105,7 +107,7 @@ public class ScreenRoomListController {
     //Todo
     @FXML
     private void onConsultButtonClicked() {
-        ScreeningRoom selectedRoom = aScreenRoomListView.getSelectionModel().getSelectedItem();
+        ScreeningRoom selectedRoom = aScreenRoomTableView.getSelectionModel().getSelectedItem();
         if (selectedRoom != null) {
             // TODO: Implement logic to open the Consult Screening Room view
         }
@@ -124,7 +126,7 @@ public class ScreenRoomListController {
      */
     @FXML
     private void onEditButtonClicked() {
-        ScreeningRoom selectedRoom = aScreenRoomListView.getSelectionModel().getSelectedItem();
+        ScreeningRoom selectedRoom = aScreenRoomTableView.getSelectionModel().getSelectedItem();
         if (selectedRoom != null) {
             // TODO: Implement logic to open the Edit Screening Room view and pre-fill data
         }
@@ -136,7 +138,7 @@ public class ScreenRoomListController {
     //Todo
     @FXML
     private void onDeleteButtonClicked() {
-        ScreeningRoom selectedRoom = aScreenRoomListView.getSelectionModel().getSelectedItem();
+        ScreeningRoom selectedRoom = aScreenRoomTableView.getSelectionModel().getSelectedItem();
 
         // Show confirmation alert
         if (selectedRoom != null) {
