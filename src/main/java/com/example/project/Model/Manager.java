@@ -1,5 +1,9 @@
 package com.example.project.Model;
 
+/**
+ * This class will hold the manager information name and time and date when they sign up and it extends
+ * the user class that holds the email and password
+ */
 public class Manager extends User
 {
     /*Name attributes*/

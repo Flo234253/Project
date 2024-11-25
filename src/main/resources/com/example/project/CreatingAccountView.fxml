@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="322.0" prefWidth="338.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="322.0" prefWidth="338.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.CreatingAccountController" >
    <children>
       <Label layoutX="112.0" layoutY="22.0" text="Creating an account" />
       <Label layoutX="56.0" layoutY="72.0" text="Enter ID:" />
@@ -16,6 +16,6 @@
       <TextField fx:id="nameTextField" layoutX="106.0" layoutY="114.0" />
       <TextField fx:id="emailTextField" layoutX="107.0" layoutY="158.0" />
       <TextField fx:id="passwordTextField" layoutX="107.0" layoutY="211.0" />
-      <Button fx:id="enterButton" layoutX="116.0" layoutY="255.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="97.0" text="Enter" />
+      <Button fx:id="enterButton" layoutX="116.0" layoutY="255.0" mnemonicParsing="false" onAction="#enterButton" prefHeight="26.0" prefWidth="97.0" text="Enter" />
    </children>
 </AnchorPane>
