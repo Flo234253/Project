@@ -11,8 +11,11 @@ import javafx.scene.control.*;
 import java.util.Optional;
 
 /**
- * Controller class for managing the screening room list view.
- * Provides functionality for searching, consulting, adding, editing, and deleting screening rooms.
+ * Controller class for the "Add Movie" view.
+ * <p>
+ * This class manages the form for adding a new movie, including capturing user input
+ * and providing functionality to save or cancel the operation.
+ * </p>
  */
 public class ScreenRoomListController {
 
@@ -40,14 +43,17 @@ public class ScreenRoomListController {
 
     /**
      * Initializes the controller.
-     * Loads the list of screening rooms, sets up the ListView, and configures button behavior.
+     * <p>
+     * This method is called after the FXML file has been loaded. It sets up the TableView,
+     * adds the columns to the sreening room properties, and disables buttons when no room is selected.
+     * </p>
      */
     //TODO
     @FXML
     public void initialize() {
         loadScreenRooms();
 
-        // Bind the "Name" column to the ScreeningRoom model's name property
+        // Add the Name column to the ScreeningRoom model's name property
         nameColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getName()));
 
         // Populate the TableView
@@ -62,10 +68,10 @@ public class ScreenRoomListController {
         });
     }
 
-
     /**
-     * Loads screening rooms into the list.
-     *  TODO: Move this logic to an external helper or service class
+     * Loads a predefined list of room name into the TableView.
+     * This is temporary logic for demonstration purposes
+     * TODO: Move this logic to an external helper or service class
      */
     private void loadScreenRooms() {
         aScreenRooms = FXCollections.observableArrayList(
@@ -76,16 +82,19 @@ public class ScreenRoomListController {
     }
 
     /**
-     * Filters the screening room list based on the search input.
+     * Filters the screening room list based on the input from the search field.
+     * <p>
+     * If no room name match the input, an alert is displayed to the manager.
+     * </p>
      */
     //Todo
     @FXML
     private void onSearchButtonClicked() {
-        String query = aSearchField.getText().toLowerCase();
+        String pInput = aSearchField.getText().toLowerCase();
 
         // Filter screening rooms based on the input
-        FilteredList<ScreeningRoom> filteredRooms = new FilteredList<>(aScreenRooms, room ->
-                room.getName().toLowerCase().contains(query) || room.getFeatures().toLowerCase().contains(query)
+        FilteredList<ScreeningRoom> filteredRooms = new FilteredList< >( aScreenRooms, room ->
+                room.getName().toLowerCase().contains(pInput) || room.getFeatures().toLowerCase().contains(pInput)
         );
         // Check if the filtered list is empty
         if (filteredRooms.isEmpty()) {
@@ -102,7 +111,12 @@ public class ScreenRoomListController {
     }
 
     /**
-     * Displays the details of the selected screening room.
+     * Opens a new window to display the information about the selected room.
+     * <p>
+     * This method make sure that the Consult button
+     * is only enabled when a movie is selected.
+     * The implementation for this functionality will be done later.
+     * </p>
      */
     //Todo
     @FXML
@@ -114,7 +128,10 @@ public class ScreenRoomListController {
     }
 
     /**
-     * Opens the add screening room view.
+     * Opens a new window for adding a new room to the list.
+     * <p>
+     * The implementation for this functionality will be done later.
+     * </p>
      */
     @FXML
     private void onAddButtonClicked() {
@@ -122,7 +139,12 @@ public class ScreenRoomListController {
     }
 
     /**
-     * Opens the edit screening room view.
+     * Opens a new window for editing the details of the selected room.
+     * <p>
+     * This method  pre-fill the fields with the current room details,
+     * allowing the manager to make modifications.
+     * The implementation for this functionality will be done later.
+     * </p>
      */
     @FXML
     private void onEditButtonClicked() {
@@ -133,9 +155,12 @@ public class ScreenRoomListController {
     }
 
     /**
-     * Deletes the selected screening room from the list.
+     * Deletes the selected room from the list.
+     * <p>
+     * Displays a confirmation alert before deletion. If confirmed,
+     * the room is removed from the TableView and an alert notifies the manager of success.
+     * </p>
      */
-    //Todo
     @FXML
     private void onDeleteButtonClicked() {
         ScreeningRoom selectedRoom = aScreenRoomTableView.getSelectionModel().getSelectedItem();

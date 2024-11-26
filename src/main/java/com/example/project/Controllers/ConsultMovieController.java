@@ -5,33 +5,59 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * Controller class for the "Consult Movie" view.
- * This class manages the display of detailed movie information
- * and provides functionality to close the view.
+ * Controller class for the Consult Movie view.
+ * <p>
+ * This class manages the display of detailed movie information, allowing the manager
+ * to view the title, genre, release date, duration, actors, director, and description
+ * of a movie. It also provides the functionality to close the view.
+ * </p>
  */
 public class ConsultMovieController {
-
+    /**
+     * TextField for displaying the title of the movie.
+     */
     @FXML
     private TextField aTitleField;
 
+    /**
+     * TextField for displaying the genre of the movie.
+     */
     @FXML
     private TextField aGenreField;
 
+    /**
+     * TextField for displaying the release date of the movie.
+     */
     @FXML
     private TextField aReleaseDateField;
 
+    /**
+     * TextField for displaying the duration of the movie.
+     */
     @FXML
     private TextField aDurationField;
 
+    /**
+     * TextField for displaying the main actor(s of the movie.
+     */
     @FXML
     private TextField aActorsField;
 
+    /**
+     * TextField for displaying the director of the movie.
+     */
     @FXML
     private TextField aDirectorField;
 
+    /**
+     * TextField for displaying the description or synopsis of the movie.
+     */
     @FXML
     private TextField aDescriptionArea;
 
+    /**
+     * The stage representing the current window.
+     */
     private Stage aStage;
 
     /**
@@ -65,8 +91,11 @@ public class ConsultMovieController {
     }
 
     /**
-     * Closes the "Consult Movie" view.
-     * This method is triggered by the "Close" button in the view.
+     * Closes the Consult Movie view.
+     * <p>
+     * This method is triggered by the Close button in the view, allowing the manager
+     * to close the current view.
+     * </p>
      */
     @FXML
     private void onCloseButtonClicked() {
