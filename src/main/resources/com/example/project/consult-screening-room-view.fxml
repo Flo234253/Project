@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="299.0" prefWidth="392.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.ConsultScreeningRoomController">
+    <children>
+        <Pane prefHeight="76.0" prefWidth="672.0" style="-fx-background-color: #88e788;">
+            <children>
+                <Text layoutX="51.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Screening Room Details" textAlignment="CENTER" wrappingWidth="290.0">
+                    <font>
+                        <Font name="Bodoni MT Black Italic" size="27.0" />
+                    </font>
+                </Text>
+            </children>
+        </Pane>
+        <Pane prefHeight="174.0" prefWidth="672.0" style="-fx-background-color: white;">
+            <children>
+                <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Room Name" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="Bodoni MT Black" size="17.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="14.0" layoutY="61.0" prefHeight="25.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Capacity" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="Bodoni MT Black" size="17.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="14.0" layoutY="108.0" prefHeight="18.0" prefWidth="139.0" style="-fx-border-color: black; -fx-background-color: white;" text="Type" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="Bodoni MT Black" size="17.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="aNameField" editable="false" layoutX="165.0" layoutY="11.0" prefHeight="25.0" prefWidth="193.0" />
+                <TextField fx:id="aCapacityField" editable="false" layoutX="165.0" layoutY="58.0" prefHeight="16.0" prefWidth="193.0" />
+                <TextField fx:id="aTypeField" editable="false" layoutX="165.0" layoutY="105.0" prefHeight="17.0" prefWidth="193.0" />
+            </children>
+        </Pane>
+        <Pane prefHeight="49.0" prefWidth="392.0" style="-fx-background-color: #252525;">
+            <children>
+                <Button layoutX="127.0" layoutY="11.0" mnemonicParsing="false" onAction="#onCloseButtonClicked" prefHeight="27.0" prefWidth="139.0" style="-fx-background-color: #cbcbcb; -fx-border-color: black; -fx-border-radius: 5px;" text="Close The View">
+                    <font>
+                        <Font name="Arial" size="12.0" />
+                    </font>
+                </Button>
+            </children>
+        </Pane>
+    </children>
+</VBox>

@@ -32,6 +32,11 @@ public class MovieListController {
     @FXML
     private TextField aSearchField;
 
+    //Todo:javadoc
+    @FXML
+    private Button aRefreshButton;
+
+
     /**
      * TableView for displaying the list of movies.
      */
@@ -105,8 +110,10 @@ public class MovieListController {
             aEditButton.setDisable(!isSelected);
             aDeleteButton.setDisable(!isSelected);
         });
+        // Disable Refresh button by default
+        //todo:javadoc
+        aRefreshButton.setDisable(true);
     }
-
     /**
      * Loads a predefined list of Movies and genre into the TableView.
      * This is temporary logic for demonstration purposes
@@ -122,6 +129,16 @@ private void loadMovies() {
                     "James Cameron", "A romantic tragedy aboard the ill-fated Titanic.")
     );
 }
+
+    /**
+     * Refreshes the TableView to display all screening rooms.
+     * Triggered by the "Refresh" button.
+     */
+    @FXML
+    private void onRefreshButtonClicked() {
+        // Reset the TableView to display the original list of screening rooms
+        aMovieTableView.setItems(aMovies);
+    }
 
     /**
      * Filters Movies and Genre list based on the input from the search field.
@@ -150,6 +167,9 @@ private void loadMovies() {
             // Update the ListView with the filtered movies
             aMovieTableView.setItems(pFilteredMovies);
         }
+
+        // Enable the Refresh button if the search was performed
+        aRefreshButton.setDisable(false);
     }
 
 
@@ -191,7 +211,11 @@ private void loadMovies() {
 
             } catch (IOException e) {
                 e.printStackTrace();
+                //todo
+                // AlertHelper.showErrorAlert("Error", "Unable to open the Modify Screening Room view.");
             }
+        } else {
+            AlertHelper.showWarningAlert("No Selection", "Please select a screening room to consult.", null);
         }
     }
 
@@ -226,7 +250,7 @@ private void loadMovies() {
      * Deletes the selected movie from the list.
      * <p>
      * Displays a confirmation alert before deletion. If confirmed,
-     * the movie is removed from the TableView and an alert notifies the user of success.
+     * the movie is removed from the TableView and an alert notifies the manager of success.
      * </p>
      */
     //Todo
