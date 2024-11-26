@@ -89,7 +89,7 @@ public class MovieListController {
     public void initialize() {
         loadMovies();
 
-        // Bind the "Title" column to the Movie model's title property
+        // Adds the "Title" column to the Movie model's title property
         titleColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getTitle()));
 
         // Bind the "Genre" column to the Movie model's genre property
