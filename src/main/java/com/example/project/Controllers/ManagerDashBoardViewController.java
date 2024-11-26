@@ -48,7 +48,7 @@ public class ManagerDashBoardViewController {
      */
     @FXML
     private void handleMoviesButton() {
-//Todo
+//Todo:Moustapha
 
     }
 
@@ -72,7 +72,7 @@ public class ManagerDashBoardViewController {
      */
     @FXML
     private void handleRoomsButton() {
-//Todo
+//Todo:Moustapha
 
     }
 
