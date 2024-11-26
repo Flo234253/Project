@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="336.0" prefWidth="327.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.ModifyScreeningRoomController">
+    <children>
+        <!-- Header Section -->
+        <Pane prefHeight="64.0" prefWidth="327.0" style="-fx-background-color: #88e788;">
+            <children>
+                <Text layoutX="22.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modify Screening Room" textAlignment="CENTER" wrappingWidth="282.89697265625">
+                    <font>
+                        <Font name="Bodoni MT Black Italic" size="23.0" />
+                    </font>
+                </Text>
+            </children>
+        </Pane>
+
+        <!-- Form Section -->
+        <Pane prefHeight="276.0" prefWidth="327.0">
+            <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="26.0" layoutY="23.0" prefHeight="25.0" prefWidth="121.0" style="-fx-border-color: black; -fx-background-color: white;" text="Room Name" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="Bodoni MT Black" size="17.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="26.0" layoutY="57.0" prefHeight="25.0" prefWidth="121.0" style="-fx-border-color: black; -fx-background-color: white;" text="Capacity" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="Bodoni MT Black" size="17.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="26.0" layoutY="97.0" prefHeight="25.0" prefWidth="121.0" style="-fx-border-color: black; -fx-background-color: white;" text="Type" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font name="Bodoni MT Black" size="17.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="aNameField" layoutX="164.0" layoutY="26.0" prefHeight="16.0" prefWidth="139.0" />
+                <TextField fx:id="aCapacityField" layoutX="164.0" layoutY="57.0" prefHeight="25.0" prefWidth="139.0" />
+                <TextField fx:id="aTypeField" layoutX="164.0" layoutY="97.0" prefHeight="25.0" prefWidth="139.0" />
+      
+              <!-- Footer Section -->
+              <Pane layoutY="189.0" prefHeight="95.0" prefWidth="327.0" style="-fx-background-color: #252525;">
+                  <children>
+                      <Button layoutX="182.0" layoutY="26.0" mnemonicParsing="false" onAction="#onCancelButtonClicked" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #ff2c2c; -fx-border-color: black; -fx-border-radius: 5px;" text="Cancel">
+                          <font>
+                              <Font name="Bell MT" size="13.0" />
+                          </font>
+                      </Button>
+                      <Button layoutX="37.0" layoutY="26.0" mnemonicParsing="false" onAction="#onSaveButtonClicked" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #008000; -fx-border-color: black; -fx-border-radius: 5px;" text="Save">
+                          <font>
+                              <Font name="Bell MT" size="13.0" />
+                          </font>
+                      </Button>
+                  </children>
+              </Pane>
+            </children>
+        </Pane>
+    </children>
+</VBox>

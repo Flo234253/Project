@@ -22,8 +22,9 @@
       </Pane>
       <Pane prefHeight="74.0" prefWidth="498.0" style="-fx-background-color: #ffffff;">
          <children>
-            <Button layoutX="314.0" layoutY="24.0" mnemonicParsing="false" onAction="#onSearchButtonClicked" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 5px;" text="Search" />
+            <Button layoutX="299.0" layoutY="24.0" mnemonicParsing="false" onAction="#onSearchButtonClicked" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 5px;" text="Search" />
             <TextField fx:id="aSearchField" layoutX="104.0" layoutY="25.0" prefHeight="25.0" prefWidth="183.0" promptText="Search movie" />
+            <Button layoutX="361.0" layoutY="24.0" mnemonicParsing="false" onAction="#onRefreshButtonClicked" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 5px;" text="Refresh" />
          </children>
       </Pane>
       <Pane prefHeight="356.0" prefWidth="422.0" style="-fx-background-color: #ffffff;">
