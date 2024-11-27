@@ -65,4 +65,11 @@ public class AlertHelper {
 
     }
 
+    public static void showErrorAlert(String invalidInput, String message) {
+    }
+
+    public static void showWarningAlert(String title, String content) {
+        showWarningAlert(title, null, content);
+    }
+
 }

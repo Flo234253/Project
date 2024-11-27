@@ -1,33 +1,37 @@
 package com.example.project.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+//Todo:verify/understand all element
 /**
- * Represents a movie with detailed information such as title, genre, release date,
+ * Represents a movie with detailed information such as title, genres, release date,
  * duration, actors, director, and description.
- * @implNote This class validates its inputs to ensure data integrity.
  */
 public class Movie {
+
     /**
      * The title of the movie.
      */
     private String aTitle;
 
     /**
-     * The genre of the movie.
+     * The list of genres associated with the movie.
      */
-    private String aGenre;
+    private List<Genre> aGenres;
 
     /**
-     * The release date of the movie in yyyy-MM-dd format.
+     * The release date of the movie in YYYY-MM-DD format.
      */
     private String aReleaseDate;
 
     /**
-     * The duration of the movie (ex: "148 min").
+     * The duration of the movie, e.g., "148 min".
      */
     private String aDuration;
 
     /**
-     * A comma-separated list of the main actors in the movie.
+     * The main actors in the movie, typically as a comma-separated string.
      */
     private String aActors;
 
@@ -45,17 +49,18 @@ public class Movie {
      * Constructs a Movie instance with the specified details.
      *
      * @param pTitle        The title of the movie. Must not be null or empty.
-     * @param pGenre        The genre of the movie. Must not be null or empty.
-     * @param pReleaseDate  The release date of the movie (in YYYY-MM-DD format). Must not be null or empty.
-     * @param pDuration     The duration of the movie (Ex., "148 min"). Must not be null or empty.
-     * @param pActors       A comma-separated list of the main actors in the movie. Must not be null or empty.
+     * @param pGenres       A list of genres associated with the movie. Must not be null or empty.
+     * @param pReleaseDate  The release date of the movie in YYYY-MM-DD format. Must not be null or empty.
+     * @param pDuration     The duration of the movie, e.g., "148 min". Must not be null or empty.
+     * @param pActors       The main actors in the movie, typically as a comma-separated string. Must not be null or empty.
      * @param pDirector     The director of the movie. Must not be null or empty.
      * @param pDescription  A brief description or synopsis of the movie. Must not be null or empty.
-     * @throws IllegalArgumentException if any of the input parameters are invalid.
+     * @throws IllegalArgumentException if any parameter is invalid.
      */
-    public Movie(String pTitle, String pGenre, String pReleaseDate, String pDuration, String pActors, String pDirector, String pDescription) {
+    public Movie(String pTitle, List<Genre> pGenres, String pReleaseDate, String pDuration,
+                 String pActors, String pDirector, String pDescription) {
         setTitle(pTitle);
-        setGenre(pGenre);
+        setGenres(pGenres);
         setReleaseDate(pReleaseDate);
         setDuration(pDuration);
         setActors(pActors);
@@ -82,35 +87,36 @@ public class Movie {
         if (pTitle == null || pTitle.trim().isEmpty()) {
             throw new IllegalArgumentException("Title cannot be null or empty.");
         }
-        this.aTitle = pTitle;
+        this.aTitle = pTitle.trim();
     }
 
     /**
-     * Gets the genre of the movie.
+     * Gets the list of genres associated with the movie.
      *
-     * @return The genre of the movie.
+     * @return A list of genres. Returns a defensive copy.
      */
-    public String getGenre() {
-        return aGenre;
+    public List<Genre> getGenres() {
+        return new ArrayList<>(aGenres);
     }
 
     /**
-     * Sets the genre of the movie.
+     * Sets the list of genres associated with the movie.
      *
-     * @param pGenre The genre of the movie. Must not be null or empty.
-     * @throws IllegalArgumentException if the genre is null or empty.
+     * @param pGenres A list of genres. Must not be null or empty.
+     * @throws IllegalArgumentException if the genres list is null or empty.
      */
-    public void setGenre(String pGenre) {
-        if (pGenre == null || pGenre.trim().isEmpty()) {
-            throw new IllegalArgumentException("Genre cannot be null or empty.");
+    public void setGenres(List<Genre> pGenres) {
+
+        if (pGenres == null || pGenres.isEmpty()) {
+            throw new IllegalArgumentException("Genres cannot be null or empty.");
         }
-        this.aGenre = pGenre;
+        this.aGenres = new ArrayList<>(pGenres);
     }
 
     /**
      * Gets the release date of the movie.
      *
-     * @return The release date of the movie in yyyy-mm-dd format.
+     * @return The release date in YYYY-MM-DD format.
      */
     public String getReleaseDate() {
         return aReleaseDate;
@@ -119,20 +125,20 @@ public class Movie {
     /**
      * Sets the release date of the movie.
      *
-     * @param pReleaseDate The release date of the movie. Must not be null or empty.
+     * @param pReleaseDate The release date in YYYY-MM-DD format. Must not be null or empty.
      * @throws IllegalArgumentException if the release date is null or empty.
      */
     public void setReleaseDate(String pReleaseDate) {
         if (pReleaseDate == null || pReleaseDate.trim().isEmpty()) {
             throw new IllegalArgumentException("Release date cannot be null or empty.");
         }
-        this.aReleaseDate = pReleaseDate;
+        this.aReleaseDate = pReleaseDate.trim();
     }
 
     /**
      * Gets the duration of the movie.
      *
-     * @return The duration of the movie (e.g., "148 min").
+     * @return The duration of the movie, e.g., "148 min".
      */
     public String getDuration() {
         return aDuration;
@@ -148,29 +154,29 @@ public class Movie {
         if (pDuration == null || pDuration.trim().isEmpty()) {
             throw new IllegalArgumentException("Duration cannot be null or empty.");
         }
-        this.aDuration = pDuration;
+        this.aDuration = pDuration.trim();
     }
 
     /**
-     * Gets the list of actors in the movie.
+     * Gets the main actors in the movie.
      *
-     * @return A comma-separated list of the main actors in the movie.
+     * @return A comma-separated string of actors.
      */
     public String getActors() {
         return aActors;
     }
 
     /**
-     * Sets the list of actors in the movie.
+     * Sets the main actors in the movie.
      *
-     * @param pActors A comma-separated list of the main actors in the movie. Must not be null or empty.
-     * @throws IllegalArgumentException if the actors list is null or empty.
+     * @param pActors A comma-separated string of actors. Must not be null or empty.
+     * @throws IllegalArgumentException if the actors string is null or empty.
      */
     public void setActors(String pActors) {
         if (pActors == null || pActors.trim().isEmpty()) {
             throw new IllegalArgumentException("Actors cannot be null or empty.");
         }
-        this.aActors = pActors;
+        this.aActors = pActors.trim();
     }
 
     /**
@@ -192,13 +198,13 @@ public class Movie {
         if (pDirector == null || pDirector.trim().isEmpty()) {
             throw new IllegalArgumentException("Director cannot be null or empty.");
         }
-        this.aDirector = pDirector;
+        this.aDirector = pDirector.trim();
     }
 
     /**
      * Gets the description or synopsis of the movie.
      *
-     * @return A brief description of the movie.
+     * @return The description of the movie.
      */
     public String getDescription() {
         return aDescription;
@@ -207,13 +213,13 @@ public class Movie {
     /**
      * Sets the description or synopsis of the movie.
      *
-     * @param pDescription A brief description of the movie. Must not be null or empty.
+     * @param pDescription The description of the movie. Must not be null or empty.
      * @throws IllegalArgumentException if the description is null or empty.
      */
     public void setDescription(String pDescription) {
         if (pDescription == null || pDescription.trim().isEmpty()) {
             throw new IllegalArgumentException("Description cannot be null or empty.");
         }
-        this.aDescription = pDescription;
+        this.aDescription = pDescription.trim();
     }
 }

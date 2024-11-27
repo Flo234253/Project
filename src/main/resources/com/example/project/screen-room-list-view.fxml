@@ -12,7 +12,7 @@
 <VBox prefHeight="573.0" prefWidth="530.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.ScreenRoomListController">
     <children>
 
-        <Pane prefHeight="92.0" prefWidth="600.0" style="-fx-background-color: #90d5ff;">
+        <Pane prefHeight="92.0" prefWidth="600.0" style="-fx-background-color: #88e788;">
             <children>
                 <Text layoutX="165.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Screen Room List" textAlignment="CENTER" wrappingWidth="200.0">
                     <font>
@@ -24,8 +24,9 @@
 
         <Pane prefHeight="74.0" prefWidth="600.0" style="-fx-background-color: #ffffff;">
             <children>
-                <Button layoutX="418.0" layoutY="24.0" mnemonicParsing="false" onAction="#onSearchButtonClicked" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 5px;" text="Search" />
-                <TextField fx:id="aSearchField" layoutX="60.0" layoutY="25.0" prefHeight="25.0" prefWidth="340.0" promptText="Search screen room " />
+                <Button layoutX="401.0" layoutY="24.0" mnemonicParsing="false" onAction="#onSearchButtonClicked" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 5px;" text="Search" />
+                <TextField fx:id="aSearchField" layoutX="41.0" layoutY="25.0" prefHeight="25.0" prefWidth="340.0" promptText="Search screen room " />
+            <Button fx:id="aRefreshButton" layoutX="468.0" layoutY="24.0" mnemonicParsing="false" onAction="#onRefreshButtonClicked" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 5px;" text="Refresh" />
             </children>
         </Pane>
 
@@ -33,7 +34,7 @@
             <children>
                 <TableView fx:id="aScreenRoomTableView" layoutX="14.0" layoutY="7.0" prefHeight="343.0" prefWidth="284.0">
                <columns>
-                  <TableColumn fx:id="nameColumn" prefWidth="283.199987411499" style="-fx-background-color: #82c8e5;" text="Room Name" />
+                  <TableColumn fx:id="nameColumn" prefWidth="283.199987411499" text="Room Name" />
                </columns>
                 </TableView>
 
