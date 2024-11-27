@@ -62,7 +62,7 @@ public class ConsultScreeningRoomController {
     }
 
     /**
-     * Handles the event when the "Close" button is clicked.
+     * Handles the event when the Close button is clicked.
      * <p>
      * This method closes the current view if the stage is set.
      * </p>
