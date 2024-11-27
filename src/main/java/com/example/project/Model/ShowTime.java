@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 /**
  * Represents a showtime for a movie in a specific screening room.
  */
-public class Showtime {
+public class ShowTime {
 
     /** The unique identifier for the showtime. */
     private int aID;
@@ -31,7 +31,7 @@ public class Showtime {
      * @param pMovie The movie being shown.
      * @param pScreeningRoom The screening room where the movie is shown.
      */
-    public Showtime(int pID, LocalDateTime pDateTime, String pMovie, String pScreeningRoom) {
+    public ShowTime(int pID, LocalDateTime pDateTime, String pMovie, String pScreeningRoom) {
         this.aID = pID;
         this.aDateTime = pDateTime;
         this.aMovie = pMovie;

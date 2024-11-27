@@ -15,7 +15,7 @@ public class Ticket {
     private LocalDateTime aPurchaseDateTime;
 
     /** The associated showtime for which the ticket was purchased. */
-    private Showtime aShowtime;
+    private ShowTime aShowtime;
 
 
     /**
@@ -25,7 +25,7 @@ public class Ticket {
      * @param pPurchaseDateTime The date and time the ticket was purchased.
      * @param pShowtime The associated pShowtime for which the ticket was purchased.
      */
-    public Ticket(int pID, LocalDateTime pPurchaseDateTime, Showtime pShowtime) {
+    public Ticket(int pID, LocalDateTime pPurchaseDateTime, ShowTime pShowtime) {
         this.aID = pID;
         this.aPurchaseDateTime = pPurchaseDateTime;
         this.aShowtime = pShowtime;
@@ -78,7 +78,7 @@ public class Ticket {
      *
      * @return The associated showtime.
      */
-    public Showtime getShowtime() {
+    public ShowTime getShowtime() {
         return aShowtime;
     }
 
@@ -88,7 +88,7 @@ public class Ticket {
      *
      * @param pShowtime The associated showtime.
      */
-    public void setShowtime(Showtime pShowtime) {
+    public void setShowtime(ShowTime pShowtime) {
         this.aShowtime = pShowtime;
     }
 }
