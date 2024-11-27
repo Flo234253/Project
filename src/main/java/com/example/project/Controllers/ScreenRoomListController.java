@@ -194,8 +194,31 @@ public class ScreenRoomListController {
      */
     @FXML
     private void onAddButtonClicked() {
-        // TODO: Implement logic to open the Add Screening Room view
+        try {
+            // Load the FXML for the Add Screening Room view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/add-screening-room-view.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller for the Add Screening Room view
+            AddScreenRoomController controller = loader.getController();
+            Stage stage = new Stage();
+            controller.setStage(stage);
+
+            // Set up and display the new stage
+            stage.setScene(new Scene(root));
+            stage.setTitle("Add Screening Room");
+            stage.showAndWait();
+
+            // Check if a new room was successfully saved and add it to the list
+            if (controller.isSaved()) {
+                ScreeningRoom newRoom = controller.getNewRoom();
+                aScreenRooms.add(newRoom);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     /**
      * Opens a new window for editing the details of the selected room.
