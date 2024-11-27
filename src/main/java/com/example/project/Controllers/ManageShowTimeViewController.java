@@ -131,7 +131,7 @@ public class ManageShowTimeViewController {
      *
      * to witch back to the previous view
      */
-
+    @FXML
     private void handleBackButton(ActionEvent actionEvent) {
 
 
