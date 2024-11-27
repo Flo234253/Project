@@ -19,7 +19,7 @@ public class ConsultShowTimeDetailsViewController {
      * Each row represents a single showtime entry.
      */
     @FXML
-    private TableView<ShowTime> showTimeTable;
+    private TableView<ShowTime> showTimeTableView;
 
     /**
      * TableColumn displaying the ShowTime ID for each showtime.
