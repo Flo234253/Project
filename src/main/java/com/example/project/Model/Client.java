@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * This class will hold the client information id, name and time and date when they sign up and it extends
+ * This class will hold the client information id, name and time and date when they sign up- and it extends
  * the user class that holds the email and password and implements serializable to save the new user
  */
 public class Client extends User implements Serializable {
