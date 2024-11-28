@@ -2,6 +2,8 @@ package com.example.project.Model;
 
 
 
+import javafx.beans.property.*;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -11,79 +13,55 @@ import java.time.format.DateTimeFormatter;
  */
 public class ShowTime {
 
-    /** The unique identifier for the showtime. */
-    private int aID;
+    private final IntegerProperty showTimeId;
+    private final StringProperty movie;
+    private final ObjectProperty<LocalDateTime> dateTime;
+    private final IntegerProperty roomId;
+    private final BooleanProperty isFull;
 
-    /** Attribute for the date and time of the showtime. */
-    private LocalDateTime aDateTime;
+    // Constructor
+    public ShowTime(int showTimeId, String date, String time, int roomId, String movie, boolean isFull) {
+        this.showTimeId = new SimpleIntegerProperty(showTimeId);
+        this.movie = new SimpleStringProperty(movie);
+        this.roomId = new SimpleIntegerProperty(roomId);
+        this.isFull = new SimpleBooleanProperty(isFull);
 
-    /** Attribute for the movie being shown. */
-    private String aMovie;
-
-    /** Attribute for the screening room where the movie is shown. */
-    private String aScreeningRoom;
-
-    /**
-     * Constructor to create a new showtime with all attributes.
-     *
-     * @param pID            The unique identifier for the showtime.
-     * @param pDateTime      The date and time of the showtime.
-     * @param pMovie         The movie being shown.
-     * @param pScreeningRoom The screening room where the movie is shown.
-     */
-    public ShowTime(int pID, LocalDateTime pDateTime, String pMovie, String pScreeningRoom) {
-        this.aID = pID;
-        this.aDateTime = pDateTime;
-        this.aMovie = pMovie;
-        this.aScreeningRoom = pScreeningRoom;
+        // Combine date and time into a LocalDateTime object
+        String dateTimeStr = date + " " + time; // Combine date and time
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+        this.dateTime = new SimpleObjectProperty<>(LocalDateTime.parse(dateTimeStr, formatter));
     }
 
-    /**
-     * Constructor with minimal attributes (for testing or quick display purposes).
-     *
-     * @param pID       The unique identifier for the showtime.
-     * @param pDateTime The date and time of the showtime (as String, for simplicity).
-     * @param pMovie    The movie being shown.
-     */
-    public ShowTime(int pID, String pDateTime, String pMovie) {
-        this.aID = pID;
-        // Define a custom DateTimeFormatter to match the string format "yyyy-MM-dd HH:mm"
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        this.aDateTime = LocalDateTime.parse(pDateTime, formatter); // Convert string to LocalDateTime using formatter
-        this.aMovie = pMovie;
-        this.aScreeningRoom = ""; // Default value
-    }
-    // Getters and Setters
-    public int getaID() {
-        return aID;
+    // Getter methods (with observable properties)
+    public IntegerProperty showTimeIdProperty() {
+        return showTimeId;
     }
 
-    public void setID(int aID) {
-        this.aID = aID;
+    public StringProperty movieProperty() {
+        return movie;
     }
 
-    public LocalDateTime getDateTime() {
-        return aDateTime;
+    public ObjectProperty<LocalDateTime> dateTimeProperty() {
+        return dateTime;
     }
 
-    public void setDateTime(LocalDateTime aDateTime) {
-        this.aDateTime = aDateTime;
+    public IntegerProperty roomIdProperty() {
+        return roomId;
+    }
+
+    public BooleanProperty isFullProperty() {
+        return isFull;
     }
 
     public String getMovie() {
-        return aMovie;
+        return movie.get();
     }
 
-    public void setMovie(String aMovie) {
-        this.aMovie = aMovie;
+    public LocalDateTime getDateTime() {
+        return dateTime.get();
     }
 
-    public String getScreeningRoom() {
-        return aScreeningRoom;
+    public boolean isFull() {
+        return isFull.get();
     }
-
-    public void setScreeningRoom(String aScreeningRoom) {
-        this.aScreeningRoom = aScreeningRoom;
-    }
-
 }
