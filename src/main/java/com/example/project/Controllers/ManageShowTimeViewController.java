@@ -1,19 +1,27 @@
 package com.example.project.Controllers;
 
+import Helpers.AlertHelper;
 import com.example.project.Model.ShowTime;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 /**
  * Controller class for managing the movie list view.
@@ -69,6 +77,8 @@ public class ManageShowTimeViewController {
      */
     @FXML
     private Button backButton;
+
+
 
 
 
@@ -189,7 +199,38 @@ public class ManageShowTimeViewController {
     @FXML
     private void handleDeleteButton(ActionEvent actionEvent) {
 
+// Get the selected ShowTime from the TableView
+        ShowTime selectedShowTime = showTimeTableView.getSelectionModel().getSelectedItem();
 
+        // Check if a ShowTime is selected
+        if (selectedShowTime != null) {
+            // Show confirmation alert
+            Optional<ButtonType> result = AlertHelper.showConfirmationAlert(
+                    "Confirm Deletion",
+                    "Are you sure you want to delete this showtime?",
+                    "Showtime: " + selectedShowTime.getMovie() + " at " + selectedShowTime.getDateTime()
+            );
+
+            // If the user confirms the deletion
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Remove the selected ShowTime from the ObservableList
+                showTimeList.remove(selectedShowTime);
+
+                // Show success information alert
+                AlertHelper.showInformationAlert(
+                        "Showtime Deleted",
+                        null,
+                        "The showtime for '" + selectedShowTime.getMovie() + "' was successfully deleted."
+                );
+            }
+        } else {
+            // If no ShowTime is selected, show a warning alert
+            AlertHelper.showWarningAlert(
+                    "No Showtime Selected",
+                    null,
+                    "Please select a showtime to delete."
+            );
+        }
 
     }
 
@@ -205,14 +246,18 @@ public class ManageShowTimeViewController {
     }
 
 
+
+
+
+
     /**
      *
      * to witch back to the previous view
      */
     @FXML
-    private void handleBackButton(ActionEvent actionEvent) {
-
+    private void handleBackButton(ActionEvent actionEvent) throws IOException {
 
     }
+
 
 }
