@@ -8,10 +8,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -53,8 +58,10 @@ public class ManageShowTimeViewController {
      * Button for adding a showtime to the list.
      */
     @FXML
-    private Button addShowTimeButton;
+    private Button addButton;
 
+    @FXML
+    private Button modifyButton;
 
     /**
      * Button for deleting the selected Showtime from the table.
@@ -80,7 +87,7 @@ public class ManageShowTimeViewController {
 
 
 
-    private ObservableList<ShowTime> showTimeList = FXCollections.observableArrayList();  // This should be initialized
+    private final ObservableList<ShowTime> showTimeList = FXCollections.observableArrayList();  // This should be initialized
 
     @FXML
     public void initialize() throws IOException {
@@ -123,9 +130,7 @@ public class ManageShowTimeViewController {
 
             // Skip the header row
             String header = reader.readLine();
-            if (header != null) {
-                // You can keep this line if you still want to log the header being skipped.
-            }
+            // You can keep this line if you still want to log the header being skipped.
 
             // Read the data rows
             while ((line = reader.readLine()) != null) {
@@ -160,18 +165,6 @@ public class ManageShowTimeViewController {
         }
     }
 
-    /**
-     * Filters movies based on the input from the search field.
-     * <p>
-     * If no movies match the input, an alert is displayed to the manager.
-     * </p>
-     */
-    @FXML
-    private void handleSearchButton(ActionEvent actionEvent) {
-
-
-
-    }
 
 
     /**
@@ -180,9 +173,76 @@ public class ManageShowTimeViewController {
     @FXML
     private void handleAddButton(ActionEvent actionEvent) {
 
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/add-showtime-view.fxml"));
+            Parent root = loader.load();
+
+            // Create a new stage (window)
+            Stage stage = new Stage();
+            stage.setTitle("Add Showtime");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Optionally show an alert if the FXML file could not be loaded
+        }
+
+    }
+
+
+
+
+
+
+    public void handleModifyButton(ActionEvent actionEvent) {
+
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/modify-showtime-view.fxml"));
+            Parent root = loader.load();
+
+            // Create a new stage (window)
+            Stage stage = new Stage();
+            stage.setTitle("Modify Showtime");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Optionally show an alert if the FXML file could not be loaded
+        }
 
 
     }
+
+
+    /**
+     * Opens a new window to display the information about the selected showtime.
+     */
+    @FXML
+    private void handleConsultButton(ActionEvent actionEvent) {
+
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/consult-showtime-details-view.fxml"));
+            Parent root = loader.load();
+
+            // Create a new stage (window)
+            Stage stage = new Stage();
+            stage.setTitle("Consult Showtime");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Optionally show an alert if the FXML file could not be loaded
+        }
+
+    }
+
+
 
 
 
@@ -195,7 +255,7 @@ public class ManageShowTimeViewController {
     @FXML
     private void handleDeleteButton(ActionEvent actionEvent) {
 
-// Get the selected ShowTime from the TableView
+       // Get the selected ShowTime from the TableView
         ShowTime selectedShowTime = showTimeTableView.getSelectionModel().getSelectedItem();
 
         // Check if a ShowTime is selected
@@ -232,15 +292,6 @@ public class ManageShowTimeViewController {
 
 
 
-    /**
-     * Opens a new window to display the information about the selected showtime.
-     */
-    @FXML
-    private void handleConsultButton(ActionEvent actionEvent) {
-
-
-    }
-
 
 
 
@@ -252,8 +303,23 @@ public class ManageShowTimeViewController {
      */
     @FXML
     private void handleBackButton(ActionEvent actionEvent) throws IOException {
+        // Get the current stage (window)
+        Stage stage = (Stage) backButton.getScene().getWindow();
 
+        // Load the previous scene (or the desired view)
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/manager-dashboard-view.fxml"));
+        Parent root = loader.load();
+
+        // Set the scene for the current stage (window)
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+
+        // Optionally, you can show the window again
+        stage.show();
     }
+
+
+
 
 
 }

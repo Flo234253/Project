@@ -3,9 +3,15 @@ package com.example.project.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * Controller class for handling the "Add Showtime" view.
@@ -73,7 +79,8 @@ public class AddShowTimeViewController {
      * @param actionEvent the event triggered when the "Cancel" button is clicked
      */
     @FXML
-    private void handleCancelButton(ActionEvent actionEvent) {
-        // Implementation for canceling the operation
+    private void handleCancelButton(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
     }
 }

@@ -34,7 +34,7 @@
     <Label layoutX="50.0" layoutY="260.0" text="Full:" />
     <CheckBox fx:id="fullCheckBox" layoutX="150.0" layoutY="260.0" />
 
-    <Button fx:id="modifyShowTimeButton" layoutX="150.0" layoutY="300.0" onAction="#handleModifyShowTimeButton" prefWidth="100.0" text="Modify" />
+    <Button fx:id="saveButton" layoutX="150.0" layoutY="300.0" onAction="#handleSaveButton" prefWidth="100.0" text="Save" />
     <Button fx:id="cancelButton" layoutX="270.0" layoutY="300.0" onAction="#handleCancelButton" prefWidth="100.0" text="Cancel" />
 
 </AnchorPane>

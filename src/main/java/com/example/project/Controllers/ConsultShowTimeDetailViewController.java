@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 
 /**
  * Controller class for the Consult ShowTime Details view.
@@ -79,6 +80,7 @@ public class ConsultShowTimeDetailViewController {
      */
     @FXML
     private void handleBackButton(ActionEvent actionEvent) {
-        // Code to handle the back button click event
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        stage.close();
     }
 }

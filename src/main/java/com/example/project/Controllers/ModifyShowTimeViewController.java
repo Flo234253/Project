@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class ModifyShowTimeViewController {
 
@@ -38,19 +39,28 @@ public class ModifyShowTimeViewController {
     @FXML
     private Button cancelButton;
 
+    @FXML
+    private Button saveButton;
+
 
     @FXML
     private CheckBox fullCheckBox;
 
-    public void handleModifyShowTimeButton(ActionEvent actionEvent) {
+    public void handleModifyButton(ActionEvent actionEvent) {
 
 
 
     }
 
     public void handleCancelButton(ActionEvent actionEvent) {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
 
 
+    }
 
+    public void handleSaveButton(ActionEvent actionEvent) {
+
+        
     }
 }
