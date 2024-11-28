@@ -25,7 +25,7 @@ public class ManagerDashBoardViewController {
      * Button to navigate to the ShowTimes view.
      */
     @FXML
-    private Button viewShowtimeButton;
+    private Button viewShowTimesButton;
 
     /**
      * Button to navigate to the Rooms view.
@@ -43,7 +43,7 @@ public class ManagerDashBoardViewController {
      * Button to navigate to the Clients view.
      */
     @FXML
-    private Button clientsButton;
+    private Button viewClientsListButton;
 
     /**
      * Handles the action triggered by clicking the Movies button.
@@ -64,7 +64,7 @@ public class ManagerDashBoardViewController {
      */
     @FXML
     private void handleShowTimesButton() {
-        //Todo:open your view, look at how i did it
+        navigateToView("/com/example/project/manage-showtime-view.fxml", "Show Time List", viewShowTimesButton);
     }
 
     /**
@@ -86,8 +86,7 @@ public class ManagerDashBoardViewController {
      */
     @FXML
     private void handleTicketSalesButton() {
-        //Todo:open your view, look at how i did it
-
+        navigateToView("/com/example/project/ticket-sale-view.fxml", "Ticket Sales List", viewTicketSalesButton);
     }
 
     /**
@@ -97,9 +96,8 @@ public class ManagerDashBoardViewController {
      * </p>
      */
     @FXML
-    private void handleClientsButton() {
-        //Todo:open your view, look at how i did it
-
+    private void handleClientsListButton() {
+        navigateToView("/com/example/project/client-list-view.fxml", "Clients List", viewClientsListButton);
     }
 
     /**
