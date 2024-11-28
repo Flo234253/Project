@@ -123,7 +123,7 @@ public class ManageShowTimeViewController {
      * Method to load sample data for showtimes.
      */
     private void loadShowTimes() {
-        String file = "data/SampleData(Showtime).csv";
+        String file = "data/SampleData.csv";
         String line = "";
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -303,7 +303,19 @@ public class ManageShowTimeViewController {
      */
     @FXML
     private void handleBackButton(ActionEvent actionEvent) throws IOException {
+        // Get the current stage (window)
+        Stage stage = (Stage) backButton.getScene().getWindow();
 
+        // Load the previous scene (or the desired view)
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/manager-dashboard-view.fxml"));
+        Parent root = loader.load();
+
+        // Set the scene for the current stage (window)
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+
+        // Optionally, you can show the window again
+        stage.show();
     }
 
 
