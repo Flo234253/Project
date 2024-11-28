@@ -226,12 +226,12 @@ public class ManageShowTimeViewController {
 
         try {
             // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/consult-showtime-details-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/modify-showtime-view.fxml"));
             Parent root = loader.load();
 
             // Create a new stage (window)
             Stage stage = new Stage();
-            stage.setTitle("Consult Showtime");
+            stage.setTitle("Modify Showtime");
             stage.setScene(new Scene(root));
             stage.show();
 
@@ -303,19 +303,7 @@ public class ManageShowTimeViewController {
      */
     @FXML
     private void handleBackButton(ActionEvent actionEvent) throws IOException {
-        // Get the current stage (window)
-        Stage stage = (Stage) backButton.getScene().getWindow();
 
-        // Load the previous scene (or the desired view)
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/manager-dashboard-view.fxml"));
-        Parent root = loader.load();
-
-        // Set the scene for the current stage (window)
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-
-        // Optionally, you can show the window again
-        stage.show();
     }
 
 
