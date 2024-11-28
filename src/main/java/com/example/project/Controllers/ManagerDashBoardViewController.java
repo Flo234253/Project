@@ -2,12 +2,17 @@ package com.example.project.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * Controller class for managing the manager dashboard view.
  *
  */
-
 public class ManagerDashBoardViewController {
 
     /**
@@ -48,8 +53,7 @@ public class ManagerDashBoardViewController {
      */
     @FXML
     private void handleMoviesButton() {
-//Todo:Moustapha
-
+        navigateToView("/com/example/project/movie-list-view.fxml", "Movies List", viewMoviesButton);
     }
 
     /**
@@ -60,8 +64,7 @@ public class ManagerDashBoardViewController {
      */
     @FXML
     private void handleShowTimesButton() {
-//Todo
-
+        //Todo:open your view, look at how i did it
     }
 
     /**
@@ -72,8 +75,7 @@ public class ManagerDashBoardViewController {
      */
     @FXML
     private void handleRoomsButton() {
-//Todo:Moustapha
-
+        navigateToView("/com/example/project/screen-room-list-view.fxml", "Screening Rooms List", viewRoomsButton);
     }
 
     /**
@@ -84,9 +86,9 @@ public class ManagerDashBoardViewController {
      */
     @FXML
     private void handleTicketSalesButton() {
-//Todo
-    }
+        //Todo:open your view, look at how i did it
 
+    }
 
     /**
      * Handles the action triggered by clicking the Clients button.
@@ -96,6 +98,52 @@ public class ManagerDashBoardViewController {
      */
     @FXML
     private void handleClientsButton() {
-//Todo
+        //Todo:open your view, look at how i did it
+
+    }
+
+    /**
+     * Utility method to navigate to a specified view.
+     *
+     * @param fxmlPath     The path to the FXML file for the view.
+     * @param title        The title of the window to display.
+     * @param sourceButton The button that triggered the navigation (used to close the current stage).
+     */
+    private void navigateToView(String fxmlPath, String title, Button sourceButton) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+
+            Stage newStage = new Stage();
+            newStage.setScene(new Scene(root, 560, 550));
+            newStage.setTitle(title);
+            newStage.show();
+
+            // Close the current stage
+            Stage currentStage = (Stage) sourceButton.getScene().getWindow();
+            currentStage.close();
+
+            // Reopen the dashboard when the new view is closed
+            newStage.setOnCloseRequest(event -> reopenDashboard());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Re-opens the manager dashboard after a view is closed.
+     */
+    private void reopenDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/manager-dashboard-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 600, 550));
+            stage.setTitle("Manager Dashboard");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

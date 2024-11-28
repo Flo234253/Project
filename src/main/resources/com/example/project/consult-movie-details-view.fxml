@@ -58,11 +58,11 @@
             </Label>
             <TextField fx:id="aTitleField" editable="false" layoutX="165.0" layoutY="11.0" prefHeight="36.0" prefWidth="472.0" />
             <TextField fx:id="aGenreField" editable="false" layoutX="165.0" layoutY="61.0" prefHeight="36.0" prefWidth="472.0" />
-            <TextField fx:id="aReleaseDateField" editable="false" layoutX="165.0" layoutY="102.0" prefHeight="36.0" prefWidth="472.0" />
-            <TextField fx:id="aDurationField" editable="false" layoutX="165.0" layoutY="154.0" prefHeight="36.0" prefWidth="472.0" />
+            <TextField fx:id="aReleaseDateField" editable="false" layoutX="165.0" layoutY="102.0" prefHeight="36.0" prefWidth="472.0" promptText="yyyy-mm-dd" />
+            <TextField fx:id="aDurationField" editable="false" layoutX="165.0" layoutY="154.0" prefHeight="36.0" prefWidth="472.0" promptText="XX min" />
             <TextField fx:id="aActorsField" editable="false" layoutX="165.0" layoutY="202.0" prefHeight="36.0" prefWidth="472.0" />
             <TextField fx:id="aDirectorField" editable="false" layoutX="165.0" layoutY="250.0" prefHeight="36.0" prefWidth="472.0" />
-            <TextField fx:id="aDescriptionArea" editable="false" layoutX="165.0" layoutY="296.0" prefHeight="65.0" prefWidth="472.0" />
+            <TextField fx:id="aDescriptionArea" editable="false" layoutX="165.0" layoutY="296.0" prefHeight="65.0" prefWidth="472.0" promptText="(max: 60 words)" />
          </children>
       </Pane>
       <Pane prefHeight="91.0" prefWidth="672.0" style="-fx-background-color: #252525;">
