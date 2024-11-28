@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+
 <AnchorPane prefHeight="400.0" prefWidth="425.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.ModifyShowTimeViewController">
 
     <Label layoutX="119.0" layoutY="14.0" text="Modify Showtime">
@@ -27,13 +28,13 @@
     <Label layoutX="50.0" layoutY="180.0" text="Room ID:" />
     <TextField fx:id="roomIdField" layoutX="150.0" layoutY="180.0" prefWidth="200.0" />
 
-    <Label layoutX="50.0" layoutY="220.0" text="Movie ID:" />
+    <Label layoutX="50.0" layoutY="220.0" text="Movie :" />
     <TextField fx:id="movieIdField" layoutX="150.0" layoutY="220.0" prefWidth="200.0" />
 
     <Label layoutX="50.0" layoutY="260.0" text="Full:" />
     <CheckBox fx:id="fullCheckBox" layoutX="150.0" layoutY="260.0" />
 
-    <Button fx:id="modifyShowTimeButton" layoutX="150.0" layoutY="300.0" onAction="#handleModifyShowTimeButton" prefWidth="100.0" text="Modify" />
+    <Button fx:id="saveButton" layoutX="150.0" layoutY="300.0" onAction="#handleSaveButton" prefWidth="100.0" text="Save" />
     <Button fx:id="cancelButton" layoutX="270.0" layoutY="300.0" onAction="#handleCancelButton" prefWidth="100.0" text="Cancel" />
 
 </AnchorPane>
