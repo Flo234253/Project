@@ -10,7 +10,7 @@ import javafx.stage.Stage;
  * Controller class for the Ticket Sales view.
  */
 //ToDo
-public class TicketSalesViewController {
+public class TicketSaleViewController {
 
     /**
      * Button to navigate back to the previous screen.

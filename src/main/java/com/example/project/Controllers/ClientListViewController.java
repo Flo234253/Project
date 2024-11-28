@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  *
  */
 //ToDO
-public class ClientsViewController {
+public class ClientListViewController {
 
 
     /**
