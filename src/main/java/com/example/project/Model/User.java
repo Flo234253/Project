@@ -27,8 +27,9 @@ public abstract class User implements Serializable {
     had been added before then save it all together*/
     static {
         loadUserData();
-        
-        //userList.add(new Manager("Saboor2@example.com", "Pass1234"));userList.add(new Manager("sarah.lee@example.com", "Admin2023"));
+
+        //userList.add(new Manager("Saboor2@example.com", "Pass1234"));
+        // userList.add(new Manager("sarah.lee@example.com", "Admin2023"));
       //userList.add(new Manager("john.doe@example.com", "Manager45"));
       // userList.add(new Client("henryRobert@gmail.ca", "1234"));
       // userList.add(new Client("avachapman@hotmail.ca", "4321"));

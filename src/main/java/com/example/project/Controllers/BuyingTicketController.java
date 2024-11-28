@@ -7,9 +7,10 @@ import javafx.scene.control.TextField;
 
 public class BuyingTicketController {
     public DatePicker datePicker;
-    public ListView moveAndShowtimeListView;
+    public ListView<ListView> moveAndShowtimeListView;
     public TextField numberTicketTextField;
 
     public void buyButton(ActionEvent event) {
+
     }
 }
