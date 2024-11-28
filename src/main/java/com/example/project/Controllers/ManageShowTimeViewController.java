@@ -1,12 +1,15 @@
 package com.example.project.Controllers;
 
 import com.example.project.Model.ShowTime;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * Controller class for managing the movie list view.
@@ -74,7 +77,36 @@ public class ManageShowTimeViewController {
     @FXML
     private Button backButton;
 
+    @FXML
+    public void initialize() {
+        // Bind columns to ShowTime properties
+        movieColumn.setCellValueFactory(new PropertyValueFactory<>("movie"));
+        showTimeColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
 
+        // Load data into the TableView
+        loadShowTimes();
+
+        // Enable consult button only when a row is selected
+        showTimeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            consultShowTimeButton.setDisable(newValue == null);
+        });
+    }
+
+    /**
+     * Method to load sample data for showtimes.
+     */
+    private void loadShowTimes() {
+        ObservableList<ShowTime> showTimeList = FXCollections.observableArrayList(
+                new ShowTime(1, "2024-11-19 18:00", "Inception"),
+                new ShowTime(2, "2024-11-19 21:00", "Titanic"),
+                new ShowTime(3, "2024-11-20 14:30", "Avatar"),
+                new ShowTime(4, "2024-11-20 19:00", "Inception"),
+                new ShowTime(5, "2024-11-21 16:00", "Interstellar")
+        );
+
+        // Bind the TableView
+        showTimeTableView.setItems(showTimeList);
+    }
 
     /**
      * Filters movies based on the input from the search field.

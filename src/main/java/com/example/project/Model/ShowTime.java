@@ -3,6 +3,7 @@ package com.example.project.Model;
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -13,22 +14,21 @@ public class ShowTime {
     /** The unique identifier for the showtime. */
     private int aID;
 
-    /** Attribute  for The date and time of the showtime. */
+    /** Attribute for the date and time of the showtime. */
     private LocalDateTime aDateTime;
 
-    /** Attribute  for  The movie being shown. */
+    /** Attribute for the movie being shown. */
     private String aMovie;
 
-    /** Attribute  for  The screening room where the movie is shown. */
+    /** Attribute for the screening room where the movie is shown. */
     private String aScreeningRoom;
 
-
     /**
-     * Constructor to create a new showtime with a unique ID, date and time, movie, and screening room.
+     * Constructor to create a new showtime with all attributes.
      *
-     * @param pID The unique identifier for the showtime.
-     * @param pDateTime The date and time of the showtime.
-     * @param pMovie The movie being shown.
+     * @param pID            The unique identifier for the showtime.
+     * @param pDateTime      The date and time of the showtime.
+     * @param pMovie         The movie being shown.
      * @param pScreeningRoom The screening room where the movie is shown.
      */
     public ShowTime(int pID, LocalDateTime pDateTime, String pMovie, String pScreeningRoom) {
@@ -39,81 +39,51 @@ public class ShowTime {
     }
 
     /**
-     * Gets the unique identifier for the showtime.
+     * Constructor with minimal attributes (for testing or quick display purposes).
      *
-     * @return The unique identifier for the showtime.
+     * @param pID       The unique identifier for the showtime.
+     * @param pDateTime The date and time of the showtime (as String, for simplicity).
+     * @param pMovie    The movie being shown.
      */
+    public ShowTime(int pID, String pDateTime, String pMovie) {
+        this.aID = pID;
+        // Define a custom DateTimeFormatter to match the string format "yyyy-MM-dd HH:mm"
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        this.aDateTime = LocalDateTime.parse(pDateTime, formatter); // Convert string to LocalDateTime using formatter
+        this.aMovie = pMovie;
+        this.aScreeningRoom = ""; // Default value
+    }
+    // Getters and Setters
     public int getaID() {
         return aID;
     }
 
-
-    /**
-     * Sets the unique identifier for the showtime.
-     *
-     * @param aID The unique identifier for the showtime.
-     */
     public void setID(int aID) {
         this.aID = aID;
     }
 
-
-    /**
-     * Gets the date and time of the showtime.
-     *
-     * @return The date and time of the showtime.
-     */
     public LocalDateTime getDateTime() {
         return aDateTime;
     }
 
-
-    /**
-     * Sets the date and time of the showtime.
-     *
-     * @param aDateTime The date and time of the showtime.
-     */
     public void setDateTime(LocalDateTime aDateTime) {
         this.aDateTime = aDateTime;
     }
 
-    /**
-     * Gets the movie being shown.
-     *
-     * @return The movie being shown.
-     */
     public String getMovie() {
         return aMovie;
     }
 
-    /**
-     * Sets the movie being shown.
-     *
-     * @param aMovie The movie being shown.
-     */
     public void setMovie(String aMovie) {
         this.aMovie = aMovie;
     }
 
-
-    /**
-     * Gets the screening room where the movie is shown.
-     *
-     * @return The screening room.
-     * //todo
-     */
     public String getScreeningRoom() {
         return aScreeningRoom;
     }
 
-    /**
-     * Sets the screening room where the movie is shown.
-     *
-     * @param aScreeningRoom The screening room.
-     */
     public void setScreeningRoom(String aScreeningRoom) {
         this.aScreeningRoom = aScreeningRoom;
     }
-
 
 }
