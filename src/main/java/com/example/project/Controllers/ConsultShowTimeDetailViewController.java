@@ -12,7 +12,7 @@ import javafx.scene.control.TableView;
  * Controller class for the Consult ShowTime Details view.
  *
  */
-public class ConsultShowTimeDetailsViewController {
+public class ConsultShowTimeDetailViewController {
 
     /**
      * TableView displaying the list of showtimes.

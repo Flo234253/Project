@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="400.0" prefWidth="425.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.ModifyShowTimeViewController">
+
+    <Label layoutX="119.0" layoutY="14.0" text="Modify Showtime">
+        <font>
+            <Font name="System Bold" size="27.0" />
+        </font>
+    </Label>
+
+    <Label layoutX="50.0" layoutY="60.0" text="ShowTime ID:" />
+    <TextField fx:id="showTimeIdField" layoutX="150.0" layoutY="60.0" prefWidth="200.0" />
+
+    <Label layoutX="50.0" layoutY="100.0" text="Date:" />
+    <DatePicker fx:id="dateField" layoutX="150.0" layoutY="96.0" prefHeight="25.0" prefWidth="200.0" />
+
+    <Label layoutX="50.0" layoutY="140.0" text="Time (HH:mm):" />
+    <TextField fx:id="timeField" layoutX="150.0" layoutY="140.0" prefWidth="200.0" />
+
+    <Label layoutX="50.0" layoutY="180.0" text="Room ID:" />
+    <TextField fx:id="roomIdField" layoutX="150.0" layoutY="180.0" prefWidth="200.0" />
+
+    <Label layoutX="50.0" layoutY="220.0" text="Movie ID:" />
+    <TextField fx:id="movieIdField" layoutX="150.0" layoutY="220.0" prefWidth="200.0" />
+
+    <Label layoutX="50.0" layoutY="260.0" text="Full:" />
+    <CheckBox fx:id="fullCheckBox" layoutX="150.0" layoutY="260.0" />
+
+    <Button fx:id="modifyShowTimeButton" layoutX="150.0" layoutY="300.0" onAction="#handleModifyShowTimeButton" prefWidth="100.0" text="Modify" />
+    <Button fx:id="cancelButton" layoutX="270.0" layoutY="300.0" onAction="#handleCancelButton" prefWidth="100.0" text="Cancel" />
+
+</AnchorPane>
