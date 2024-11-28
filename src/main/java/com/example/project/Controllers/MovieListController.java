@@ -225,11 +225,33 @@ public class MovieListController {
 
     /**
      * Opens a new window for adding a new movie to the list.
+     * After the user saves a new movie, it is added to the observable movie list.
      */
     @FXML
     private void onAddButtonClicked() {
-        // TODO: Implement logic to open the Add Movie view
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/add-movie-view.fxml"));
+            Parent root = loader.load();
+
+            AddMovieController controller = loader.getController();
+            Stage stage = new Stage();
+            controller.setStage(stage);
+
+            stage.setScene(new Scene(root, 600, 500));
+            stage.setTitle("Add New Movie");
+            stage.showAndWait();
+
+            if (controller.isSaved()) {
+                Movie newMovie = controller.getNewMovie();
+                aMovies.add(newMovie);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            AlertHelper.showErrorAlert("Error", "Failed to open Add Movie view.");
+        }
     }
+
+
 
     /**
      * Opens a new window for editing the details of the selected movie.

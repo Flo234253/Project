@@ -1,8 +1,17 @@
 package com.example.project.Controllers;
 
+import Helpers.AlertHelper;
+import com.example.project.Model.Movie;
+import com.example.project.Model.Genre;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
+import javafx.stage.Stage;
+
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Controller class for the Add Movie view.
  * This class manages the form for adding a new movie,
@@ -52,32 +61,138 @@ public class AddMovieController {
     @FXML
     private TextField aDescriptionField;
 
-    /**
-     * Button to save the entered movie details.
-     * Clicking this button triggers the logic to save the movie.
-     */
-    @FXML
-    private Button aSaveButton;
+    private Movie newMovie;
+    private boolean isSaved = false;
+    private Stage stage;
 
     /**
-     * Button to cancel the movie addition operation.
-     * Clicking this button clears the fields or closes the view.
+     * Sets the stage for this controller.
+     *
+     * @param stage The stage to set.
      */
-    @FXML
-    private Button aCancelButton;
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    /**
+     * Gets the newly created Movie object.
+     *
+     * @return The new Movie.
+     */
+    public Movie getNewMovie() {
+        return newMovie;
+    }
+
+    /**
+     * Checks if the movie was successfully saved.
+     *
+     * @return True if saved, false otherwise.
+     */
+    public boolean isSaved() {
+        return isSaved;
+    }
 
     /**
      * Handles the action when the "Save" button is clicked.
      * <p>
      * Captures the manager input from the form fields and processes the data to
      * save the movie.
-     * This method should save the new movie details to the data structure.
-     * The implementation should validate the input fields before saving.
      * </p>
      */
     @FXML
     private void onSaveButtonClicked() {
-        // TODO: Logic to save the movie details
+        try {
+            String title = aTitleField.getText().trim();
+            String genresInput = aGenreField.getText().trim();
+            String releaseDate = aReleaseDateField.getText().trim();
+            String duration = aDurationField.getText().trim();
+            String actors = aActorsField.getText().trim();
+            String director = aDirectorField.getText().trim();
+            String description = aDescriptionField.getText().trim();
+
+            // Validate fields are not empty
+            if (title.isEmpty() || genresInput.isEmpty() || releaseDate.isEmpty() || duration.isEmpty()
+                    || actors.isEmpty() || director.isEmpty() || description.isEmpty()) {
+                throw new IllegalArgumentException("All fields are required.");
+            }
+
+            // Validate title uniqueness
+            if (isTitleDuplicate(title)) {
+                throw new IllegalArgumentException("Movie title must be unique.");
+            }
+
+            // Validate release date format (YYYY-MM-DD)
+            if (!releaseDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                throw new IllegalArgumentException("Release date must be in the format YYYY-MM-DD.");
+            }
+
+            // Validate duration format (e.g., "120 min")
+            if (!duration.matches("\\d+ min")) {
+                throw new IllegalArgumentException("Duration must be in the format 'XX min' (e.g., '120 min').");
+            }
+
+            // Parse genres
+            List<Genre> genres = parseGenres(genresInput);
+
+            // Create new Movie object
+            newMovie = new Movie(title, genres, releaseDate, duration, actors, director, description);
+            isSaved = true; // Mark as saved
+            closeWindow();
+        } catch (IllegalArgumentException e) {
+            AlertHelper.showWarningAlert("Invalid Input", null, e.getMessage());
+        }
+    }
+
+    /**
+     * Parses the genre input into a list of Genre objects.
+     *
+     * @param genresInput The input string containing genres (comma-separated).
+     * @return A list of Genre objects.
+     * @throws IllegalArgumentException if any genre is invalid.
+     */
+    private List<Genre> parseGenres(String genresInput) {
+        // Updated list of valid genres (normalized to lowercase for case-insensitive comparison)
+        List<String> validGenres = Arrays.asList(
+                "action", "comedy", "drama", "horror", "sci-fi", "romance", "science fiction",
+                "thriller", "adventure", "fantasy", "mystery", "animation",
+                "documentary", "biography", "musical", "western"
+        );
+
+        // Split the input genres string by commas
+        String[] genresArray = genresInput.split(",");
+
+        // Validate each genre in the input against the valid genres list
+        for (String genre : genresArray) {
+            if (!validGenres.contains(genre.trim().toLowerCase())) {
+                throw new IllegalArgumentException(
+                        "Invalid genre: " + genre.trim() + ". Allowed genres: " + validGenres
+                );
+            }
+        }
+
+        // Convert valid genre strings to Genre objects and return as a list
+        return Arrays.stream(genresArray)
+                .map(genre -> new Genre(genre.trim()))
+                .toList();
+    }
+
+
+
+    /**
+     * Checks if the movie title is already used in the list of existing movies.
+     *
+     * @param title The movie title to check.
+     * @return True if the title is a duplicate, false otherwise.
+     */
+    private boolean isTitleDuplicate(String title) {
+        ObservableList<Movie> existingMovies = FXCollections.observableArrayList(
+                new Movie("Inception", Arrays.asList(new Genre("Sci-Fi"), new Genre("Action")),
+                        "2010-07-16", "148 min", "Leonardo DiCaprio", "Christopher Nolan", "A mind-bending thriller."),
+                new Movie("Titanic", Arrays.asList(new Genre("Romance"), new Genre("Drama")),
+                        "1997-12-19", "195 min", "Leonardo DiCaprio, Kate Winslet", "James Cameron", "A romantic tragedy.")
+        );
+
+        return existingMovies.stream().anyMatch(movie -> movie.getTitle().equalsIgnoreCase(title));
     }
 
     /**
@@ -89,6 +204,15 @@ public class AddMovieController {
      */
     @FXML
     private void onCancelButtonClicked() {
-        // TODO: Logic to close the view or clear fields
+        closeWindow();
+    }
+
+    /**
+     * Closes the current window.
+     */
+    private void closeWindow() {
+        if (stage != null) {
+            stage.close();
+        }
     }
 }
