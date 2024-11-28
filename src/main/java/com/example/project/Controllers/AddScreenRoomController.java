@@ -68,12 +68,12 @@ public class AddScreenRoomController {
             if (roomName.isEmpty() || capacityStr.isEmpty() || features.isEmpty()) {
                 throw new IllegalArgumentException("All fields are required.");
             }
-
+      
             // Validate room name uniqueness
             if (isRoomNameDuplicate(roomName)) {
                 throw new IllegalArgumentException("Room name must be unique.");
             }
-
+//Todo:see if i shouln't put this in the screen class
             // Validate capacity is numeric
             int capacity;
             try {
