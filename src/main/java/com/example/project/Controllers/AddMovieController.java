@@ -8,9 +8,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.ButtonType;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Controller class for the Add Movie view.
@@ -19,45 +21,24 @@ import java.util.List;
  */
 public class AddMovieController {
 
-    /**
-     * TextField for entering the title of the movie.
-     */
     @FXML
     private TextField aTitleField;
 
-    /**
-     * TextField for entering the genre(s) of the movie.
-     */
     @FXML
     private TextField aGenreField;
 
-    /**
-     * TextField for entering the release date of the movie.
-     */
     @FXML
     private TextField aReleaseDateField;
 
-    /**
-     * TextField for entering the duration of the movie.
-     */
     @FXML
     private TextField aDurationField;
 
-    /**
-     * TextField for entering the main actors of the movie.
-     */
     @FXML
     private TextField aActorsField;
 
-    /**
-     * TextField for entering the director of the movie.
-     */
     @FXML
     private TextField aDirectorField;
 
-    /**
-     * TextField for entering a brief description of the movie.
-     */
     @FXML
     private TextField aDescriptionField;
 
@@ -94,10 +75,7 @@ public class AddMovieController {
 
     /**
      * Handles the action when the "Save" button is clicked.
-     * <p>
-     * Captures the manager input from the form fields and processes the data to
-     * save the movie.
-     * </p>
+     * Captures the manager input from the form fields and processes the data to save the movie.
      */
     @FXML
     private void onSaveButtonClicked() {
@@ -123,7 +101,7 @@ public class AddMovieController {
 
             // Validate release date format (YYYY-MM-DD)
             if (!releaseDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                throw new IllegalArgumentException("Release date must be in the format YYYY-MM-DD.");
+                throw new IllegalArgumentException("Release date must in numeric value and  be in the format YYYY-MM-DD.");
             }
 
             // Validate duration format (e.g., "120 min")
@@ -134,10 +112,20 @@ public class AddMovieController {
             // Parse genres
             List<Genre> genres = parseGenres(genresInput);
 
-            // Create new Movie object
-            newMovie = new Movie(title, genres, releaseDate, duration, actors, director, description);
-            isSaved = true; // Mark as saved
-            closeWindow();
+            // Show confirmation alert before saving
+            Optional<ButtonType> result = AlertHelper.showConfirmationAlert("Confirm Save", null,
+                    "Are you sure you want to save this movie?");
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Create new Movie object
+                newMovie = new Movie(title, genres, releaseDate, duration, actors, director, description);
+                isSaved = true; // Mark as saved
+
+                // Show confirmation that the movie has been saved
+                AlertHelper.showInformationAlert("Movie Saved", null, "The movie has been successfully saved.");
+
+                closeWindow();
+            }
+
         } catch (IllegalArgumentException e) {
             AlertHelper.showWarningAlert("Invalid Input", null, e.getMessage());
         }
@@ -151,17 +139,14 @@ public class AddMovieController {
      * @throws IllegalArgumentException if any genre is invalid.
      */
     private List<Genre> parseGenres(String genresInput) {
-        // Updated list of valid genres (normalized to lowercase for case-insensitive comparison)
         List<String> validGenres = Arrays.asList(
                 "action", "comedy", "drama", "horror", "sci-fi", "romance", "science fiction",
                 "thriller", "adventure", "fantasy", "mystery", "animation",
                 "documentary", "biography", "musical", "western"
         );
 
-        // Split the input genres string by commas
         String[] genresArray = genresInput.split(",");
 
-        // Validate each genre in the input against the valid genres list
         for (String genre : genresArray) {
             if (!validGenres.contains(genre.trim().toLowerCase())) {
                 throw new IllegalArgumentException(
@@ -170,13 +155,10 @@ public class AddMovieController {
             }
         }
 
-        // Convert valid genre strings to Genre objects and return as a list
         return Arrays.stream(genresArray)
                 .map(genre -> new Genre(genre.trim()))
                 .toList();
     }
-
-
 
     /**
      * Checks if the movie title is already used in the list of existing movies.
@@ -197,14 +179,15 @@ public class AddMovieController {
 
     /**
      * Handles the action when the Cancel button is clicked.
-     * <p>
-     * Clears the form fields or closes the Add Movie view, discarding any
-     * unsaved changes.
-     * </p>
+     * Clears the form fields or closes the Add Movie view, discarding any unsaved changes.
      */
     @FXML
     private void onCancelButtonClicked() {
-        closeWindow();
+        Optional<ButtonType> result = AlertHelper.showConfirmationAlert("Confirm Cancel", null,
+                "Are you sure you want to cancel? Any unsaved changes will be lost.");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            closeWindow();
+        }
     }
 
     /**

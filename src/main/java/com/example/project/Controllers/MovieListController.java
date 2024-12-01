@@ -260,9 +260,31 @@ public class MovieListController {
     private void onEditButtonClicked() {
         Movie pSelectedMovie = aMovieTableView.getSelectionModel().getSelectedItem();
         if (pSelectedMovie != null) {
-            // TODO: Implement logic to open the Edit Movie view and pre-fill data
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/modify-movie-view.fxml"));
+                Parent root = loader.load();
+
+                ModifyMovieController controller = loader.getController();
+                controller.setStage(new Stage());
+                controller.setMovieDetails(pSelectedMovie);
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root, 700, 500));
+                stage.setTitle("Modify Movie");
+                stage.showAndWait();
+
+                // Refresh the TableView after modifications
+                aMovieTableView.refresh();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                AlertHelper.showErrorAlert("Error", "Failed to open Modify Movie view.");
+            }
+        } else {
+            AlertHelper.showWarningAlert("No Selection", "Please select a movie to modify.", null);
         }
     }
+
 
     /**
      * Deletes the selected movie from the list.
