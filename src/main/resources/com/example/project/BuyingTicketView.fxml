@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="458.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="458.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.BuyingTicketController">
    <children>
       <Label layoutX="145.0" layoutY="35.0" text="Pick a date" />
       <DatePicker fx:id="datePicker" layoutX="94.0" layoutY="73.0" />
@@ -17,6 +17,6 @@
       <TextField fx:id="numberTicketTextField" layoutX="190.0" layoutY="356.0" />
       <Label layoutX="86.0" layoutY="391.0" prefHeight="18.0" prefWidth="38.0" text="Price:" />
       <Label layoutX="203.0" layoutY="391.0" />
-      <Button fx:id="buyButton" layoutX="172.0" layoutY="418.0" mnemonicParsing="false" text="Buy" />
+      <Button fx:id="buyButton" layoutX="172.0" layoutY="418.0" mnemonicParsing="false" onAction="#buyButton" text="Buy" />
    </children>
 </AnchorPane>
