@@ -17,32 +17,32 @@ import java.time.format.DateTimeFormatter;
  */
 public class ShowTime {
 
-    private final IntegerProperty showTimeId;
-    private final StringProperty movie;
-    private final ObjectProperty<LocalDateTime> dateTime;
-    private final IntegerProperty roomId;
-    private final BooleanProperty isFull;
+    private final IntegerProperty aShowTimeId;
+    private final StringProperty aMovie;
+    private final ObjectProperty<LocalDateTime> aDateTime;
+    private final IntegerProperty aRoomId;
+    private final BooleanProperty aIsFull;
 
     /**
      * Constructs a new ShowTime object with the specified details.
      *
-     * @param showTimeId the ID of the showtime
-     * @param date       the date of the showtime in "MM/dd/yyyy" format
-     * @param time       the time of the showtime in "HH:mm" format
-     * @param roomId     the ID of the screening room
-     * @param movie      the name of the movie
-     * @param isFull     whether the screening is fully booked
+     * @param pShowTimeId the ID of the showtime
+     * @param PDate       the date of the showtime in "MM/dd/yyyy" format
+     * @param PTime       the time of the showtime in "HH:mm" format
+     * @param PRoomId     the ID of the screening room
+     * @param PMovie      the name of the movie
+     * @param pIsFull     whether the screening is fully booked
      */
-    public ShowTime(int showTimeId, String date, String time, int roomId, String movie, boolean isFull) {
-        this.showTimeId = new SimpleIntegerProperty(showTimeId);
-        this.movie = new SimpleStringProperty(movie);
-        this.roomId = new SimpleIntegerProperty(roomId);
-        this.isFull = new SimpleBooleanProperty(isFull);
+    public ShowTime(int pShowTimeId, String PDate, String PTime, int PRoomId, String PMovie, boolean pIsFull) {
+        this.aShowTimeId = new SimpleIntegerProperty(pShowTimeId);
+        this.aMovie = new SimpleStringProperty(PMovie);
+        this.aRoomId = new SimpleIntegerProperty(PRoomId);
+        this.aIsFull = new SimpleBooleanProperty(pIsFull);
 
         // Combine date and time into a LocalDateTime object
-        String dateTimeStr = date + " " + time; // Combine date and time
+        String dateTimeStr = PDate + " " + PTime; // Combine date and time
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
-        this.dateTime = new SimpleObjectProperty<>(LocalDateTime.parse(dateTimeStr, formatter));
+        this.aDateTime = new SimpleObjectProperty<>(LocalDateTime.parse(dateTimeStr, formatter));
     }
 
     /**
@@ -50,8 +50,8 @@ public class ShowTime {
      *
      * @return the IntegerProperty representing the showtime ID
      */
-    public IntegerProperty showTimeIdProperty() {
-        return showTimeId;
+    public IntegerProperty aShowTimeIdProperty() {
+        return aShowTimeId;
     }
 
     /**
@@ -59,8 +59,8 @@ public class ShowTime {
      *
      * @return the StringProperty representing the movie name
      */
-    public StringProperty movieProperty() {
-        return movie;
+    public StringProperty aMovieProperty() {
+        return aMovie;
     }
 
 
@@ -69,8 +69,8 @@ public class ShowTime {
      *
      * @return the ObjectProperty representing the date and time of the showtime
      */
-    public ObjectProperty<LocalDateTime> dateTimeProperty() {
-        return dateTime;
+    public ObjectProperty<LocalDateTime> aDateTimeProperty() {
+        return aDateTime;
     }
 
 
@@ -79,8 +79,8 @@ public class ShowTime {
      *
      * @return the IntegerProperty representing the screening room ID
      */
-    public IntegerProperty roomIdProperty() {
-        return roomId;
+    public IntegerProperty aRoomIdProperty() {
+        return aRoomId;
     }
 
 
@@ -89,8 +89,8 @@ public class ShowTime {
      *
      * @return the BooleanProperty representing the "full" status of the screening
      */
-    public BooleanProperty isFullProperty() {
-        return isFull;
+    public BooleanProperty aIsFullProperty() {
+        return aIsFull;
     }
 
 
@@ -99,8 +99,8 @@ public class ShowTime {
      *
      * @return the movie name
      */
-    public String getMovie() {
-        return movie.get();
+    public String getaMovie() {
+        return aMovie.get();
     }
 
     /**
@@ -108,8 +108,8 @@ public class ShowTime {
      *
      * @return the LocalDateTime object representing the showtime
      */
-    public LocalDateTime getDateTime() {
-        return dateTime.get();
+    public LocalDateTime getaDateTime() {
+        return aDateTime.get();
     }
 
     /**
@@ -118,6 +118,6 @@ public class ShowTime {
      * @return {@code true} if the screening is fully booked, otherwise {@code false}
      */
     public boolean isFull() {
-        return isFull.get();
+        return aIsFull.get();
     }
 }

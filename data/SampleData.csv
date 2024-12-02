@@ -37,6 +37,7 @@ showtime_id,date,time,room_id,movie_name,full
 4,11/20/2024,19:00,1,Inception,TRUE
 5,11/21/2024,16:00,4,Space Adventures,FALSE
 
+
 room_id,name,capacity,screen_type
 1,Room A,150,IMAX
 2,Room B,100,Standard

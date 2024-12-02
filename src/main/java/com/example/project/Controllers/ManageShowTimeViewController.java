@@ -9,7 +9,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -89,7 +88,7 @@ public class ManageShowTimeViewController {
      * ObservableList to store the showtime data.
      */
 
-    private final ObservableList<ShowTime> showTimeList = FXCollections.observableArrayList();
+    private final ObservableList<ShowTime> aShowTimeList = FXCollections.observableArrayList();
 
 
     /**
@@ -104,18 +103,18 @@ public class ManageShowTimeViewController {
     @FXML
     public void initialize() throws IOException {
         // Bind the movie column to the movie property
-        movieColumn.setCellValueFactory(cellData -> cellData.getValue().movieProperty());
+        movieColumn.setCellValueFactory(cellData -> cellData.getValue().aMovieProperty());
 
         // Bind the date column to the date part (without time)
         dateColumn.setCellValueFactory(cellData -> {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-            return new SimpleStringProperty(dateFormatter.format(cellData.getValue().getDateTime()));
+            return new SimpleStringProperty(dateFormatter.format(cellData.getValue().getaDateTime()));
         });
 
         // Bind the time column to the time part (without date)
         timeColumn.setCellValueFactory(cellData -> {
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-            return new SimpleStringProperty(timeFormatter.format(cellData.getValue().getDateTime()));
+            return new SimpleStringProperty(timeFormatter.format(cellData.getValue().getaDateTime()));
         });
 
         // Load data into the TableView
@@ -127,7 +126,7 @@ public class ManageShowTimeViewController {
         });
 
         // Set the items of the TableView to the showTimeList
-        showTimeTableView.setItems(showTimeList);
+        showTimeTableView.setItems(aShowTimeList);
 
     }
 
@@ -159,7 +158,7 @@ public class ManageShowTimeViewController {
 
                 try {
                     ShowTime showTime = getShowTime(row);
-                    showTimeList.add(showTime);
+                    aShowTimeList.add(showTime);
 
                 } catch (NumberFormatException e) {
                     // Handle invalid number formats without printing the stack trace
@@ -301,19 +300,19 @@ public class ManageShowTimeViewController {
             Optional<ButtonType> result = AlertHelper.showConfirmationAlert(
                     "Confirm Deletion",
                     "Are you sure you want to delete this showtime?",
-                    "Showtime: " + selectedShowTime.getMovie() + " at " + selectedShowTime.getDateTime()
+                    "Showtime: " + selectedShowTime.getaMovie() + " at " + selectedShowTime.getaDateTime()
             );
 
             // If the user confirms the deletion
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 // Remove the selected ShowTime from the ObservableList
-                showTimeList.remove(selectedShowTime);
+                aShowTimeList.remove(selectedShowTime);
 
                 // Show success information alert
                 AlertHelper.showInformationAlert(
                         "Showtime Deleted",
                         null,
-                        "The showtime for '" + selectedShowTime.getMovie() + "' was successfully deleted."
+                        "The showtime for '" + selectedShowTime.getaMovie() + "' was successfully deleted."
                 );
             }
         } else {
