@@ -85,10 +85,22 @@ public class ManageShowTimeViewController {
 
 
 
+    /**
+     * ObservableList to store the showtime data.
+     */
+
+    private final ObservableList<ShowTime> showTimeList = FXCollections.observableArrayList();
 
 
-    private final ObservableList<ShowTime> showTimeList = FXCollections.observableArrayList();  // This should be initialized
-
+    /**
+     * Initializes the controller class.
+     * <p>
+     * Binds table columns to the properties of the ShowTime class, loads data into the table,
+     * and sets up event listeners for user interactions.
+     * </p>
+     *
+     * @throws IOException if there is an error during initialization
+     */
     @FXML
     public void initialize() throws IOException {
         // Bind the movie column to the movie property
@@ -119,8 +131,12 @@ public class ManageShowTimeViewController {
 
     }
 
-    /**
-     * Method to load sample data for showtimes.
+     /**
+     * Loads sample data for showtimes from a CSV file.
+     * <p>
+     * The method reads data from a file, parses each row, and populates the ObservableList.
+     * Invalid rows are skipped without raising exceptions.
+     * </p>
      */
     private void loadShowTimes() {
         String file = "data/SampleData.csv";
@@ -142,15 +158,7 @@ public class ManageShowTimeViewController {
                 }
 
                 try {
-                    int showTimeId = Integer.parseInt(row[0].trim());
-                    String date = row[1].trim();
-                    String time = row[2].trim();
-                    int roomId = Integer.parseInt(row[3].trim());
-                    String movie = row[4].trim();
-                    boolean isFull = Boolean.parseBoolean(row[5].trim());
-
-                    // Create a ShowTime object and add it to the list
-                    ShowTime showTime = new ShowTime(showTimeId, date, time, roomId, movie, isFull);
+                    ShowTime showTime = getShowTime(row);
                     showTimeList.add(showTime);
 
                 } catch (NumberFormatException e) {
@@ -165,10 +173,30 @@ public class ManageShowTimeViewController {
         }
     }
 
+    /**
+     * Creates a ShowTime object from a parsed CSV row.
+     *
+     * @param row the array of string values from a CSV row
+     * @return a ShowTime object created from the row data
+     */
+
+    private static ShowTime getShowTime(String[] row) {
+        int showTimeId = Integer.parseInt(row[0].trim());
+        String date = row[1].trim();
+        String time = row[2].trim();
+        int roomId = Integer.parseInt(row[3].trim());
+        String movie = row[4].trim();
+        boolean isFull = Boolean.parseBoolean(row[5].trim());
+
+        // Create a ShowTime object and add it to the list
+        return new ShowTime(showTimeId, date, time, roomId, movie, isFull);
+    }
 
 
     /**
      * Opens a new window for adding a new showtime to the list.
+     *
+     * @param actionEvent the event triggered by clicking the add button
      */
     @FXML
     private void handleAddButton(ActionEvent actionEvent) {
@@ -194,7 +222,11 @@ public class ManageShowTimeViewController {
 
 
 
-
+    /**
+     * Opens a new window for modifying the selected showtime.
+     *
+     * @param actionEvent the event triggered by clicking the modify button
+     */
 
     public void handleModifyButton(ActionEvent actionEvent) {
 
@@ -219,14 +251,16 @@ public class ManageShowTimeViewController {
 
 
     /**
-     * Opens a new window to display the information about the selected showtime.
+     * Opens a new window to display details about the selected showtime.
+     *
+     * @param actionEvent the event triggered by clicking the consult button
      */
     @FXML
     private void handleConsultButton(ActionEvent actionEvent) {
 
         try {
             // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/modify-showtime-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/consult-showtime-details-view.fxml"));
             Parent root = loader.load();
 
             // Create a new stage (window)
@@ -249,8 +283,11 @@ public class ManageShowTimeViewController {
     /**
      * Deletes the selected showtime from the list.
      * <p>
-     * Displays a confirmation alert before deletion.
+     * Displays a confirmation alert before deletion. If confirmed, the showtime is removed
+     * from the ObservableList, and an information alert is displayed.
      * </p>
+     *
+     * @param actionEvent the event triggered by clicking the delete button
      */
     @FXML
     private void handleDeleteButton(ActionEvent actionEvent) {
@@ -296,10 +333,15 @@ public class ManageShowTimeViewController {
 
 
 
-
     /**
+     * Handles the action of the "Back" button.
+     * <p>
+     * This method switches the current view back to the previous manager dashboard view.
+     * It retrieves the current stage, loads the FXML file for the manager dashboard, and updates the scene.
+     * </p>
      *
-     * to witch back to the previous view
+     * @param actionEvent the event triggered by clicking the "Back" button
+     * @throws IOException if the FXML file for the manager dashboard cannot be loaded
      */
     @FXML
     private void handleBackButton(ActionEvent actionEvent) throws IOException {

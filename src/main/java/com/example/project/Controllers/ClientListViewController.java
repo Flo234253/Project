@@ -20,39 +20,55 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Controller class for the Clients view.
+ * Controller class for managing the client table view and related actions in the application.
  *
  */
-//ToDO
 public class ClientListViewController {
 
 
-
-
+    /**
+     * TableView for displaying the list of clients.
+     */
     @FXML
     private TableView<Client> clientsTableView;
 
+    /**
+     * TableColumn for displaying client IDs.
+     */
     @FXML
     private TableColumn<Client, Integer> idColumn;
 
+    /**
+     * TableColumn for displaying client names.
+     */
     @FXML
     private TableColumn<Client, String> nameColumn;
 
+    /**
+     * TableColumn for displaying client email addresses.
+     */
     @FXML
     private TableColumn<Client, String> emailColumn;
 
+    /**
+     * TableColumn for displaying client registration dates.
+     */
     @FXML
     private TableColumn<Client, String> registrationDateColumn;
-
 
     /**
      * Button to navigate back to the previous screen.
      */
-
     @FXML
     public Button backButton;
 
-
+    /**
+     * Initializes the controller class.
+     * <p>
+     * This method sets up the cell value factories for the table columns and populates
+     * the table with client data.
+     * </p>
+     */
     @FXML
     public void initialize() {
         // Correct PropertyValueFactory keys to match getters
@@ -72,9 +88,13 @@ public class ClientListViewController {
     }
 
     /**
-     * Fetches the list of clients to be displayed.
-     *
-     * @return an ObservableList of Client objects.
+     *  Fetches the list of clients to be displayed.
+     *      * <p>
+     *      * This is a mock method that generates a list of clients for demonstration purposes.
+     *      * Replace this with actual data fetching logic in a real application.
+     *      * </p>
+     *      *
+     *      * @return an ObservableList of Client objects.
      */
     private ObservableList<Client> getClientList() {
         // Replace this with actual data fetching logic if needed
@@ -88,11 +108,13 @@ public class ClientListViewController {
 
     /**
      * Handles the action triggered by clicking the back button.
-     * <p>
-     * This method closes the current window and returns to the previous screen.
-     * </p>
-     *
-     * @param actionEvent the event triggered by clicking the back button
+     *      * <p>
+     *      * This method closes the current window and returns to the previous screen by loading
+     *      * the specified FXML view.
+     *      * </p>
+     *      *
+     *      * @param actionEvent the event triggered by clicking the back button
+     *      * @throws IOException if the FXML file for the previous screen cannot be loaded
      */
     public void handleBackButton(ActionEvent actionEvent) throws IOException {
         // Get the current stage (window)
