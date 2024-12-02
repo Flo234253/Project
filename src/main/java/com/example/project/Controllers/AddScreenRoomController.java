@@ -3,13 +3,14 @@ package com.example.project.Controllers;
 import Helpers.AlertHelper;
 import com.example.project.Model.ScreeningRoom;
 import javafx.fxml.FXML;
-import java.util.List;
-
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
-
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.ButtonType;
+
+import java.util.List;
+import java.util.Optional;
 
 public class AddScreenRoomController {
 
@@ -53,6 +54,7 @@ public class AddScreenRoomController {
         return isSaved;
     }
 
+    // Todo: add confirmation message
     /**
      * Handles the Save button click event.
      * Validates the input fields and creates a new ScreeningRoom object.
@@ -68,43 +70,68 @@ public class AddScreenRoomController {
             if (roomName.isEmpty() || capacityStr.isEmpty() || features.isEmpty()) {
                 throw new IllegalArgumentException("All fields are required.");
             }
-      
+
             // Validate room name uniqueness
             if (isRoomNameDuplicate(roomName)) {
                 throw new IllegalArgumentException("Room name must be unique.");
             }
-//Todo:see if i shouln't put this in the screen class
-            // Validate capacity is numeric
-            int capacity;
-            try {
-                capacity = Integer.parseInt(capacityStr);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Capacity must be a numeric value.");
-            }
 
-            // Validate capacity constraints
-            if (capacity <= 0) {
-                throw new IllegalArgumentException("Capacity must be a positive number.");
-            }
-            if (capacity > 255) {
-                throw new IllegalArgumentException("Capacity cannot exceed 255.");
-            }
+            // Validate and parse capacity
+            int capacity = parseAndValidateCapacity(capacityStr);
 
             // Validate features are allowed types
             if (!isFeatureValid(features)) {
                 throw new IllegalArgumentException("Invalid feature. Allowed values are: IMAX, 3D, Standard.");
             }
 
-            // Create new ScreeningRoom object
-            newRoom = new ScreeningRoom(roomName, capacity, features);
-            isSaved = true; // Mark as saved
-            closeWindow();
+            // Show confirmation alert before saving
+            Optional<ButtonType> result = AlertHelper.showConfirmationAlert("Confirm Save", null,
+                    "Are you sure you want to save this screening room?");
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Create new ScreeningRoom object
+                newRoom = new ScreeningRoom(roomName, capacity, features);
+                isSaved = true; // Mark as saved
+
+                // Todo: Implement persistence (e.g., saving to a database, CSV, or serialization)
+
+                // Show confirmation that the room has been saved
+                AlertHelper.showInformationAlert("Room Saved", null, "The screening room has been successfully saved.");
+
+                closeWindow();
+            }
+
         } catch (IllegalArgumentException e) {
             AlertHelper.showWarningAlert("Invalid Input", null, e.getMessage());
         }
     }
 
-//Todo: look if i have to move this to another class
+    // Todo: look if i have to move this to another class
+    /**
+     * Parses and validates the capacity input.
+     *
+     * @param capacityStr The capacity string to parse and validate.
+     * @return The parsed capacity as an integer.
+     * @throws IllegalArgumentException if the capacity is not valid.
+     */
+    private int parseAndValidateCapacity(String capacityStr) {
+        int capacity;
+        try {
+            capacity = Integer.parseInt(capacityStr);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Capacity must be a numeric value.");
+        }
+
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Capacity must be a positive number.");
+        }
+        if (capacity > 255) {
+            throw new IllegalArgumentException("Capacity cannot exceed 255.");
+        }
+
+        return capacity;
+    }
+
+    // Todo: look if i have to move this to another class
     /**
      * Checks if the room name is already used in the list of existing rooms.
      *
@@ -123,7 +150,7 @@ public class AddScreenRoomController {
         return existingRooms.stream().anyMatch(room -> room.getName().equalsIgnoreCase(roomName));
     }
 
-
+    // Todo: look if i have to move this to another class
     /**
      * Validates that the provided feature is allowed.
      *
@@ -135,14 +162,18 @@ public class AddScreenRoomController {
         return allowedFeatures.contains(feature);
     }
 
-
+    // Todo: add confirmation message
     /**
      * Handles the Cancel button click event.
      * Closes the window without saving.
      */
     @FXML
     private void onCancelButtonClicked() {
-        closeWindow();
+        Optional<ButtonType> result = AlertHelper.showConfirmationAlert("Confirm Cancel", null,
+                "Are you sure you want to cancel? Any unsaved changes will be lost.");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            closeWindow();
+        }
     }
 
     /**

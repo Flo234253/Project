@@ -1,25 +1,24 @@
 package Helpers;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
 /**
- *  class for creating and displaying alerts.
+ * Helper class for creating and displaying alerts.
  */
 public class AlertHelper {
 
     /**
-     * Displays a confirmation alert with the given title, header, and content
+     * Displays a confirmation alert with the given title, header, and content.
      *
      * @param title   The title of the alert.
      * @param header  The header text of the alert.
      * @param content The content text of the alert.
      * @return An Optional containing the user's response.
      */
-
     public static Optional<ButtonType> showConfirmationAlert(String title, String header, String content) {
-
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(header);
@@ -28,18 +27,13 @@ public class AlertHelper {
     }
 
     /**
-     * Displays an information alert with the given title, header, and content
-     *
-     *
+     * Displays an information alert with the given title, header, and content.
      *
      * @param title   The title of the alert.
      * @param header  The header text of the alert (can be null).
      * @param content The content text of the alert.
      */
-
     public static void showInformationAlert(String title, String header, String content) {
-
-
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(header);
@@ -48,28 +42,41 @@ public class AlertHelper {
     }
 
     /**
-     * Displays a warning alert with the given title, header, and content
+     * Displays a warning alert with the given title, header, and content.
      *
      * @param title   The title of the alert.
      * @param header  The header text of the alert (can be null).
      * @param content The content text of the alert.
      */
-
     public static void showWarningAlert(String title, String header, String content) {
-
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
-
     }
 
-    public static void showErrorAlert(String invalidInput, String message) {
+    /**
+     * Displays an error alert with the given title and content.
+     *
+     * @param title   The title of the alert.
+     * @param content The content text of the alert.
+     */
+    public static void showErrorAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null); // Set header to null for simplicity
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
+    /**
+     * Displays a warning alert with the given title and content.
+     *
+     * @param title   The title of the alert.
+     * @param content The content text of the alert.
+     */
     public static void showWarningAlert(String title, String content) {
         showWarningAlert(title, null, content);
     }
-
 }
