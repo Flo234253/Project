@@ -1,5 +1,6 @@
 package com.example.project.Controllers;
 
+import com.example.project.Model.ShowTime;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,15 +11,18 @@ import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import com.example.project.Model.Ticket;
+
 
 /**
- * This class will implement the initializable and will control the action of the user that planning to buy movie ticjet.
+ * This class will implement the initialize and will control the action of the user that planning to buy movie ticjet.
  * So selected a date, then a movie, the number of ticket and then buying a ticket and validating the data.
  */
 public class BuyingTicketController implements Initializable {
@@ -105,7 +109,7 @@ public class BuyingTicketController implements Initializable {
         LocalDate selectedDate = datePicker.getValue();
         String formattedDate = selectedDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
-        // Filter showtimes by selected date
+        // Filter date
         List<Map<String, String>> filteredShowtimes = showtimes.stream()
                 .filter(showtime -> showtime.get("date").equals(formattedDate) && !showtime.get("full").equals("TRUE"))
                 .collect(Collectors.toList());
@@ -120,13 +124,14 @@ public class BuyingTicketController implements Initializable {
             String movieId = showtime.get("movie_id");
             String time = showtime.get("time");
 
-            // Find the movie title based on movie_id
-            String movieTitle = movies.stream()
-                    .filter(movie -> movie.get("movie_id").equals(movieId))
-                    .map(movie -> movie.get("Title"))
-                    .findFirst()
-                    .orElse("Unknown Movie");
-
+            //find movie base on the id
+            String movieTitle = "Unknown Movie";
+            for (Map<String, String> movie : movies) {
+                if (movie.get("movie_id").equals(movieId)) {
+                    movieTitle = movie.get("Title");
+                    break;
+                }
+            }
             // Add the movie and showtime to the ListView
             String displayText = movieTitle + " at " + time;
             moveAndShowtimeListView.getItems().add(displayText);
@@ -168,23 +173,82 @@ public class BuyingTicketController implements Initializable {
         String selectedShowtime = (String) moveAndShowtimeListView.getSelectionModel().getSelectedItem();
         String numberOfTickets = numberTicketTextField.getText();
 
-        // Handle the buying logic here (e.g., validation, processing)
         if (selectedShowtime != null && !numberOfTickets.isEmpty()) {
             try {
                 // Parse the number of tickets
                 int ticketCount = Integer.parseInt(numberOfTickets);
-                // Calculate the total price
-                double totalPrice = ticketCount * TICKET_PRICE;
 
-                // Process the purchase (this is just a simulation)
-                Helpers.AlertHelper.showInformationAlert("Bought tickets", null, "Buying " + ticketCount + " tickets for: " + selectedShowtime);
+                // Generate a unique ID for the ticket
+                int uniqueID = (int) (Math.random() * 100000);
+
+                // Get the current date and time
+                LocalDateTime purchaseDateTime = LocalDateTime.now();
+
+                Map<String, String> matchedShowtime = null;
+
+                // Iterate through the showtimes
+                for (Map<String, String> showtime : showtimes) {
+                    String movieId = showtime.get("movie_id");
+                    String time = showtime.get("time");
+
+                    // Find the movie title based on the movie ID
+                    String movieTitle = "Unknown Movie";
+                    for (Map<String, String> movie : movies) {
+                        if (movie.get("movie_id").equals(movieId)) {
+                            movieTitle = movie.get("Title");
+                            break;
+                        }
+                    }
+
+                    // Check if the concatenated string matches the selected showtime
+                    if ((movieTitle + " at " + time).equals(selectedShowtime)) {
+                        matchedShowtime = showtime;
+                        break;
+                    }
+                }
+
+                // If no match is found, throw an exception
+                if (matchedShowtime == null) {
+                    throw new IllegalArgumentException("Showtime not found!");
+                }
+
+                // Create a ShowTime instance using the constructor
+                ShowTime showTime = new ShowTime(
+                        Integer.parseInt(matchedShowtime.get("showtime_id")),
+                        LocalDateTime.parse(
+                                matchedShowtime.get("date") + "T" + matchedShowtime.get("time"),
+                                DateTimeFormatter.ofPattern("MM/dd/yyyy'T'HH:mm")
+                        ),
+                        matchedShowtime.get("movie_id"),
+                        matchedShowtime.get("room_id")
+                );
+
+                // Create the e-ticket
+                Ticket eTicket = new Ticket(
+                        uniqueID,
+                        purchaseDateTime,
+                        showTime
+                );
+
+                // Display ticket information
+                Helpers.AlertHelper.showInformationAlert(
+                        "Ticket Purchase Successful",
+                        null,
+                        "Ticket ID: " + eTicket.getID() + "\n" +
+                                "Purchase Date/Time: " + eTicket.getPurchaseDateTime() + "\n" +
+                                "Showtime: " + selectedShowtime + "\n" +
+                                "Number of Tickets: " + ticketCount + "\n" +
+                                "Total Price: $" + String.format("%.2f", ticketCount * TICKET_PRICE)
+                );
             } catch (NumberFormatException e) {
                 Helpers.AlertHelper.showWarningAlert("Error", null, "Invalid number of tickets.");
-
+            } catch (Exception e) {
+                Helpers.AlertHelper.showWarningAlert("Error", null, "An error occurred while processing the ticket.");
             }
         } else {
             Helpers.AlertHelper.showWarningAlert("Error", null, "Please select a showtime and enter the number of tickets.");
-
         }
     }
+
+
 }
