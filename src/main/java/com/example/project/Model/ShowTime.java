@@ -13,55 +13,108 @@ import java.time.format.DateTimeFormatter;
  */
 public class ShowTime {
 
-    private final IntegerProperty showTimeId;
-    private final StringProperty movie;
-    private final ObjectProperty<LocalDateTime> dateTime;
-    private final IntegerProperty roomId;
-    private final BooleanProperty isFull;
+    /** The unique identifier for the showtime. */
+    private int aID;
 
-    // Constructor
-    public ShowTime(int showTimeId, String date, String time, int roomId, String movie, boolean isFull) {
-        this.showTimeId = new SimpleIntegerProperty(showTimeId);
-        this.movie = new SimpleStringProperty(movie);
-        this.roomId = new SimpleIntegerProperty(roomId);
-        this.isFull = new SimpleBooleanProperty(isFull);
+    /** Attribute  for The date and time of the showtime. */
+    private LocalDateTime aDateTime;
 
-        // Combine date and time into a LocalDateTime object
-        String dateTimeStr = date + " " + time; // Combine date and time
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
-        this.dateTime = new SimpleObjectProperty<>(LocalDateTime.parse(dateTimeStr, formatter));
+    /** Attribute  for  The movie being shown. */
+    private String aMovie;
+
+    /** Attribute  for  The screening room where the movie is shown. */
+    private String aScreeningRoom;
+
+
+    /**
+     * Constructor to create a new showtime with a unique ID, date and time, movie, and screening room.
+     *
+     * @param pID The unique identifier for the showtime.
+     * @param pDateTime The date and time of the showtime.
+     * @param pMovie The movie being shown.
+     * @param pScreeningRoom The screening room where the movie is shown.
+     */
+    public ShowTime(int pID, LocalDateTime pDateTime, String pMovie, String pScreeningRoom) {
+        this.aID = pID;
+        this.aDateTime = pDateTime;
+        this.aMovie = pMovie;
+        this.aScreeningRoom = pScreeningRoom;
     }
 
-    // Getter methods (with observable properties)
-    public IntegerProperty showTimeIdProperty() {
-        return showTimeId;
+    /**
+     * Gets the unique identifier for the showtime.
+     *
+     * @return The unique identifier for the showtime.
+     */
+    public int getaID() {
+        return aID;
     }
 
-    public StringProperty movieProperty() {
-        return movie;
+
+    /**
+     * Sets the unique identifier for the showtime.
+     *
+     * @param aID The unique identifier for the showtime.
+     */
+    public void setID(int aID) {
+        this.aID = aID;
     }
 
-    public ObjectProperty<LocalDateTime> dateTimeProperty() {
-        return dateTime;
-    }
 
-    public IntegerProperty roomIdProperty() {
-        return roomId;
-    }
-
-    public BooleanProperty isFullProperty() {
-        return isFull;
-    }
-
-    public String getMovie() {
-        return movie.get();
-    }
-
+    /**
+     * Gets the date and time of the showtime.
+     *
+     * @return The date and time of the showtime.
+     */
     public LocalDateTime getDateTime() {
-        return dateTime.get();
+        return aDateTime;
     }
 
-    public boolean isFull() {
-        return isFull.get();
+
+    /**
+     * Sets the date and time of the showtime.
+     *
+     * @param aDateTime The date and time of the showtime.
+     */
+    public void setDateTime(LocalDateTime aDateTime) {
+        this.aDateTime = aDateTime;
+    }
+
+    /**
+     * Gets the movie being shown.
+     *
+     * @return The movie being shown.
+     */
+    public String getMovie() {
+        return aMovie;
+    }
+
+    /**
+     * Sets the movie being shown.
+     *
+     * @param aMovie The movie being shown.
+     */
+    public void setMovie(String aMovie) {
+        this.aMovie = aMovie;
+    }
+
+
+    /**
+     * Gets the screening room where the movie is shown.
+     *
+     * @return The screening room.
+     * //todo
+     */
+    public String getScreeningRoom() {
+        return aScreeningRoom;
+    }
+
+    /**
+     * Sets the screening room where the movie is shown.
+     *
+     * @param aScreeningRoom The screening room.
+     */
+    public void setScreeningRoom(String aScreeningRoom) {
+        this.aScreeningRoom = aScreeningRoom;
     }
 }
