@@ -25,16 +25,10 @@
             <TableColumn fx:id="fullColumn" prefWidth="100.0" text="Full" />
         </columns>
     </TableView>
-
-    <!-- Close Button -->
-    <Button fx:id="backButton" layoutX="278.0" layoutY="341.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="27.0" prefWidth="139.0" style="-fx-background-color: #cbcbcb; -fx-border-color: black; -fx-border-radius: 5px;" text="Close The View">
-        <font>
-            <Font name="Arial" size="12.0" />
-        </font>
-    </Button>
     <Label layoutX="181.0" layoutY="31.0" text="Show Time Details">
         <font>
             <Font name="System Bold" size="37.0" />
         </font>
     </Label>
+   <Button fx:id="backButton" layoutX="301.0" layoutY="339.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="25.0" prefWidth="81.0" text="Back" />
 </AnchorPane>

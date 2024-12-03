@@ -2,7 +2,10 @@ package com.example.project.Model;
 
 
 
+import javafx.beans.property.*;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -115,6 +118,4 @@ public class ShowTime {
     public void setScreeningRoom(String aScreeningRoom) {
         this.aScreeningRoom = aScreeningRoom;
     }
-
-
 }
