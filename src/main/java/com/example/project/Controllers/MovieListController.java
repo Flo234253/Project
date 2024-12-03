@@ -225,11 +225,33 @@ public class MovieListController {
 
     /**
      * Opens a new window for adding a new movie to the list.
+     * After the user saves a new movie, it is added to the observable movie list.
      */
     @FXML
     private void onAddButtonClicked() {
-        // TODO: Implement logic to open the Add Movie view
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/add-movie-view.fxml"));
+            Parent root = loader.load();
+
+            AddMovieController controller = loader.getController();
+            Stage stage = new Stage();
+            controller.setStage(stage);
+
+            stage.setScene(new Scene(root, 600, 500));
+            stage.setTitle("Add New Movie");
+            stage.showAndWait();
+
+            if (controller.isSaved()) {
+                Movie newMovie = controller.getNewMovie();
+                aMovies.add(newMovie);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            AlertHelper.showErrorAlert("Error", "Failed to open Add Movie view.");
+        }
     }
+
+
 
     /**
      * Opens a new window for editing the details of the selected movie.
@@ -238,9 +260,31 @@ public class MovieListController {
     private void onEditButtonClicked() {
         Movie pSelectedMovie = aMovieTableView.getSelectionModel().getSelectedItem();
         if (pSelectedMovie != null) {
-            // TODO: Implement logic to open the Edit Movie view and pre-fill data
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/modify-movie-view.fxml"));
+                Parent root = loader.load();
+
+                ModifyMovieController controller = loader.getController();
+                controller.setStage(new Stage());
+                controller.setMovieDetails(pSelectedMovie);
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root, 700, 500));
+                stage.setTitle("Modify Movie");
+                stage.showAndWait();
+
+                // Refresh the TableView after modifications
+                aMovieTableView.refresh();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                AlertHelper.showErrorAlert("Error", "Failed to open Modify Movie view.");
+            }
+        } else {
+            AlertHelper.showWarningAlert("No Selection", "Please select a movie to modify.", null);
         }
     }
+
 
     /**
      * Deletes the selected movie from the list.

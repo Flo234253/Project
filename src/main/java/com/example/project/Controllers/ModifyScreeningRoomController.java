@@ -4,8 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import Helpers.AlertHelper;
+import javafx.scene.control.ButtonType;
 
-//Todo:javadoc
+import java.util.Optional;
+
+// Todo:javadoc
 
 /**
  * Controller for the "Modify Screening Room" view.
@@ -46,6 +49,7 @@ public class ModifyScreeningRoomController {
         aTypeField.setText(pType);
     }
 
+    // Todo:add confirmation message
     /**
      * Saves the changes made to the screening room and closes the view.
      * <p>
@@ -88,13 +92,20 @@ public class ModifyScreeningRoomController {
                 throw new IllegalArgumentException("Capacity must be a valid integer.");
             }
 
-            // Save the updated data
-            // TODO: Add logic to save the updated data to the model or database
+            // Show confirmation alert before saving
+            Optional<ButtonType> result = AlertHelper.showConfirmationAlert("Confirm Save", null,
+                    "Are you sure you want to save the changes to this screening room?");
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Save the updated data
+                // TODO: Add logic to save the updated data to the model or database
 
-            // Close the window
-            //Todo
-            if (aStage != null) {
-                aStage.close();
+                // Show confirmation that the screening room has been saved
+                AlertHelper.showInformationAlert("Screening Room Saved", null, "The screening room has been successfully saved.");
+
+                // Close the window
+                if (aStage != null) {
+                    aStage.close();
+                }
             }
 
         } catch (IllegalArgumentException e) {
@@ -103,16 +114,19 @@ public class ModifyScreeningRoomController {
         }
     }
 
-
-
+    // Todo:add confirmation message
     /**
      * Cancels the operation and closes the view.
      * Triggered by the Cancel button.
      */
     @FXML
     private void onCancelButtonClicked() {
-        if (aStage != null) {
-            aStage.close();
+        Optional<ButtonType> result = AlertHelper.showConfirmationAlert("Confirm Cancel", null,
+                "Are you sure you want to cancel? Any unsaved changes will be lost.");
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            if (aStage != null) {
+                aStage.close();
+            }
         }
     }
 }
