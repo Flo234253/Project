@@ -1,15 +1,17 @@
 package com.example.project.Controllers;
 
 import Helpers.AlertHelper;
+import Helpers.SerializationHelper;
 import com.example.project.Model.Movie;
 import com.example.project.Model.Genre;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.control.ButtonType;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +21,9 @@ import java.util.Optional;
  * This class manages the form for adding a new movie,
  * including capturing input fields and handling the manager actions.
  */
-public class AddMovieController {
+public class AddMovieController implements Serializable {
+
+    private static final String MOVIES_FILE_PATH = "../data/movies.dat";
 
     @FXML
     private TextField aTitleField;
@@ -101,7 +105,7 @@ public class AddMovieController {
 
             // Validate release date format (YYYY-MM-DD)
             if (!releaseDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                throw new IllegalArgumentException("Release date must in numeric value and  be in the format YYYY-MM-DD.");
+                throw new IllegalArgumentException("Release date must be in the format YYYY-MM-DD.");
             }
 
             // Validate duration format (e.g., "120 min")
@@ -119,6 +123,12 @@ public class AddMovieController {
                 // Create new Movie object
                 newMovie = new Movie(title, genres, releaseDate, duration, actors, director, description);
                 isSaved = true; // Mark as saved
+
+                // Save the new movie to persistent storage
+                List<Movie> existingMovies = getExistingMovies();
+                existingMovies.add(newMovie);
+                SerializationHelper.saveData(MOVIES_FILE_PATH, existingMovies);
+
 
                 // Show confirmation that the movie has been saved
                 AlertHelper.showInformationAlert("Movie Saved", null, "The movie has been successfully saved.");
@@ -167,15 +177,21 @@ public class AddMovieController {
      * @return True if the title is a duplicate, false otherwise.
      */
     private boolean isTitleDuplicate(String title) {
-        ObservableList<Movie> existingMovies = FXCollections.observableArrayList(
-                new Movie("Inception", Arrays.asList(new Genre("Sci-Fi"), new Genre("Action")),
-                        "2010-07-16", "148 min", "Leonardo DiCaprio", "Christopher Nolan", "A mind-bending thriller."),
-                new Movie("Titanic", Arrays.asList(new Genre("Romance"), new Genre("Drama")),
-                        "1997-12-19", "195 min", "Leonardo DiCaprio, Kate Winslet", "James Cameron", "A romantic tragedy.")
-        );
+        List<Movie> existingMovies = getExistingMovies();
 
         return existingMovies.stream().anyMatch(movie -> movie.getTitle().equalsIgnoreCase(title));
     }
+
+    /**
+     * Provides the existing list of movies by loading from persistent storage.
+     *
+     * @return A list of existing Movie objects.
+     */
+    private List<Movie> getExistingMovies() {
+        List<Movie> existingMovies = SerializationHelper.loadData(MOVIES_FILE_PATH);
+        return existingMovies != null ? new ArrayList<>(existingMovies) : new ArrayList<>();
+    }
+
 
     /**
      * Handles the action when the Cancel button is clicked.

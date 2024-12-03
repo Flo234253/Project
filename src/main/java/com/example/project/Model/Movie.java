@@ -1,14 +1,13 @@
 package com.example.project.Model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-//Todo:verify/understand all element
-/**
- * Represents a movie with detailed information such as title, genres, release date,
- * duration, actors, director, and description.
- */
-public class Movie {
+public class Movie implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * The title of the movie.
@@ -106,7 +105,6 @@ public class Movie {
      * @throws IllegalArgumentException if the genres list is null or empty.
      */
     public void setGenres(List<Genre> pGenres) {
-
         if (pGenres == null || pGenres.isEmpty()) {
             throw new IllegalArgumentException("Genres cannot be null or empty.");
         }
