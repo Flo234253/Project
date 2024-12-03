@@ -42,7 +42,7 @@ public class Manager extends User
 
 
     /**
-     * Overriding the getRole method so it return the manger
+     * Overriding the getRole method so it return the manager
      * @return the user manager
      */
     @Override

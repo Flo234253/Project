@@ -45,6 +45,7 @@ public class ShowTime {
         this.aScreeningRoom = pScreeningRoom;
     }
 
+
     /**
      * Gets the unique identifier for the showtime.
      *
