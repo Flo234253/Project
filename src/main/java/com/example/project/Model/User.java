@@ -4,6 +4,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This method will implement serializable to save the new user, is will set and get the email and password and validate them.
+ * Then will verify with the info if they're in the list or not
+ */
 public abstract class User implements Serializable {
 
     /**
@@ -126,7 +130,8 @@ public abstract class User implements Serializable {
     }
 
     /**
-     * Go get the list from the file and then read it
+     * Go get the list from the file and then read it and all the
+     * user inside the file to the user list
      */
     @SuppressWarnings("unchecked")
     public static void loadUserData() {
