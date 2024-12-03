@@ -10,6 +10,10 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * Represents a showtime for a movie in a specific screening room.
+ * <p>
+ * This class includes details such as the showtime ID, movie name, date and time of the show,
+ * room ID, and whether the screening is fully booked.
+ * </p>
  */
 public class ShowTime {
 

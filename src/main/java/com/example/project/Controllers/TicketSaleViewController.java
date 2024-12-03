@@ -24,9 +24,6 @@ public class TicketSaleViewController {
     public Button backButton;
 
 
-    /**
-     * ListView to display the list of ticket sales.
-     */
 
 
 

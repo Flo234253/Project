@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -60,6 +61,12 @@ public class AddShowTimeViewController {
      */
     @FXML
     private Button cancelButton;
+
+    /**
+    * date picker for selecting a proper date.
+    * */
+    @FXML
+    private DatePicker datePicker;
 
     /**
      * Handles the action event triggered by the "Add Showtime" button.
