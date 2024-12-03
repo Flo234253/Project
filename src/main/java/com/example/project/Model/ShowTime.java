@@ -17,107 +17,108 @@ import java.time.format.DateTimeFormatter;
  */
 public class ShowTime {
 
-    private final IntegerProperty aShowTimeId;
-    private final StringProperty aMovie;
-    private final ObjectProperty<LocalDateTime> aDateTime;
-    private final IntegerProperty aRoomId;
-    private final BooleanProperty aIsFull;
+    /** The unique identifier for the showtime. */
+    private int aID;
+
+    /** Attribute  for The date and time of the showtime. */
+    private LocalDateTime aDateTime;
+
+    /** Attribute  for  The movie being shown. */
+    private String aMovie;
+
+    /** Attribute  for  The screening room where the movie is shown. */
+    private String aScreeningRoom;
+
 
     /**
-     * Constructs a new ShowTime object with the specified details.
+     * Constructor to create a new showtime with a unique ID, date and time, movie, and screening room.
      *
-     * @param pShowTimeId the ID of the showtime
-     * @param PDate       the date of the showtime in "MM/dd/yyyy" format
-     * @param PTime       the time of the showtime in "HH:mm" format
-     * @param PRoomId     the ID of the screening room
-     * @param PMovie      the name of the movie
-     * @param pIsFull     whether the screening is fully booked
+     * @param pID The unique identifier for the showtime.
+     * @param pDateTime The date and time of the showtime.
+     * @param pMovie The movie being shown.
+     * @param pScreeningRoom The screening room where the movie is shown.
      */
-    public ShowTime(int pShowTimeId, String PDate, String PTime, int PRoomId, String PMovie, boolean pIsFull) {
-        this.aShowTimeId = new SimpleIntegerProperty(pShowTimeId);
-        this.aMovie = new SimpleStringProperty(PMovie);
-        this.aRoomId = new SimpleIntegerProperty(PRoomId);
-        this.aIsFull = new SimpleBooleanProperty(pIsFull);
-
-        // Combine date and time into a LocalDateTime object
-        String dateTimeStr = PDate + " " + PTime; // Combine date and time
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
-        this.aDateTime = new SimpleObjectProperty<>(LocalDateTime.parse(dateTimeStr, formatter));
+    public ShowTime(int pID, LocalDateTime pDateTime, String pMovie, String pScreeningRoom) {
+        this.aID = pID;
+        this.aDateTime = pDateTime;
+        this.aMovie = pMovie;
+        this.aScreeningRoom = pScreeningRoom;
     }
 
     /**
-     * Returns the observable property for the showtime ID.
+     * Gets the unique identifier for the showtime.
      *
-     * @return the IntegerProperty representing the showtime ID
+     * @return The unique identifier for the showtime.
      */
-    public IntegerProperty aShowTimeIdProperty() {
-        return aShowTimeId;
-    }
-
-    /**
-     * Returns the observable property for the movie name.
-     *
-     * @return the StringProperty representing the movie name
-     */
-    public StringProperty aMovieProperty() {
-        return aMovie;
+    public int getaID() {
+        return aID;
     }
 
 
     /**
-     * Returns the observable property for the date and time of the showtime.
+     * Sets the unique identifier for the showtime.
      *
-     * @return the ObjectProperty representing the date and time of the showtime
+     * @param aID The unique identifier for the showtime.
      */
-    public ObjectProperty<LocalDateTime> aDateTimeProperty() {
+    public void setID(int aID) {
+        this.aID = aID;
+    }
+
+
+    /**
+     * Gets the date and time of the showtime.
+     *
+     * @return The date and time of the showtime.
+     */
+    public LocalDateTime getDateTime() {
         return aDateTime;
     }
 
 
     /**
-     * Returns the observable property for the screening room ID.
+     * Sets the date and time of the showtime.
      *
-     * @return the IntegerProperty representing the screening room ID
+     * @param aDateTime The date and time of the showtime.
      */
-    public IntegerProperty aRoomIdProperty() {
-        return aRoomId;
+    public void setDateTime(LocalDateTime aDateTime) {
+        this.aDateTime = aDateTime;
+    }
+
+    /**
+     * Gets the movie being shown.
+     *
+     * @return The movie being shown.
+     */
+    public String getMovie() {
+        return aMovie;
+    }
+
+    /**
+     * Sets the movie being shown.
+     *
+     * @param aMovie The movie being shown.
+     */
+    public void setMovie(String aMovie) {
+        this.aMovie = aMovie;
     }
 
 
     /**
-     * Returns the observable property indicating whether the screening is fully booked.
+     * Gets the screening room where the movie is shown.
      *
-     * @return the BooleanProperty representing the "full" status of the screening
+     * @return The screening room.
+     * //todo
      */
-    public BooleanProperty aIsFullProperty() {
-        return aIsFull;
-    }
-
-
-    /**
-     * Returns the name of the movie.
-     *
-     * @return the movie name
-     */
-    public String getaMovie() {
-        return aMovie.get();
+    public String getScreeningRoom() {
+        return aScreeningRoom;
     }
 
     /**
-     * Returns the date and time of the showtime.
+     * Sets the screening room where the movie is shown.
      *
-     * @return the LocalDateTime object representing the showtime
+     * @param aScreeningRoom The screening room.
      */
-    public LocalDateTime getaDateTime() {
-        return aDateTime.get();
-    }
-
-    /**
-     * Returns whether the screening is fully booked.
-     *
-     * @return {@code true} if the screening is fully booked, otherwise {@code false}
-     */
-    public boolean isFull() {
-        return aIsFull.get();
+    public void setScreeningRoom(String aScreeningRoom) {
+        this.aScreeningRoom = aScreeningRoom;
     }
 }
