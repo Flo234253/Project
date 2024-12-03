@@ -17,8 +17,15 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+/**
+ * This class will implement the initializable and will control the action of the user that planning to buy movie ticjet.
+ * So selected a date, then a movie, the number of ticket and then buying a ticket and validating the data.
+ */
 public class BuyingTicketController implements Initializable {
 
+    /**
+     * Initialize the datePicker, the moveAndShowtime, numberTicketTextField and the price priceLabel1
+     */
     @FXML
     public DatePicker datePicker;
     @FXML
@@ -45,12 +52,26 @@ public class BuyingTicketController implements Initializable {
             Map.of("showtime_id", "5", "date", "11/21/2024", "time", "16:00", "room_id", "4", "movie_id", "15", "full", "FALSE")
     );
 
-    // Ticket price constant
+    /**
+     * Set the constance for the price of one ticket
+     */
     private static final double TICKET_PRICE = 12.49;
 
-    // Create a List to store showtime details
+    /**
+     * Creating a list that contains the showtimeDetails
+     */
     private List<String> showtimeDetails;
 
+    /**
+     * Initializes the controller class.
+     *
+     * Initializes the showtimeDetails list. Then add a listener to the date pick so it will automatically
+     * know when you put a date and the list view will be updated.Also add a listener to the numberTicketField so
+     * when you put a number it will automatically know and add the price to the price label
+     *
+     * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resources The resources used to localize the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Initialize showtimeDetails list
@@ -69,6 +90,11 @@ public class BuyingTicketController implements Initializable {
         });
     }
 
+    /**
+     * This method is what happens when you press the Date picker. First it will clear the list view.
+     * Then get the selected date and format. Filter the showtime so only the day of will show the movie.
+     * Then display the information on the list view.
+     */
     @FXML
     public void onDateSelected() {
         // Clear the ListView for new results
@@ -109,7 +135,11 @@ public class BuyingTicketController implements Initializable {
             showtimeDetails.add(displayText);
         }
     }
-
+    /**
+     *  This method will updates the total price label based on the number of tickets entered by the user.
+     *  So it will get the number from the user in the textfield, then calculate the price by multiplying
+     *  the number that the user gave us with the constance of the ticket price. Then display the price on the price label
+     */
     // Method to update the total price in the label
     private void updateTotalPrice() {
         String numberOfTickets = numberTicketTextField.getText();
@@ -128,6 +158,11 @@ public class BuyingTicketController implements Initializable {
         }
     }
 
+    /**
+     *When you press the buy button it will check if the date is selecete, see if the user has picked out a movie,
+     * then entered the number of ticket and if the information is all correct it will show an alert success. If not it will show warning
+     * @param event when the buy button is pressed
+     */
     @FXML
     public void buyButton(ActionEvent event) {
         String selectedShowtime = (String) moveAndShowtimeListView.getSelectionModel().getSelectedItem();
