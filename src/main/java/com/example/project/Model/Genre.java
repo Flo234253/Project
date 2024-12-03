@@ -1,9 +1,11 @@
 package com.example.project.Model;
-//Todo:verify/understand all element
-/**
- * Represents a genre with a unique name.
- */
-public class Genre {
+
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Genre implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * The name of the genre.

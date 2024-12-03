@@ -8,6 +8,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +23,7 @@ import java.util.Optional;
  * It also provides functionality to save or cancel the modifications.
  * </p>
  */
-public class ModifyMovieController {
+public class ModifyMovieController implements Serializable {
 
     @FXML
     private TextField aTitleField;
@@ -73,7 +75,6 @@ public class ModifyMovieController {
         aDescriptionField.setText(movie.getDescription());
     }
 
-    // Todo:add confirmation message
     /**
      * Handles the Save button click event.
      * Validates input fields and saves the modified movie details.
@@ -91,7 +92,7 @@ public class ModifyMovieController {
                 // Update movie details
                 updateMovieDetails(updatedMovie);
 
-                // Todo: Implement persistence (e.g., saving to a database, CSV, or serialization)
+                // TODO: Implement persistence (e.g., saving to a database, CSV, or serialization)
 
                 // Show confirmation that the movie has been saved
                 AlertHelper.showInformationAlert("Movie Saved", null, "The movie has been successfully saved.");
@@ -106,7 +107,6 @@ public class ModifyMovieController {
         }
     }
 
-    // Todo:add confirmation message
     /**
      * Handles the Cancel button click event.
      * Cancels the operation and closes the view.

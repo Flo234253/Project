@@ -1,12 +1,9 @@
 package com.example.project.Controllers;
 
 import Helpers.AlertHelper;
+import Helpers.SerializationHelper;
 import com.example.project.Model.Movie;
-import javafx.scene.control.ButtonType;
-import java.util.Optional;
 import com.example.project.Model.Genre;
-import java.util.stream.Collectors;
-import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -15,73 +12,64 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Controller class for managing the movie list view.
  * Provides functionality for searching, consulting, adding, editing, and deleting movies.
  */
 public class MovieListController {
+
     /**
-     * TextField for searching movies in the list by title or genre.
+     * Path to the serialized file for saving/loading movie data.
      */
+    private static final String MOVIES_FILE_PATH = "data/movies.dat";
+
     @FXML
     private TextField aSearchField;
 
-    /**
-     * Button for refreshing the movie list.
-     */
     @FXML
     private Button aRefreshButton;
 
-    /**
-     * TableView for displaying the list of movies.
-     */
     @FXML
     private TableView<Movie> aMovieTableView;
 
-    /**
-     * TableColumn for displaying movie titles in the TableView.
-     */
     @FXML
     private TableColumn<Movie, String> titleColumn;
 
-    /**
-     * TableColumn for displaying movie genres in the TableView.
-     */
     @FXML
     private TableColumn<Movie, String> genreColumn;
 
-    /**
-     * Button for consulting detailed information about the selected movie.
-     */
     @FXML
     private Button aConsultButton;
 
-    /**
-     * Button for adding a new movie to the list.
-     */
     @FXML
     private Button aAddButton;
 
-    /**
-     * Button for editing the selected movie.
-     */
     @FXML
     private Button aEditButton;
 
-    /**
-     * Button for deleting the selected movie from the list.
-     */
     @FXML
     private Button aDeleteButton;
 
     /**
-     * ObservableList for storing the movies displayed in the TableView.
+     * List for storing the movies (serializable).
+     */
+    private List<Movie> aMovieList;
+
+    /**
+     * ObservableList for UI operations.
      */
     private ObservableList<Movie> aMovies;
 
@@ -100,14 +88,10 @@ public class MovieListController {
         titleColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getTitle()));
 
         genreColumn.setCellValueFactory(data -> {
-            StringBuilder genres = new StringBuilder();
-            for (Genre genre : data.getValue().getGenres()) {
-                if (genres.length() > 0) {
-                    genres.append(", ");
-                }
-                genres.append(genre.getName());
-            }
-            return new javafx.beans.property.SimpleStringProperty(genres.toString());
+            String genres = data.getValue().getGenres().stream()
+                    .map(Genre::getName)
+                    .collect(Collectors.joining(", "));
+            return new javafx.beans.property.SimpleStringProperty(genres);
         });
 
         // Populate the TableView
@@ -126,19 +110,57 @@ public class MovieListController {
     }
 
     /**
-     * Loads a predefined list of movies into the TableView.
-     * <p>
-     * This is temporary logic for demonstration purposes.
-     * TODO: Move this logic to an external helper or service class.
+     * Loads movies from the serialized file or a predefined list if no file exists.
      */
     private void loadMovies() {
-        aMovies = FXCollections.observableArrayList(
-                new Movie("Inception", List.of(new Genre("Sci-Fi"), new Genre("Action")),
-                        "2010-07-16", "148 min", "Leonardo DiCaprio", "Christopher Nolan", "A mind-bending thriller."),
-                new Movie("Titanic", List.of(new Genre("Romance"), new Genre("Drama")),
-                        "1997-12-19", "195 min", "Leonardo DiCaprio, Kate Winslet", "James Cameron", "A romantic tragedy.")
-        );
+        ensureDataDirectoryExists(); // Ensure the "data" directory exists before loading
+
+        File dataFile = new File(MOVIES_FILE_PATH);
+        if (dataFile.exists()) {
+            // Load serialized data if available
+            aMovieList = SerializationHelper.loadData(MOVIES_FILE_PATH);
+            if (aMovieList == null) {
+                aMovieList = createDefaultMovies();
+            } else {
+                aMovieList = new ArrayList<>(aMovieList); // Ensure the list is mutable
+            }
+        } else {
+            aMovieList = createDefaultMovies();
+            saveMovies(); // Save default movies for next time
+        }
+
+        // Convert to ObservableList for UI operations
+        aMovies = FXCollections.observableArrayList(aMovieList);
     }
+
+
+    /**
+     * Ensures that the data directory exists.
+     */
+    private void ensureDataDirectoryExists() {
+        File dataDir = new File("data");
+        if (!dataDir.exists()) {
+            dataDir.mkdirs();
+        }
+    }
+
+    /**
+     * Creates a predefined list of movies to be used when no serialized data exists.
+     *
+     * @return the list of default movies
+     */
+    private List<Movie> createDefaultMovies() {
+        return new ArrayList<>(List.of(
+                new Movie("Inception", new ArrayList<>(List.of(new Genre("Sci-Fi"), new Genre("Action"))),
+                        "2010-07-16", "148 min", "Leonardo DiCaprio", "Christopher Nolan", "A mind-bending thriller."),
+                new Movie("Titanic", new ArrayList<>(List.of(new Genre("Romance"), new Genre("Drama"))),
+                        "1997-12-19", "195 min", "Leonardo DiCaprio, Kate Winslet", "James Cameron", "A romantic tragedy.")
+        ));
+    }
+
+
+
+
 
     /**
      * Refreshes the TableView to display all movies.
@@ -243,15 +265,24 @@ public class MovieListController {
 
             if (controller.isSaved()) {
                 Movie newMovie = controller.getNewMovie();
+                aMovieList.add(newMovie);
                 aMovies.add(newMovie);
+                saveMovies();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
             AlertHelper.showErrorAlert("Error", "Failed to open Add Movie view.");
         }
     }
 
-
+    /**
+     * Saves the current list of movies to the serialized file.
+     */
+    private void saveMovies() {
+        ensureDataDirectoryExists(); // Ensure the "data" directory exists before saving
+        SerializationHelper.saveData(MOVIES_FILE_PATH, aMovieList);
+    }
 
     /**
      * Opens a new window for editing the details of the selected movie.
@@ -275,6 +306,7 @@ public class MovieListController {
 
                 // Refresh the TableView after modifications
                 aMovieTableView.refresh();
+                saveMovies();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -284,7 +316,6 @@ public class MovieListController {
             AlertHelper.showWarningAlert("No Selection", "Please select a movie to modify.", null);
         }
     }
-
 
     /**
      * Deletes the selected movie from the list.
@@ -304,7 +335,9 @@ public class MovieListController {
             );
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
+                aMovieList.remove(selectedMovie);
                 aMovies.remove(selectedMovie);
+                saveMovies();
 
                 AlertHelper.showInformationAlert(
                         "Movie Deleted",
