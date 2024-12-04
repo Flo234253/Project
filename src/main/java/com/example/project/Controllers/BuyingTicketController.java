@@ -12,9 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -58,7 +56,7 @@ public class BuyingTicketController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Load showtimes from the file
-        showtimes = loadDataFromFile("data/showtimes.csv");
+        showtimes = loadDataFromFile("showtimes.ser");
 
         // Add listener to update the movie list based on selected date
         datePicker.valueProperty().addListener(new ChangeListener<LocalDate>() {
@@ -80,37 +78,17 @@ public class BuyingTicketController implements Initializable {
     }
 
     /**
-     * THis method will have a list that will have the information of the showtime file.
-     * So it will read the file, it will sort the file so that its inforation is seperated, so time, movie and roomid.
-     * Then add the info to the list
+     * This method loads the showtime information from a serialized file.
+     * It reads a list of `ShowTime` objects from the file and returns it.
      * @param fileName the name of the showtime file
      * @return the list of the showtime information from the file
      */
     private List<ShowTime> loadDataFromFile(String fileName) {
         List<ShowTime> showtimesList = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            boolean isFirstLine = true;
-            while ((line = br.readLine()) != null) {
-                if (isFirstLine) {
-                    isFirstLine = false; // Skip the header
-                    continue;
-                }
-
-                String[] values = line.split(",");
-                if (values.length == 6) {  // Ensure the data has the correct number of columns
-                    int showtimeId = Integer.parseInt(values[0]);
-                    // Correctly parse date and time into LocalDateTime
-                    LocalDateTime dateTime = LocalDateTime.parse(values[1] + "T" + values[2], DateTimeFormatter.ofPattern("MM/dd/yyyy'T'HH:mm"));
-                    String roomId = values[3];
-                    String movieName = values[4];
-
-                    // Create a new ShowTime object and add it to the list
-                    ShowTime showTime = new ShowTime(showtimeId, dateTime, movieName, roomId);
-                    showtimesList.add(showTime);
-                }
-            }
-        } catch (IOException e) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            // Read the list of ShowTime objects from the serialized file
+            showtimesList = (List<ShowTime>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
             System.err.println("Error reading file: " + fileName);
             e.printStackTrace();
         }
@@ -126,7 +104,7 @@ public class BuyingTicketController implements Initializable {
 
         LocalDate selectedDate = datePicker.getValue();
         if (selectedDate == null) {
-            return;  // No date selected
+            return;
         }
 
         // Filter showtimes using a simple for loop
@@ -211,7 +189,11 @@ public class BuyingTicketController implements Initializable {
                     "Ticket Purchase Successful",
                     null,
                     String.format("Ticket ID: %d\nPurchase Date/Time: %s\nMovie: %s\nNumber of Tickets: %d\nTotal Price: $%.2f",
-                            eTicket.getID(), eTicket.getPurchaseDateTime(), matchedShowtime.getMovie(), ticketCount, ticketCount * TICKET_PRICE)
+                            eTicket.getID(),
+                            eTicket.getPurchaseDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")),
+                            matchedShowtime.getMovie(),
+                            ticketCount,
+                            ticketCount * TICKET_PRICE)
             );
 
         } catch (NumberFormatException e) {
