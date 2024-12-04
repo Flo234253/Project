@@ -124,9 +124,9 @@ public class BuyingTicketController implements Initializable {
         for (ShowTime showtime : filteredShowtimes) {
             String movieName = showtime.getMovie();
             String time = showtime.getDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-            String room = showtime.getScreeningRoom();
 
-            String displayText = String.format("%s - Showtime: %s (Room: %s)", movieName, time, room);
+            // Remove the room number from the display text
+            String displayText = String.format("%s - Showtime: %s", movieName, time);
             moveAndShowtimeListView.getItems().add(displayText);
         }
     }
@@ -170,6 +170,7 @@ public class BuyingTicketController implements Initializable {
             int ticketCount = Integer.parseInt(numberOfTickets);
             if (ticketCount <= 0) throw new NumberFormatException("Ticket count must be positive.");
 
+            //variable for id
             int uniqueID = (int) (Math.random() * 100000);
             LocalDateTime purchaseDateTime = LocalDateTime.now();
 
