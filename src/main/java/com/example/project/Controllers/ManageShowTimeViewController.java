@@ -3,6 +3,9 @@ package com.example.project.Controllers;
 import Helpers.AlertHelper;
 import com.example.project.Model.ShowTime;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -17,8 +20,11 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 
-import java.io.IOException;
+import java.io.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -80,10 +86,62 @@ public class ManageShowTimeViewController {
 
 
 
+    /**
+     * Initializes the controller and sets up the TableView and columns.
+     */
+    @FXML
+    public void initialize() {
+        // Load showtimes and display them
+        ObservableList<ShowTime> showTimeList = loadShowTimes();
+
+        // Set the movie name column
+        movieColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMovie()));
+
+        // Set the date and time columns
+        dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
+        timeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedTime()));
+
+        // Populate the TableView with the loaded showtimes
+        showTimeTableView.setItems(showTimeList);
+    }
 
 
+    /**
+     * Loads showtimes from a predefined list (simulating data load).
+     *
+     * @return ObservableList of showtimes
+     */
 
+    private ObservableList<ShowTime> loadShowTimes() {
+        ObservableList<ShowTime> showTimeList = FXCollections.observableArrayList();
 
+        // Attempt to load saved showtimes from file
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("showtimes.ser"))) {
+            // Deserialize the List<ShowTime>
+            List<ShowTime> deserializedList = (List<ShowTime>) ois.readObject();
+            showTimeList.addAll(deserializedList);
+        } catch (IOException | ClassNotFoundException e) {
+            // If no saved file or error, use the sample data
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+
+            // Sample showtimes data
+            showTimeList.addAll(List.of(
+                    new ShowTime(1, LocalDateTime.parse("11/19/2024 18:00", formatter), "Inception", "1"),
+                    new ShowTime(2, LocalDateTime.parse("11/19/2024 21:00", formatter), "Titanic", "2")
+            ));
+        }
+
+        // Return the ObservableList to bind to the TableView
+        return showTimeList;
+    }
+
+    private void saveShowTimes(ObservableList<ShowTime> showTimeList) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("showtimes.ser"))) {
+            oos.writeObject(showTimeList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
@@ -97,6 +155,12 @@ public class ManageShowTimeViewController {
             // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/add-showtime-view.fxml"));
             Parent root = loader.load();
+
+            // Get the controller for AddShowTimeViewController
+            AddShowTimeViewController addController = loader.getController();
+
+            // Pass the showtime list to the AddShowTimeViewController
+            addController.setShowTimeList(showTimeTableView.getItems());
 
             // Create a new stage (window)
             Stage stage = new Stage();
