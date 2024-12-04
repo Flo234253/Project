@@ -21,19 +21,30 @@ import java.util.*;
 
 /**
  * Controller class for the buying ticket for a client, so filtering choosing a
- * movie and time, entering the number of ticket and buying it. Also, implement the initializable
+ * movie and time, entering the number of ticket and buying it.
+ * Also, implement the initializable so that it knows when the data picker is selected
  */
 public class BuyingTicketController implements Initializable {
 
     /**
-     * Initialize the date picker, list view, text field amd the labe
+     * Initialize the date picker
      */
     @FXML
     public DatePicker datePicker;
+    /**
+     * Initialize list view
+     */
     @FXML
     public ListView<String> moveAndShowtimeListView;
+
+    /**
+     * text field
+     */
     @FXML
     public TextField numberTicketTextField;
+    /**
+     * Initialize the label
+     */
     @FXML
     public Label priceLabel1;
 
@@ -48,8 +59,10 @@ public class BuyingTicketController implements Initializable {
     private List<ShowTime> showtimes;
 
     /**
-     * Override the initialize class, this method will automatically be caalled when this view is called.
-     * There's event listener to data picket and price label
+     * Override the initialize class, this method will automatically be called when this view is called.
+     * There's event listener to data picker and price label. Calls the loadDataFrom file methode that will read the showtimes.
+     *Called the onDateSelected method if new value is not null, so if the user selected a date.
+     * Calls the updateTotalPrice method is the user enters something in the textField
      * @param location of the showtime file
      * @param resources resource bundle makes it easier to read data
      */
@@ -97,6 +110,7 @@ public class BuyingTicketController implements Initializable {
     /**
      * This method will be called when the user selects a date from the DatePicker.
      * Filters the available showtimes based on the selected date and display the correct format for the list view
+     * So shows the movie and showtime example: Movie-Showtime: 20:30
      */
     @FXML
     public void onDateSelected() {
@@ -123,7 +137,7 @@ public class BuyingTicketController implements Initializable {
 
         for (ShowTime showtime : filteredShowtimes) {
             String movieName = showtime.getMovie();
-            String time = showtime.getDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+            String time = showtime.getDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"));
 
             // Remove the room number from the display text
             String displayText = String.format("%s - Showtime: %s", movieName, time);
@@ -148,7 +162,7 @@ public class BuyingTicketController implements Initializable {
     /**
      * This will be called when the button is press and it will verify if the user selected a date,
      * entered the number of ticket and if the number is valid. Then will show a success alert that the ticket
-     * has been bought will all the information
+     * has been bought will all the information, if some information is missing display an error message
      * @param event when button is pressed
      */
     @FXML
@@ -191,7 +205,7 @@ public class BuyingTicketController implements Initializable {
                     null,
                     String.format("Ticket ID: %d\nPurchase Date/Time: %s\nMovie: %s\nNumber of Tickets: %d\nTotal Price: $%.2f",
                             eTicket.getID(),
-                            eTicket.getPurchaseDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")),
+                            eTicket.getPurchaseDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm")),
                             matchedShowtime.getMovie(),
                             ticketCount,
                             ticketCount * TICKET_PRICE)
