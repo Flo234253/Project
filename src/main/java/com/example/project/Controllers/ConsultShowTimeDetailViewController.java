@@ -57,12 +57,6 @@ public class ConsultShowTimeDetailViewController {
     @FXML
     private TableColumn<ShowTime, Integer> movieIdColumn;
 
-    /**
-     * TableColumn displaying whether the showtime is Full or not.
-     * Maps to the `full` property in the ShowTime object.
-     */
-    @FXML
-    private TableColumn<ShowTime, Boolean> fullColumn;
 
     /**
      * Button that allows the user to go back to the previous screen.
