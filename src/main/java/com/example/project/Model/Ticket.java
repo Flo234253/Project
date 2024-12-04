@@ -17,6 +17,8 @@ public class Ticket {
     /** The associated showtime for which the ticket was purchased. */
     private ShowTime aShowtime;
 
+    /** The number of tickets sold. */
+    private int aTicketSold;
 
     /**
      * Constructor to create a new ticket with a unique ID, purchase date and time, and associated pShowtime.
@@ -25,10 +27,12 @@ public class Ticket {
      * @param pPurchaseDateTime The date and time the ticket was purchased.
      * @param pShowtime The associated pShowtime for which the ticket was purchased.
      */
-    public Ticket(int pID, LocalDateTime pPurchaseDateTime, ShowTime pShowtime) {
+    public Ticket(int pID, LocalDateTime pPurchaseDateTime, ShowTime pShowtime, int pTicketsSold) {
         this.aID = pID;
         this.aPurchaseDateTime = pPurchaseDateTime;
         this.aShowtime = pShowtime;
+        this.aTicketSold = pTicketsSold;
+
     }
 
 
@@ -90,5 +94,23 @@ public class Ticket {
      */
     public void setShowtime(ShowTime pShowtime) {
         this.aShowtime = pShowtime;
+    }
+
+    /**
+     * Gets the number of tickets sold for this showtime.
+     *
+     * @return The number of tickets sold.
+     */
+    public int getTicketsSold() {
+        return aTicketSold;
+    }
+
+    /**
+     * Sets the number of tickets sold for this showtime.
+     *
+     * @param pTicketsSold The number of tickets sold.
+     */
+    public void setTicketsSold(int pTicketsSold) {
+        this.aTicketSold = pTicketsSold;
     }
 }
