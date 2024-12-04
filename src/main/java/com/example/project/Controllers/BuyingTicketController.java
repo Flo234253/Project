@@ -123,7 +123,7 @@ public class BuyingTicketController implements Initializable {
 
         for (ShowTime showtime : filteredShowtimes) {
             String movieName = showtime.getMovie();
-            String time = showtime.getDateTime().toLocalTime().toString();
+            String time = showtime.getDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
             String room = showtime.getScreeningRoom();
 
             String displayText = String.format("%s - Showtime: %s (Room: %s)", movieName, time, room);

@@ -32,7 +32,7 @@ public abstract class User implements Serializable {
     static {
         loadUserData();
 
-        userList.add(new Manager("Saboor2@example.com", "Pass1234"));
+        //userList.add(new Manager("Saboor2@example.com", "Pass1234"));
         // userList.add(new Manager("sarah.lee@example.com", "Admin2023"));
       //userList.add(new Manager("john.doe@example.com", "Manager45"));
       // userList.add(new Client("henryRobert@gmail.ca", "1234"));
