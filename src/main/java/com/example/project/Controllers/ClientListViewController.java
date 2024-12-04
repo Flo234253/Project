@@ -115,7 +115,7 @@ public class ClientListViewController {
      */
     private void loadClientData() {
         clientList = FXCollections.observableArrayList();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("users.ser"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data/users.ser"))) {
             // Read the deserialized object (userList) and filter for clients
             ArrayList<User> userList = (ArrayList<User>) ois.readObject();
 
@@ -178,7 +178,7 @@ public class ClientListViewController {
      * This method writes the remaining clients to the file.
      */
     private void saveClientData() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("users.ser"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/users.ser"))) {
             // Create a new list of users that includes only the remaining clients
             ArrayList<User> userList = new ArrayList<>(clientList);
 
