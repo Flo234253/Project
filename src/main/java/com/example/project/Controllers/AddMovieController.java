@@ -23,7 +23,7 @@ import java.util.Optional;
  */
 public class AddMovieController implements Serializable {
 
-    private static final String MOVIES_FILE_PATH = "../data/movies.dat";
+    private static final String MOVIES_FILE_PATH = "../data/movies.ser";
 
     @FXML
     private TextField aTitleField;

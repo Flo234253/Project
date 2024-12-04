@@ -34,7 +34,7 @@ public class MovieListController {
     /**
      * Path to the serialized file for saving/loading movie data.
      */
-    private static final String MOVIES_FILE_PATH = "data/movies.dat";
+    private static final String MOVIES_FILE_PATH = "data/movies.ser";
 
     @FXML
     private TextField aSearchField;

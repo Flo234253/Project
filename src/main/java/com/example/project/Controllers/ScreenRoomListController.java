@@ -1,6 +1,7 @@
 package com.example.project.Controllers;
 
 import Helpers.AlertHelper;
+import Helpers.SerializationHelper;
 import com.example.project.Model.ScreeningRoom;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,19 +13,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
- * Controller class for the "Add Movie" view.
- * <p>
- * This class manages the form for adding a new movie, including capturing user input
- * and providing functionality to save or cancel the operation.
- * </p>
+ * Controller class for the "Screening Room List" view.
+ * This class manages the form for adding, consulting, editing, deleting, and saving a screening room.
  */
 public class ScreenRoomListController {
 
-    //Todo:javadoc
+    private static final String SCREEN_ROOMS_FILE_PATH = "data/screening_rooms.ser";
+
     @FXML
     private TextField aSearchField;
 
@@ -36,6 +38,7 @@ public class ScreenRoomListController {
 
     @FXML
     private TableColumn<ScreeningRoom, String> nameColumn;
+
     @FXML
     private Button aConsultButton;
 
@@ -48,21 +51,19 @@ public class ScreenRoomListController {
     @FXML
     private Button aDeleteButton;
 
+    private List<ScreeningRoom> aScreenRoomList;
     private ObservableList<ScreeningRoom> aScreenRooms;
 
     /**
      * Initializes the controller.
-     * <p>
      * This method is called after the FXML file has been loaded. It sets up the TableView,
-     * adds the columns to the sreening room properties, and disables buttons when no room is selected.
-     * </p>
+     * adds the columns to the screening room properties, and disables buttons when no room is selected.
      */
-    //TODO
     @FXML
     public void initialize() {
         loadScreenRooms();
 
-        // Add the Name column to the ScreeningRoom model's name property
+        // Set the cell value factory for the name column to bind the data
         nameColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getName()));
 
         // Populate the TableView
@@ -75,22 +76,64 @@ public class ScreenRoomListController {
             aEditButton.setDisable(!isSelected);
             aDeleteButton.setDisable(!isSelected);
         });
+
         // Disable Refresh button by default
-        //todo:javadoc
         aRefreshButton.setDisable(true);
     }
 
     /**
-     * Loads a predefined list of room name into the TableView.
-     * This is temporary logic for demonstration purposes
-     * TODO: Move this logic to an external helper or service class
+     * Loads screening rooms from the serialized file or a predefined list if no file exists.
      */
     private void loadScreenRooms() {
-        aScreenRooms = FXCollections.observableArrayList(
+        ensureDataDirectoryExists(); // Ensure the "data" directory exists before loading
+
+        File dataFile = new File(SCREEN_ROOMS_FILE_PATH);
+        if (dataFile.exists()) {
+            // Load serialized data if available
+            aScreenRoomList = SerializationHelper.loadData(SCREEN_ROOMS_FILE_PATH);
+            if (aScreenRoomList == null) {
+                aScreenRoomList = createDefaultScreeningRooms();
+            } else {
+                aScreenRoomList = new ArrayList<>(aScreenRoomList); // Ensure the list is mutable
+            }
+        } else {
+            aScreenRoomList = createDefaultScreeningRooms();
+            saveScreenRooms(); // Save default screening rooms for next time
+        }
+
+        // Convert to ObservableList for UI operations
+        aScreenRooms = FXCollections.observableArrayList(aScreenRoomList);
+    }
+
+    /**
+     * Saves the current list of screening rooms to the serialized file.
+     */
+    private void saveScreenRooms() {
+        ensureDataDirectoryExists(); // Ensure the "data" directory exists before saving
+        SerializationHelper.saveData(SCREEN_ROOMS_FILE_PATH, aScreenRoomList);
+    }
+
+    /**
+     * Ensures that the data directory exists.
+     */
+    private void ensureDataDirectoryExists() {
+        File dataDir = new File("data");
+        if (!dataDir.exists()) {
+            dataDir.mkdirs();
+        }
+    }
+
+    /**
+     * Creates a predefined list of screening rooms to be used when no serialized data exists.
+     *
+     * @return the list of default screening rooms
+     */
+    private List<ScreeningRoom> createDefaultScreeningRooms() {
+        return new ArrayList<>(List.of(
                 new ScreeningRoom("Room 1", 100, "Standard"),
                 new ScreeningRoom("Room 2", 150, "IMAX"),
                 new ScreeningRoom("Room 3", 200, "3D")
-        );
+        ));
     }
 
     /**
@@ -105,29 +148,25 @@ public class ScreenRoomListController {
 
     /**
      * Filters the screening room list based on the input from the search field.
-     * <p>
-     * If no room name match the input, an alert is displayed to the manager.
-     * </p>
+     * If no room name matches the input, an alert is displayed to the manager.
      */
-    //Todo
     @FXML
     private void onSearchButtonClicked() {
         String pInput = aSearchField.getText().toLowerCase();
 
         // Filter screening rooms based on the input
-        FilteredList<ScreeningRoom> filteredRooms = new FilteredList< >( aScreenRooms, room ->
+        FilteredList<ScreeningRoom> filteredRooms = new FilteredList<>(aScreenRooms, room ->
                 room.getName().toLowerCase().contains(pInput) || room.getFeatures().toLowerCase().contains(pInput)
         );
-        // Check if the filtered list is empty
+
         if (filteredRooms.isEmpty()) {
-            // Show an error message if no screening room match the input
             AlertHelper.showWarningAlert(
                     "No Results Found",
                     "No screening rooms match your search input.",
                     "Please check your input and try again."
             );
         } else {
-            // Update the TableView with the filtered screening room
+            // Update the TableView with the filtered screening rooms
             aScreenRoomTableView.setItems(filteredRooms);
         }
 
@@ -135,97 +174,66 @@ public class ScreenRoomListController {
         aRefreshButton.setDisable(false);
     }
 
-
     /**
      * Opens a new window to display the information about the selected screening room.
-     * <p>
-     * This method is triggered when the Consult button is clicked. It retrieves the
-     * selected screening room from the TableView, loads the Consult Screening Room view,
-     * and passes the room details to the controller for display.
-     * If no room is selected, a warning alert is displayed to the user.
-     * </p>
-     *
-     * @throws IllegalStateException if the FXML file cannot be loaded.
-     * @throws NullPointerException if the FXMLLoader fails to initialize the controller.
      */
     @FXML
     private void onConsultButtonClicked() {
-        // Retrieve the selected screening room from the TableView
         ScreeningRoom selectedRoom = aScreenRoomTableView.getSelectionModel().getSelectedItem();
         if (selectedRoom != null) {
             try {
-                // Load the FXML file for the Consult Screening Room view
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/consult-screening-room-view.fxml"));
                 Parent root = loader.load();
 
-                // Get the controller for the view and pass the selected room details
                 ConsultScreeningRoomController controller = loader.getController();
-                controller.setRoomDetails(
-                        selectedRoom.getName(),
-                        selectedRoom.getCapacity(),
-                        selectedRoom.getFeatures()
-                );
+                controller.setRoomDetails(selectedRoom.getName(), selectedRoom.getCapacity(), selectedRoom.getFeatures());
 
-                // Set up and display the new stage
                 Stage stage = new Stage();
-                controller.setStage(stage); // Pass the stage to the ConsultScreeningRoomController
+                controller.setStage(stage);
                 stage.setScene(new Scene(root));
                 stage.setTitle("Screening Room Details");
                 stage.show();
 
             } catch (IOException e) {
                 e.printStackTrace();
-                //todo
-                // AlertHelper.showErrorAlert("Error", "Unable to open the Modify Screening Room view.");
+                AlertHelper.showErrorAlert("Error", "Unable to open the Consult Screening Room view.");
             }
         } else {
-            // Display a warning if no screening room is selected
             AlertHelper.showWarningAlert("No Selection", "Please select a screening room to consult.", null);
         }
     }
 
-
-
     /**
      * Opens a new window for adding a new room to the list.
-     * <p>
-     * The implementation for this functionality will be done later.
-     * </p>
      */
     @FXML
     private void onAddButtonClicked() {
         try {
-            // Load the FXML for the Add Screening Room view
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/add-screening-room-view.fxml"));
             Parent root = loader.load();
 
-            // Get the controller for the Add Screening Room view
             AddScreenRoomController controller = loader.getController();
             Stage stage = new Stage();
             controller.setStage(stage);
-
-            // Set up and display the new stage
+            controller.setExistingRooms(aScreenRooms); // Provide the existing rooms for validation
             stage.setScene(new Scene(root));
             stage.setTitle("Add Screening Room");
             stage.showAndWait();
 
-            // Check if a new room was successfully saved and add it to the list
             if (controller.isSaved()) {
                 ScreeningRoom newRoom = controller.getNewRoom();
+                aScreenRoomList.add(newRoom);
                 aScreenRooms.add(newRoom);
+                saveScreenRooms(); // Save after adding a new room
+                aScreenRoomTableView.refresh(); // Refresh the TableView after adding a new room
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
     /**
      * Opens a new window for editing the details of the selected room.
-     * <p>
-     * This method pre-fills the fields with the current room details,
-     * allowing the manager to make modifications.
-     * </p>
      */
     @FXML
     private void onEditButtonClicked() {
@@ -233,27 +241,26 @@ public class ScreenRoomListController {
 
         if (selectedRoom != null) {
             try {
-                // Load the Modify Screening Room view
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/modify-screening-room-view.fxml"));
                 Parent root = loader.load();
 
-                // Get the controller for the Modify Screening Room view
                 ModifyScreeningRoomController controller = loader.getController();
-                controller.setRoomDetails(
-                        selectedRoom.getName(),
-                        selectedRoom.getCapacity(),
-                        selectedRoom.getFeatures()
-                );
+                controller.setRoomDetails(selectedRoom.getName(), selectedRoom.getCapacity(), selectedRoom.getFeatures());
 
-                // Create a new stage for the Modify Screening Room view
                 Stage stage = new Stage();
                 controller.setStage(stage);
                 stage.setScene(new Scene(root));
                 stage.setTitle("Modify Screening Room");
                 stage.showAndWait();
 
-                // Update the TableView with the modified data after the window is closed
-                aScreenRoomTableView.refresh();
+                // Update the selected room with new values
+                if (controller.isSaved()) {
+                    selectedRoom.setName(controller.getUpdatedName());
+                    selectedRoom.setCapacity(controller.getUpdatedCapacity());
+                    selectedRoom.setFeatures(controller.getUpdatedFeatures());
+                    saveScreenRooms(); // Save after editing the room
+                    aScreenRoomTableView.refresh(); // Refresh the TableView after editing
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -263,19 +270,13 @@ public class ScreenRoomListController {
         }
     }
 
-
     /**
      * Deletes the selected room from the list.
-     * <p>
-     * Displays a confirmation alert before deletion. If confirmed,
-     * the room is removed from the TableView and an alert notifies the manager of success.
-     * </p>
      */
     @FXML
     private void onDeleteButtonClicked() {
         ScreeningRoom selectedRoom = aScreenRoomTableView.getSelectionModel().getSelectedItem();
 
-        // Show confirmation alert
         if (selectedRoom != null) {
             Optional<ButtonType> result = AlertHelper.showConfirmationAlert(
                     "Confirm Deletion",
@@ -284,9 +285,10 @@ public class ScreenRoomListController {
             );
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                // Remove the selected screening room
+                aScreenRoomList.remove(selectedRoom);
                 aScreenRooms.remove(selectedRoom);
-                // Show success message
+                saveScreenRooms(); // Save after deleting the room
+                aScreenRoomTableView.refresh(); // Refresh the TableView after deletion
                 AlertHelper.showInformationAlert(
                         "Screening Room Deleted",
                         null,
@@ -294,12 +296,7 @@ public class ScreenRoomListController {
                 );
             }
         } else {
-            // Show warning if no screening room is selected
-            AlertHelper.showWarningAlert(
-                    "No Room Selected",
-                    null,
-                    "Please select a room to delete."
-            );
+            AlertHelper.showWarningAlert("No Room Selected", null, "Please select a room to delete.");
         }
     }
 }

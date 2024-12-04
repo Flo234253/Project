@@ -9,6 +9,7 @@ public class Movie implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+
     /**
      * The title of the movie.
      */
