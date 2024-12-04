@@ -1,6 +1,8 @@
 package com.example.project.Controllers;
 
+import Helpers.AlertHelper;
 import com.example.project.Model.Client;
+import com.example.project.Model.User;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,15 +11,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Optional;
+
+import static com.example.project.Model.User.saveClientData;
 
 /**
  * Controller class for managing the client table view and related actions in the application.
@@ -62,48 +65,130 @@ public class ClientListViewController {
     @FXML
     public Button backButton;
 
+
     /**
-     * Initializes the controller class.
-     * <p>
-     * This method sets up the cell value factories for the table columns and populates
-     * the table with client data.
-     * </p>
+     * Button to delete the selected client from the table.
+     */
+    @FXML
+    public Button deleteButton;
+
+
+    /**
+     * Observable list that holds all clients to be displayed in the TableView.
+     */
+
+    private ObservableList<Client> clientList;
+
+
+    /**
+     * Initializes the controller by configuring the TableColumns and loading client data.
      */
     @FXML
     public void initialize() {
-        // Correct PropertyValueFactory keys to match getters
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("ID")); // Matches getID()
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name")); // Matches getName()
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        registrationDateColumn.setCellValueFactory(client ->
-                new SimpleStringProperty(
-                        client.getValue().getRegistrationDateTime()
-                                .format(DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a"))
-                )
-        );
+        // Configure TableColumns
+        // Configure TableColumns
+        idColumn.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleIntegerProperty(cellData.getValue().getID()).asObject());
+        nameColumn.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleStringProperty(cellData.getValue().getName()));
+        emailColumn.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleStringProperty(cellData.getValue().getEmail()));
 
-        // Populate table
-        ObservableList<Client> clientData = getClientList();
-        clientsTableView.setItems(clientData);
+        // Format the registration date to display only the date and time
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        registrationDateColumn.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleStringProperty(
+                        cellData.getValue().getRegistrationDateTime().format(formatter)
+                ));
+
+        // Load client data from the deserialized file
+        loadClientData();
+
+        // Set the data into the TableView
+        clientsTableView.setItems(clientList);
     }
+
 
     /**
-     *  Fetches the list of clients to be displayed.
-     *      * <p>
-     *      * This is a mock method that generates a list of clients for demonstration purposes.
-     *      * Replace this with actual data fetching logic in a real application.
-     *      * </p>
-     *      *
-     *      * @return an ObservableList of Client objects.
+     * Loads client data from the serialized file into the clientList.
+     * This method reads a serialized list of users and filters out only the clients.
      */
-    private ObservableList<Client> getClientList() {
-        // Replace this with actual data fetching logic if needed
-        ObservableList<Client> clients = FXCollections.observableArrayList();
-        clients.add(new Client("Henry Robert", "henryRobert@gmail.ca", "1234", 1));
-        clients.add(new Client("Ava Chapman", "avachapman@hotmail.ca", "4321", 2));
-        clients.add(new Client("Ethan Price", "ethanPrice@gmail.ca", "2134", 3));
-        return clients;
+    private void loadClientData() {
+        clientList = FXCollections.observableArrayList();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("users.ser"))) {
+            // Read the deserialized object (userList) and filter for clients
+            ArrayList<User> userList = (ArrayList<User>) ois.readObject();
+
+            for (User user : userList) {
+                if (user instanceof Client) {
+                    clientList.add((Client) user);  // Adding Client objects to the list
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
+
+
+    /**
+     * Handles the delete button action.
+     * Confirms the deletion with the user, removes the selected client from the list, and updates the serialized data.
+     *
+     * @param actionEvent The action event triggered by the delete button.
+     */
+    public void handleDeleteButton(ActionEvent actionEvent) {
+        Client selectedClient = clientsTableView.getSelectionModel().getSelectedItem();
+
+        // Check if a client is selected
+        if (selectedClient != null) {
+            // Confirm deletion with the user using AlertHelper
+            Optional<ButtonType> result = AlertHelper.showConfirmationAlert(
+                    "Confirm Deletion",
+                    "Are you sure you want to delete this client?",
+                    "This action cannot be undone."
+            );
+
+            // If the user confirms the deletion
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Remove the client from the ObservableList
+                clientList.remove(selectedClient);
+
+                // Save the updated client list to the serialized file
+                saveClientData();
+
+                // Show a success message using AlertHelper
+                AlertHelper.showInformationAlert(
+                        "Client Deleted",
+                        null,
+                        "The client was successfully deleted."
+                );
+            }
+        } else {
+            // If no client is selected, show an error message using AlertHelper
+            AlertHelper.showErrorAlert(
+                    "No Client Selected",
+                    "Please select a client to delete."
+            );
+        }
+    }
+
+
+    /**
+     * Saves the updated client list back to the serialized file after deletion.
+     * This method writes the remaining clients to the file.
+     */
+    private void saveClientData() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("users.ser"))) {
+            // Create a new list of users that includes only the remaining clients
+            ArrayList<User> userList = new ArrayList<>(clientList);
+
+            // Write the updated list to the serialized file
+            oos.writeObject(userList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     /**

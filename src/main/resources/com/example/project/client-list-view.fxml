@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="375.0" prefWidth="728.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.ClientListViewController">
    <children>
-      <Button fx:id="backButton" layoutX="306.0" layoutY="316.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="25.0" prefWidth="85.0" text="Back" />
+      <Button fx:id="backButton" layoutX="407.0" layoutY="316.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="25.0" prefWidth="85.0" text="Back" />
       <Label layoutX="244.0" layoutY="24.0" text="Clients List">
          <font>
             <Font name="System Bold" size="29.0" />
@@ -23,5 +23,6 @@
             <TableColumn fx:id="registrationDateColumn" prefWidth="217.0" text="Registration Date" />
          </columns>
       </TableView>
+      <Button fx:id="deleteButton" layoutX="218.0" layoutY="316.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefHeight="25.0" prefWidth="85.0" text="Delete" />
    </children>
 </AnchorPane>

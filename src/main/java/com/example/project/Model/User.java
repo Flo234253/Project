@@ -138,9 +138,9 @@ public abstract class User implements Serializable {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(DATA_FILE))) {
             List<User> loadedUsers = (List<User>) ois.readObject();
             userList.addAll(loadedUsers);
+            System.out.println("Loaded users: " + loadedUsers.size());
         } catch (Exception e) {
-            // If file does not exist or is invalid, start with an empty list
-            System.err.println("No existing user data found or failed to load. Starting with sample data.");
+            System.err.println("No existing user data found or failed to load. Starting with an empty list.");
         }
     }
 }
