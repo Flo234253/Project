@@ -56,7 +56,7 @@ public class BuyingTicketController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Load showtimes from the file
-        showtimes = loadDataFromFile("showtimes.ser");
+        showtimes = loadDataFromFile("data/showtimes.ser");
 
         // Add listener to update the movie list based on selected date
         datePicker.valueProperty().addListener(new ChangeListener<LocalDate>() {
