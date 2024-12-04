@@ -4,6 +4,7 @@ package com.example.project.Model;
 
 import javafx.beans.property.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +19,9 @@ import java.time.format.DateTimeFormatter;
  */
 public class ShowTime implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /** The unique identifier for the showtime. */
     private int aID;
 
@@ -30,8 +34,7 @@ public class ShowTime implements Serializable {
     /** Attribute  for  The screening room where the movie is shown. */
     private String aScreeningRoom;
 
-    /** Attribute for whether the showtime is full or not. */
-    private boolean aIsFull;
+
 
 
 
@@ -42,14 +45,14 @@ public class ShowTime implements Serializable {
      * @param pDateTime The date and time of the showtime.
      * @param pMovie The movie being shown.
      * @param pScreeningRoom The screening room where the movie is shown.
-     * @param pIsFull The status of whether the showtime is full or not.
+     *
      */
-    public ShowTime(int pID, LocalDateTime pDateTime, String pMovie, String pScreeningRoom, boolean pIsFull) {
+    public ShowTime(int pID, LocalDateTime pDateTime, String pMovie, String pScreeningRoom) {
         this.aID = pID;
         this.aDateTime = pDateTime;
         this.aMovie = pMovie;
         this.aScreeningRoom = pScreeningRoom;
-        this.aIsFull = pIsFull;
+
     }
 
 
@@ -115,7 +118,7 @@ public class ShowTime implements Serializable {
      * Gets the screening room where the movie is shown.
      *
      * @return The screening room.
-     * //todo
+     *
      */
     public String getScreeningRoom() {
         return aScreeningRoom;
@@ -130,23 +133,7 @@ public class ShowTime implements Serializable {
         this.aScreeningRoom = aScreeningRoom;
     }
 
-    /**
-     * Gets the fullness status of the showtime.
-     *
-     * @return true if the showtime is full, false otherwise.
-     */
-    public boolean isFull() {
-        return aIsFull;
-    }
 
-    /**
-     * Sets the fullness status of the showtime.
-     *
-     * @param aIsFull true if the showtime is full, false otherwise.
-     */
-    public void setFull(boolean aIsFull) {
-        this.aIsFull = aIsFull;
-    }
 
     /**
      * Gets the formatted date for the showtime.

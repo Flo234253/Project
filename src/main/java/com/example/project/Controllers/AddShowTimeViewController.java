@@ -1,6 +1,9 @@
 package com.example.project.Controllers;
 
 
+import com.example.project.Model.ShowTime;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +15,13 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller class for handling the "Add Showtime" view.
@@ -44,11 +53,7 @@ public class AddShowTimeViewController {
     @FXML
     private TextField movieIdField;
 
-    /**
-     * Checkbox to indicate whether the show is full.
-     */
-    @FXML
-    private CheckBox fullCheckBox;
+
 
     /**
      * Button for adding a new showtime.
@@ -68,6 +73,24 @@ public class AddShowTimeViewController {
     @FXML
     private DatePicker datePicker;
 
+
+
+    @FXML
+    private ObservableList<ShowTime> showTimeList = FXCollections.observableArrayList(); // Initialize the list
+
+    /**
+     * Method to set the showTimeList, ensuring that it is initialized if null.
+     * @param showTimeList the list to set
+     */
+    public void setShowTimeList(ObservableList<ShowTime> showTimeList) {
+        // Ensure that showTimeList is initialized if it's null
+        if (showTimeList == null) {
+            this.showTimeList = FXCollections.observableArrayList();
+        } else {
+            this.showTimeList = showTimeList;
+        }
+    }
+
     /**
      * Handles the action event triggered by the "Add Showtime" button.
      * This method will process the inputs provided by the user and add a new showtime.
@@ -76,8 +99,56 @@ public class AddShowTimeViewController {
      */
     @FXML
     private void handleAddShowTimeButton(ActionEvent actionEvent) {
-        // Implementation for adding a new showtime
+        if (showTimeList == null) {
+            System.err.println("ShowTime list is not initialized.");
+            return;  // Prevent further processing if the list is null
+        }
+
+        try {
+            // Get the input from the user for movie and room IDs
+            String movie = movieIdField.getText().trim();
+            String room = roomIdField.getText().trim();
+
+            // Check if either movie or room input is empty
+            if (movie.isEmpty() || room.isEmpty()) {
+                throw new IllegalArgumentException("Movie or room cannot be empty.");
+            }
+
+            // Generate a unique showtime ID based on the size of the list
+            int showTimeId = showTimeList.size() + 1;
+            LocalDateTime showDateTime = LocalDateTime.now();  // You can adjust this as needed
+
+            // Create a new ShowTime object with the provided details
+            ShowTime newShowTime = new ShowTime(showTimeId, showDateTime, movie, room);
+
+            // Add the new showtime to the list
+            showTimeList.add(newShowTime);
+
+            // Save the updated showtime list
+            saveShowTimes(showTimeList);
+
+        } catch (IllegalArgumentException e) {
+            // Handle case when movie or room is empty
+            System.err.println(e.getMessage());
+        } catch (Exception e) {
+            // Handle any other exceptions
+            e.printStackTrace();
+        }
     }
+
+
+    private void saveShowTimes(ObservableList<ShowTime> showTimeList) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("showtimes.ser"))) {
+            // Convert ObservableList to List before serialization
+            List<ShowTime> showTimeListToSave = new ArrayList<>(showTimeList);
+            oos.writeObject(showTimeListToSave);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     /**
      * Handles the action event triggered by the "Cancel" button.
