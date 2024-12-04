@@ -200,8 +200,8 @@ public class BuyingTicketController implements Initializable {
             return;
         }
 
-        int uniqueID = (int) (Math.random() * 100000);
-        LocalDateTime purchaseDateTime = LocalDateTime.now();
+        uniqueID = (int) (Math.random() * 100000);
+        purchaseDateTime = LocalDateTime.now();
 
         // Create and save the ticket
         Ticket eTicket = new Ticket(uniqueID, purchaseDateTime, matchedShowtime, ticketCount);
