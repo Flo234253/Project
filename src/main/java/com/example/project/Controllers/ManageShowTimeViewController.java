@@ -178,6 +178,40 @@ public class ManageShowTimeViewController {
 
 
 
+    public void handleModifyButton(ActionEvent actionEvent) {
+
+        // Get the selected showtime from the TableView
+        ShowTime selectedShowTime = showTimeTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedShowTime != null) {
+            try {
+                // Load the FXML for modifying the showtime
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/modify-showtime-view.fxml"));
+                Parent root = loader.load();
+
+                // Get the controller of the modify showtime view
+                ModifyShowTimeViewController controller = loader.getController();
+
+                // Initialize the controller with the selected showtime data
+                controller.initialize(selectedShowTime, showTimeTableView.getItems());
+
+                // Create a new window for modifying the showtime
+                Stage stage = new Stage();
+                stage.setTitle("Modify Showtime");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Display a warning if no showtime is selected
+            AlertHelper.showWarningAlert("No Selection", null, "Please select a showtime to modify.");
+        }
+    }
+
+
+
+
 
     /**
      * Opens a new window for adding a new showtime to the list.
@@ -214,26 +248,6 @@ public class ManageShowTimeViewController {
 
 
 
-    public void handleModifyButton(ActionEvent actionEvent) {
-
-        try {
-            // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/modify-showtime-view.fxml"));
-            Parent root = loader.load();
-
-            // Create a new stage (window)
-            Stage stage = new Stage();
-            stage.setTitle("Modify Showtime");
-            stage.setScene(new Scene(root));
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Optionally show an alert if the FXML file could not be loaded
-        }
-
-
-    }
 
 
     /**

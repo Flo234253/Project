@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="425.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.ModifyShowTimeViewController">
+<AnchorPane prefHeight="400.0" prefWidth="425.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.Controllers.ModifyShowTimeViewController">
 
     <Label layoutX="119.0" layoutY="14.0" text="Modify Showtime">
         <font>
@@ -30,9 +30,6 @@
 
     <Label layoutX="50.0" layoutY="220.0" text="Movie :" />
     <TextField fx:id="movieIdField" layoutX="150.0" layoutY="220.0" prefWidth="200.0" />
-
-    <Label layoutX="50.0" layoutY="260.0" text="Full:" />
-    <CheckBox fx:id="fullCheckBox" layoutX="150.0" layoutY="260.0" />
 
     <Button fx:id="saveButton" layoutX="150.0" layoutY="300.0" onAction="#handleSaveButton" prefWidth="100.0" text="Save" />
     <Button fx:id="cancelButton" layoutX="270.0" layoutY="300.0" onAction="#handleCancelButton" prefWidth="100.0" text="Cancel" />
