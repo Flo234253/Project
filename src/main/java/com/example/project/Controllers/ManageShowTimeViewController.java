@@ -177,31 +177,6 @@ public class ManageShowTimeViewController {
 
 
 
-    /**
-     * Opens a new window to display the information about the selected showtime.
-     */
-    @FXML
-    private void handleConsultButton(ActionEvent actionEvent) {
-
-        try {
-            // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/consult-showtime-details-view.fxml"));
-            Parent root = loader.load();
-
-            // Create a new stage (window)
-            Stage stage = new Stage();
-            stage.setTitle("Consult Showtime");
-            stage.setScene(new Scene(root));
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Optionally show an alert if the FXML file could not be loaded
-        }
-
-    }
-
-
 
 
     /**
@@ -239,6 +214,65 @@ public class ManageShowTimeViewController {
 
 
 
+    public void handleModifyButton(ActionEvent actionEvent) {
+
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/modify-showtime-view.fxml"));
+            Parent root = loader.load();
+
+            // Create a new stage (window)
+            Stage stage = new Stage();
+            stage.setTitle("Modify Showtime");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Optionally show an alert if the FXML file could not be loaded
+        }
+
+
+    }
+
+
+    /**
+     * Opens a new window to display the information about the selected showtime.
+     */
+    @FXML
+    private void handleConsultButton(ActionEvent actionEvent) {
+
+        // Get the selected showtime from the TableView
+        ShowTime selectedShowTime = showTimeTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedShowTime != null) {
+            try {
+                // Load the FXML file for the detail view
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/consult-showtime-details-view.fxml"));
+                Parent root = loader.load();
+
+                // Get the controller of the new view
+                ConsultShowTimeDetailViewController detailController = loader.getController();
+
+                // Pass the selected showtime to the new controller (use a List to display a single entry)
+                detailController.setShowTimeDetails(FXCollections.observableArrayList(selectedShowTime));
+
+                // Create a new stage (window) and set the scene
+                Stage stage = new Stage();
+                stage.setTitle("Consult Showtime");
+                stage.setScene(new Scene(root));
+                stage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Optionally show an alert if the FXML file could not be loaded
+            }
+        } else {
+            // Display warning if no showtime is selected
+            AlertHelper.showWarningAlert("No Selection", null, "Please select a showtime to consult.");
+        }
+
+    }
 
 
 
