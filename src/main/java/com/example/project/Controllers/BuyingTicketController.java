@@ -213,7 +213,7 @@ public class BuyingTicketController implements Initializable {
                 null,
                 String.format("Ticket ID: %d\nPurchase Date/Time: %s\nMovie: %s\nNumber of Tickets: %d\nTotal Price: $%.2f",
                         eTicket.getID(),
-                        eTicket.getPurchaseDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")),
+                        eTicket.getPurchaseDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm")),
                         matchedShowtime.getMovie(),
                         ticketCount,
                         ticketCount * TICKET_PRICE)
