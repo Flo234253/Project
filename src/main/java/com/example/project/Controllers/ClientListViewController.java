@@ -65,14 +65,24 @@ public class ClientListViewController {
     @FXML
     public Button backButton;
 
+
+    /**
+     * Button to delete the selected client from the table.
+     */
     @FXML
     public Button deleteButton;
 
 
-
+    /**
+     * Observable list that holds all clients to be displayed in the TableView.
+     */
 
     private ObservableList<Client> clientList;
 
+
+    /**
+     * Initializes the controller by configuring the TableColumns and loading client data.
+     */
     @FXML
     public void initialize() {
         // Configure TableColumns
@@ -98,8 +108,10 @@ public class ClientListViewController {
         clientsTableView.setItems(clientList);
     }
 
+
     /**
      * Loads client data from the serialized file into the clientList.
+     * This method reads a serialized list of users and filters out only the clients.
      */
     private void loadClientData() {
         clientList = FXCollections.observableArrayList();
@@ -118,6 +130,12 @@ public class ClientListViewController {
     }
 
 
+    /**
+     * Handles the delete button action.
+     * Confirms the deletion with the user, removes the selected client from the list, and updates the serialized data.
+     *
+     * @param actionEvent The action event triggered by the delete button.
+     */
     public void handleDeleteButton(ActionEvent actionEvent) {
         Client selectedClient = clientsTableView.getSelectionModel().getSelectedItem();
 
@@ -154,6 +172,11 @@ public class ClientListViewController {
         }
     }
 
+
+    /**
+     * Saves the updated client list back to the serialized file after deletion.
+     * This method writes the remaining clients to the file.
+     */
     private void saveClientData() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("users.ser"))) {
             // Create a new list of users that includes only the remaining clients

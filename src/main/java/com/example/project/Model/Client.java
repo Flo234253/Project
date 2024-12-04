@@ -114,7 +114,7 @@ public class Client extends User implements Serializable {
      * @return the email of the user
      */
     public String getEmail() {
-        return super.getEmail(); // Call the superclass method
+        return super.getEmail();
     }
 
 }
