@@ -101,7 +101,7 @@ public class BuyingTicketController implements Initializable {
             // Read the list of ShowTime objects from the serialized file
             showtimesList = (List<ShowTime>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error reading file: " + fileName);
+            Helpers.AlertHelper.showErrorAlert("Error Loading Data", "Could not load showtimes from the file: " + fileName);
             e.printStackTrace();
         }
         return showtimesList;
@@ -235,7 +235,7 @@ public class BuyingTicketController implements Initializable {
             // Serialize the ticket list and write it to the file
             oos.writeObject(ticketList);
         } catch (IOException e) {
-            System.err.println("Error saving ticket to file: " + e.getMessage());
+            Helpers.AlertHelper.showErrorAlert("Error Saving Ticket", "Could not save the ticket to the file: " + e.getMessage());
         }
     }
 
@@ -249,16 +249,16 @@ public class BuyingTicketController implements Initializable {
         File ticketFile = new File("data/tickets.ser");
 
         if (!ticketFile.exists()) {
-            System.err.println("Ticket file does not exist: " + ticketFile.getAbsolutePath());
+            Helpers.AlertHelper.showErrorAlert("Ticket File Missing", "The ticket file does not exist: " + ticketFile.getAbsolutePath());
+
             return ticketList; // Return an empty list if file doesn't exist
         }
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ticketFile))) {
             // Read the list of Ticket objects from the serialized file
             ticketList = (List<Ticket>) ois.readObject();
-            System.out.println("Tickets loaded successfully: " + ticketList.size());
         } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error loading tickets from file: " + e.getMessage());
+            Helpers.AlertHelper.showErrorAlert("Error Loading Tickets", "An error occurred while loading the ticket file: " + e.getMessage());
         }
         return ticketList;
     }
