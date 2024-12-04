@@ -30,14 +30,12 @@ public class BuyingTicketController implements Initializable {
      */
     @FXML
     public DatePicker datePicker;
-
-    /**
+/**
      * The ListView that displays a list of movies and their corresponding showtimes.
      */
     @FXML
     public ListView<String> moveAndShowtimeListView;
-
-    /**
+/**
      * The TextField where the user inputs the number of tickets they wish to purchase.
      */
     @FXML
@@ -60,8 +58,10 @@ public class BuyingTicketController implements Initializable {
     private List<ShowTime> showtimes;
 
     /**
-     * Override the initialize class, this method will automatically be caalled when this view is called.
-     * There's event listener to data picket and price label
+     * Override the initialize class, this method will automatically be called when this view is called.
+     * There's event listener to data picker and price label. Calls the loadDataFrom file methode that will read the showtimes.
+     *Called the onDateSelected method if new value is not null, so if the user selected a date.
+     * Calls the updateTotalPrice method is the user enters something in the textField
      * @param location of the showtime file
      * @param resources resource bundle makes it easier to read data
      */
@@ -109,6 +109,7 @@ public class BuyingTicketController implements Initializable {
     /**
      * This method will be called when the user selects a date from the DatePicker.
      * Filters the available showtimes based on the selected date and display the correct format for the list view
+     * So shows the movie and showtime example: Movie-Showtime: 20:30
      */
     @FXML
     public void onDateSelected() {
@@ -119,7 +120,7 @@ public class BuyingTicketController implements Initializable {
             return;
         }
 
-
+        // Filter showtimes using a simple for loop
         List<ShowTime> filteredShowtimes = new ArrayList<>();
         for (ShowTime showtime : showtimes) {
             // Compare the date portion of the ShowTime with the selected date
@@ -135,10 +136,9 @@ public class BuyingTicketController implements Initializable {
 
         for (ShowTime showtime : filteredShowtimes) {
             String movieName = showtime.getMovie();
-            String time = showtime.getDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-            String room = showtime.getScreeningRoom();
+            String time = showtime.getDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"));
 
-            String displayText = String.format("%s - Showtime: %s (Room: %s)", movieName, time, room);
+            String displayText = String.format("%s - Showtime: %s", movieName, time);
             moveAndShowtimeListView.getItems().add(displayText);
         }
     }
@@ -187,6 +187,8 @@ public class BuyingTicketController implements Initializable {
             Helpers.AlertHelper.showErrorAlert("Invalid Input", "Please enter a valid number of tickets.");
             return;
         }
+            int uniqueID = (int) (Math.random() * 100000);
+            LocalDateTime purchaseDateTime = LocalDateTime.now();
 
         ShowTime matchedShowtime = showtimes.stream()
                 .filter(showtime -> selectedMovieTitle.startsWith(showtime.getMovie()))
