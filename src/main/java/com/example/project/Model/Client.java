@@ -22,6 +22,8 @@ public class Client extends User implements Serializable {
     /*Date and time variable*/
     private final LocalDateTime registrationDateTime;
 
+
+
     /**
      * Get the name of the user
      * @return the name of the user
@@ -106,4 +108,13 @@ public class Client extends User implements Serializable {
     public String getRole() {
         return "Client";
     }
+
+    /**
+     * Get the email of the user
+     * @return the email of the user
+     */
+    public String getEmail() {
+        return super.getEmail(); // Call the superclass method
+    }
+
 }
