@@ -24,6 +24,7 @@ import java.io.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -132,13 +133,84 @@ public class ManageShowTimeViewController {
         return showTimeList;
     }
 
-    private void saveShowTimes(ObservableList<ShowTime> showTimeList) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/showtimes.ser"))) {
-            oos.writeObject(showTimeList);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+
+    /**
+     * Deletes the selected showtime from the list.
+     * <p>
+     * Displays a confirmation alert before deletion.
+     * </p>
+     */
+    @FXML
+    private void handleDeleteButton(ActionEvent actionEvent) {
+
+// Get the selected showtime from the TableView
+        ShowTime selectedShowTime = showTimeTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedShowTime != null) {
+            // Display a confirmation alert
+            Optional<ButtonType> result = AlertHelper.showConfirmationAlert(
+                    "Confirm Deletion",
+                    "Are you sure you want to delete this showtime?",
+                    selectedShowTime.getMovie() + " at " + selectedShowTime.getFormattedTime()  // Display movie name and time only
+            );
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Remove the selected showtime from the ObservableList
+                showTimeTableView.getItems().remove(selectedShowTime);
+
+                // Save the updated list to the file
+                saveShowTimes(showTimeTableView.getItems());
+
+                // Refresh the TableView UI
+                showTimeTableView.refresh();
+
+                // Display success message
+                AlertHelper.showInformationAlert("Success", null, "Showtime deleted successfully!");
+            }
+        } else {
+            // Display warning if no showtime is selected
+            AlertHelper.showWarningAlert("No Selection", null, "Please select a showtime to delete.");
         }
     }
+
+
+
+
+
+    public void handleModifyButton(ActionEvent actionEvent) {
+
+        // Get the selected showtime from the TableView
+        ShowTime selectedShowTime = showTimeTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedShowTime != null) {
+            try {
+                // Load the FXML for modifying the showtime
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/modify-showtime-view.fxml"));
+                Parent root = loader.load();
+
+                // Get the controller of the modify showtime view
+                ModifyShowTimeViewController controller = loader.getController();
+
+                // Initialize the controller with the selected showtime data
+                controller.initialize(selectedShowTime, showTimeTableView.getItems());
+
+                // Create a new window for modifying the showtime
+                Stage stage = new Stage();
+                stage.setTitle("Modify Showtime");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Display a warning if no showtime is selected
+            AlertHelper.showWarningAlert("No Selection", null, "Please select a showtime to modify.");
+        }
+    }
+
+
+
 
 
     /**
@@ -176,26 +248,6 @@ public class ManageShowTimeViewController {
 
 
 
-    public void handleModifyButton(ActionEvent actionEvent) {
-
-        try {
-            // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/modify-showtime-view.fxml"));
-            Parent root = loader.load();
-
-            // Create a new stage (window)
-            Stage stage = new Stage();
-            stage.setTitle("Modify Showtime");
-            stage.setScene(new Scene(root));
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Optionally show an alert if the FXML file could not be loaded
-        }
-
-
-    }
 
 
     /**
@@ -204,40 +256,57 @@ public class ManageShowTimeViewController {
     @FXML
     private void handleConsultButton(ActionEvent actionEvent) {
 
-        try {
-            // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/consult-showtime-details-view.fxml"));
-            Parent root = loader.load();
+        // Get the selected showtime from the TableView
+        ShowTime selectedShowTime = showTimeTableView.getSelectionModel().getSelectedItem();
 
-            // Create a new stage (window)
-            Stage stage = new Stage();
-            stage.setTitle("Consult Showtime");
-            stage.setScene(new Scene(root));
-            stage.show();
+        if (selectedShowTime != null) {
+            try {
+                // Load the FXML file for the detail view
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/project/consult-showtime-details-view.fxml"));
+                Parent root = loader.load();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Optionally show an alert if the FXML file could not be loaded
+                // Get the controller of the new view
+                ConsultShowTimeDetailViewController detailController = loader.getController();
+
+                // Pass the selected showtime to the new controller (use a List to display a single entry)
+                detailController.setShowTimeDetails(FXCollections.observableArrayList(selectedShowTime));
+
+                // Create a new stage (window) and set the scene
+                Stage stage = new Stage();
+                stage.setTitle("Consult Showtime");
+                stage.setScene(new Scene(root));
+                stage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Optionally show an alert if the FXML file could not be loaded
+            }
+        } else {
+            // Display warning if no showtime is selected
+            AlertHelper.showWarningAlert("No Selection", null, "Please select a showtime to consult.");
         }
 
     }
 
 
 
-
-
     /**
-     * Deletes the selected showtime from the list.
-     * <p>
-     * Displays a confirmation alert before deletion.
-     * </p>
+     * Saves the showtimes to a file.
+     *
+     * @param showTimeList The list of showtimes to save
      */
-    @FXML
-    private void handleDeleteButton(ActionEvent actionEvent) {
+    private void saveShowTimes(ObservableList<ShowTime> showTimeList) {
+        // Convert ObservableList to a serializable List
+        List<ShowTime> serializableList = new ArrayList<>(showTimeList);
 
-      
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/showtimes.ser"))) {
+            // Serialize the List of ShowTimes (not the ObservableList)
+            oos.writeObject(serializableList);
+        } catch (IOException e) {
+            e.printStackTrace();
+            AlertHelper.showErrorAlert("Save Error", "An error occurred while saving showtimes.");
+        }
     }
-
 
 
 

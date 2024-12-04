@@ -2,6 +2,9 @@ package com.example.project.Controllers;
 
 
 import com.example.project.Model.ShowTime;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -48,21 +51,43 @@ public class ConsultShowTimeDetailViewController {
      * Maps to the `roomId` property in the ShowTime object.
      */
     @FXML
-    private TableColumn<ShowTime, Integer> roomIdColumn;
+    private TableColumn<ShowTime, String> roomIdColumn;
 
     /**
      * TableColumn displaying the Movie ID for each showtime.
      * Maps to the `movieId` property in the ShowTime object.
      */
     @FXML
-    private TableColumn<ShowTime, Integer> movieIdColumn;
+    private TableColumn<ShowTime, String> movieNameColumn;
+
+
 
     /**
-     * TableColumn displaying whether the showtime is Full or not.
-     * Maps to the `full` property in the ShowTime object.
+     * Set the showtime details in the TableView (this will display the selected ShowTime).
+     *
+     * @param showTimes A list containing the ShowTime(s) to be displayed in the TableView
      */
-    @FXML
-    private TableColumn<ShowTime, Boolean> fullColumn;
+    public void setShowTimeDetails(ObservableList<ShowTime> showTimes) {
+        // Set up the columns for the TableView
+        showTimeIdColumn.setCellValueFactory(cellData ->
+                new SimpleIntegerProperty(cellData.getValue().getaID()).asObject()); // Correcting the return type to ObservableValue<Integer>
+
+        dateColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getFormattedDate())); // Correct return type for String
+
+        timeColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getFormattedTime())); // Correct return type for String
+
+        roomIdColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getScreeningRoom()));  // Correct return type for Integer
+
+        movieNameColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getMovie())); // Assuming `getMovieName` returns a String
+
+
+        // Set the TableView's items to the list of showtimes
+        showTimeTableView.setItems(showTimes);
+    }
 
     /**
      * Button that allows the user to go back to the previous screen.

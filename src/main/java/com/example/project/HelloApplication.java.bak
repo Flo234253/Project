@@ -11,10 +11,10 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 <<<<<<< HEAD
-              FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("manager-dashboard-view.fxml"));
+              FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("manage-showtime-view.fxml"));
 =======
-              FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("SignIn.fxml"));
->>>>>>> 1d047fb0747b57afb82ba48dcc83904cd3be94fd
+              FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("SignInClient.fxml"));
+>>>>>>> features/ChangingControllerBuyingTicket
         Scene scene = new Scene(fxmlLoader.load(), 550, 550);
         stage.setTitle("Welcome to YourCinema Login!");
         stage.setScene(scene);
