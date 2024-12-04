@@ -4,6 +4,7 @@ package com.example.project.Model;
 
 import javafx.beans.property.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -15,7 +16,7 @@ import java.time.format.DateTimeFormatter;
  * room ID, and whether the screening is fully booked.
  * </p>
  */
-public class ShowTime {
+public class ShowTime implements Serializable {
 
     /** The unique identifier for the showtime. */
     private int aID;
@@ -29,6 +30,10 @@ public class ShowTime {
     /** Attribute  for  The screening room where the movie is shown. */
     private String aScreeningRoom;
 
+    /** Attribute for whether the showtime is full or not. */
+    private boolean aIsFull;
+
+
 
     /**
      * Constructor to create a new showtime with a unique ID, date and time, movie, and screening room.
@@ -37,12 +42,14 @@ public class ShowTime {
      * @param pDateTime The date and time of the showtime.
      * @param pMovie The movie being shown.
      * @param pScreeningRoom The screening room where the movie is shown.
+     * @param pIsFull The status of whether the showtime is full or not.
      */
-    public ShowTime(int pID, LocalDateTime pDateTime, String pMovie, String pScreeningRoom) {
+    public ShowTime(int pID, LocalDateTime pDateTime, String pMovie, String pScreeningRoom, boolean pIsFull) {
         this.aID = pID;
         this.aDateTime = pDateTime;
         this.aMovie = pMovie;
         this.aScreeningRoom = pScreeningRoom;
+        this.aIsFull = pIsFull;
     }
 
 
@@ -122,4 +129,44 @@ public class ShowTime {
     public void setScreeningRoom(String aScreeningRoom) {
         this.aScreeningRoom = aScreeningRoom;
     }
+
+    /**
+     * Gets the fullness status of the showtime.
+     *
+     * @return true if the showtime is full, false otherwise.
+     */
+    public boolean isFull() {
+        return aIsFull;
+    }
+
+    /**
+     * Sets the fullness status of the showtime.
+     *
+     * @param aIsFull true if the showtime is full, false otherwise.
+     */
+    public void setFull(boolean aIsFull) {
+        this.aIsFull = aIsFull;
+    }
+
+    /**
+     * Gets the formatted date for the showtime.
+     *
+     * @return The formatted date (MM/dd/yyyy).
+     */
+    public String getFormattedDate() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        return aDateTime.format(dateFormatter);
+    }
+
+    /**
+     * Gets the formatted time for the showtime.
+     *
+     * @return The formatted time (HH:mm).
+     */
+    public String getFormattedTime() {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        return aDateTime.format(timeFormatter);
+    }
+
+
 }
