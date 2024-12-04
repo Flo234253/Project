@@ -1,11 +1,14 @@
 package com.example.project.Model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * Represents a ticket purchased by a client for a specific showtime.
  */
-public class Ticket {
+public class Ticket implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /** The unique identifier for the ticket. */
     private int aID;
@@ -17,6 +20,12 @@ public class Ticket {
     /** The associated showtime for which the ticket was purchased. */
     private ShowTime aShowtime;
 
+    /** The number of tickets sold. */
+    private int aTicketsPurchased;
+
+
+
+
 
     /**
      * Constructor to create a new ticket with a unique ID, purchase date and time, and associated pShowtime.
@@ -25,10 +34,12 @@ public class Ticket {
      * @param pPurchaseDateTime The date and time the ticket was purchased.
      * @param pShowtime The associated pShowtime for which the ticket was purchased.
      */
-    public Ticket(int pID, LocalDateTime pPurchaseDateTime, ShowTime pShowtime) {
+    public Ticket(int pID, LocalDateTime pPurchaseDateTime, ShowTime pShowtime, int pTicketsPurchased) {
         this.aID = pID;
         this.aPurchaseDateTime = pPurchaseDateTime;
         this.aShowtime = pShowtime;
+        this.aTicketsPurchased = pTicketsPurchased;
+
     }
 
 
@@ -91,4 +102,25 @@ public class Ticket {
     public void setShowtime(ShowTime pShowtime) {
         this.aShowtime = pShowtime;
     }
+
+    /**
+     * Gets the number of tickets sold for this showtime.
+     *
+     * @return The number of tickets sold.
+     */
+    public int getTicketsPurchased() {
+        return aTicketsPurchased;
+    }
+
+    /**
+     * Sets the number of tickets sold for this showtime.
+     *
+     * @param pTicketsSold The number of tickets sold.
+     */
+    public void setTicketsPurchased(int pTicketsSold) {
+        this.aTicketsPurchased = pTicketsSold;
+    }
+
+
+
 }

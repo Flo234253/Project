@@ -26,14 +26,26 @@ import java.util.*;
 public class BuyingTicketController implements Initializable {
 
     /**
-     * Initialize the date picker, list view, text field amd the labe
+     * Initialize the date picker, list view, text field amd the label
      */
     @FXML
     public DatePicker datePicker;
+
+    /**
+     * The ListView that displays a list of movies and their corresponding showtimes.
+     */
     @FXML
     public ListView<String> moveAndShowtimeListView;
+
+    /**
+     * The TextField where the user inputs the number of tickets they wish to purchase.
+     */
     @FXML
     public TextField numberTicketTextField;
+
+    /**
+     * The Label that displays the calculated price for the selected number of tickets.
+     */
     @FXML
     public Label priceLabel1;
 
@@ -107,7 +119,7 @@ public class BuyingTicketController implements Initializable {
             return;
         }
 
-        // Filter showtimes using a simple for loop
+
         List<ShowTime> filteredShowtimes = new ArrayList<>();
         for (ShowTime showtime : showtimes) {
             // Compare the date portion of the ShowTime with the selected date
@@ -156,6 +168,7 @@ public class BuyingTicketController implements Initializable {
         String selectedMovieTitle = moveAndShowtimeListView.getSelectionModel().getSelectedItem();
         String numberOfTickets = numberTicketTextField.getText();
 
+        // Early returns for input validation
         if (selectedMovieTitle == null || selectedMovieTitle.isEmpty()) {
             Helpers.AlertHelper.showErrorAlert("No Movie Selected", "Please select a movie before proceeding.");
             return;
@@ -166,40 +179,86 @@ public class BuyingTicketController implements Initializable {
             return;
         }
 
+        int ticketCount;
         try {
-            int ticketCount = Integer.parseInt(numberOfTickets);
+            ticketCount = Integer.parseInt(numberOfTickets);
             if (ticketCount <= 0) throw new NumberFormatException("Ticket count must be positive.");
-
-            int uniqueID = (int) (Math.random() * 100000);
-            LocalDateTime purchaseDateTime = LocalDateTime.now();
-
-            ShowTime matchedShowtime = showtimes.stream()
-                    .filter(showtime -> selectedMovieTitle.startsWith(showtime.getMovie()))
-                    .findFirst()
-                    .orElse(null);
-
-            if (matchedShowtime == null) {
-                Helpers.AlertHelper.showErrorAlert("Showtime Not Found", "Could not find a showtime for the selected movie.");
-                return;
-            }
-
-            Ticket eTicket = new Ticket(uniqueID, purchaseDateTime, matchedShowtime);
-
-            Helpers.AlertHelper.showInformationAlert(
-                    "Ticket Purchase Successful",
-                    null,
-                    String.format("Ticket ID: %d\nPurchase Date/Time: %s\nMovie: %s\nNumber of Tickets: %d\nTotal Price: $%.2f",
-                            eTicket.getID(),
-                            eTicket.getPurchaseDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")),
-                            matchedShowtime.getMovie(),
-                            ticketCount,
-                            ticketCount * TICKET_PRICE)
-            );
-
         } catch (NumberFormatException e) {
             Helpers.AlertHelper.showErrorAlert("Invalid Input", "Please enter a valid number of tickets.");
-        } catch (Exception e) {
-            Helpers.AlertHelper.showErrorAlert("Error", "An unexpected error occurred: " + e.getMessage());
+            return;
+        }
+
+        ShowTime matchedShowtime = showtimes.stream()
+                .filter(showtime -> selectedMovieTitle.startsWith(showtime.getMovie()))
+                .findFirst()
+                .orElse(null);
+
+        if (matchedShowtime == null) {
+            Helpers.AlertHelper.showErrorAlert("Showtime Not Found", "Could not find a showtime for the selected movie.");
+            return;
+        }
+
+        int uniqueID = (int) (Math.random() * 100000);
+        LocalDateTime purchaseDateTime = LocalDateTime.now();
+
+        // Create and save the ticket
+        Ticket eTicket = new Ticket(uniqueID, purchaseDateTime, matchedShowtime, ticketCount);
+        saveTicketToFile(eTicket);
+
+        // Show confirmation alert
+        Helpers.AlertHelper.showInformationAlert(
+                "Ticket Purchase Successful",
+                null,
+                String.format("Ticket ID: %d\nPurchase Date/Time: %s\nMovie: %s\nNumber of Tickets: %d\nTotal Price: $%.2f",
+                        eTicket.getID(),
+                        eTicket.getPurchaseDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")),
+                        matchedShowtime.getMovie(),
+                        ticketCount,
+                        ticketCount * TICKET_PRICE)
+        );
+    }
+
+    /**
+     * Save the ticket data into a .ser file.
+     *
+     * @param ticket The Ticket object to be saved.
+     */
+    private void saveTicketToFile(Ticket ticket) {
+        List<Ticket> ticketList = loadTicketsFromFile();
+
+        // Add the new ticket to the list
+        ticketList.add(ticket);
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/tickets.ser"))) {
+            // Serialize the ticket list and write it to the file
+            oos.writeObject(ticketList);
+        } catch (IOException e) {
+            System.err.println("Error saving ticket to file: " + e.getMessage());
         }
     }
+
+    /**
+     * Load the list of tickets from the file.
+     *
+     * @return A list of Ticket objects.
+     */
+    private List<Ticket> loadTicketsFromFile() {
+        List<Ticket> ticketList = new ArrayList<>();
+        File ticketFile = new File("data/tickets.ser");
+
+        if (!ticketFile.exists()) {
+            System.err.println("Ticket file does not exist: " + ticketFile.getAbsolutePath());
+            return ticketList; // Return an empty list if file doesn't exist
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ticketFile))) {
+            // Read the list of Ticket objects from the serialized file
+            ticketList = (List<Ticket>) ois.readObject();
+            System.out.println("Tickets loaded successfully: " + ticketList.size());
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error loading tickets from file: " + e.getMessage());
+        }
+        return ticketList;
+    }
+
 }
