@@ -93,8 +93,10 @@ public class AddShowTimeViewController {
 
     /**
      * Handles the action event triggered by the "Add Showtime" button.
-     * This method will process the inputs provided by the user and add a new showtime.
-     *
+     * <p>
+     * This method processes the user inputs for movie and room IDs, validates them,
+     * generates a unique showtime ID, and adds the new showtime to the list.
+     * </p>
      * @param actionEvent the event triggered when the "Add Showtime" button is clicked
      */
     @FXML
@@ -136,9 +138,16 @@ public class AddShowTimeViewController {
         }
     }
 
+    /**
+     * Saves the showtimes list to a file for persistence.
+     * <p>
+     * The showtimes are serialized and written to the specified file for later retrieval.
+     * </p>
+     * @param showTimeList the list of showtimes to be saved
+     */
 
     private void saveShowTimes(ObservableList<ShowTime> showTimeList) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("showtimes.ser"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/showtimes.ser"))) {
             // Convert ObservableList to List before serialization
             List<ShowTime> showTimeListToSave = new ArrayList<>(showTimeList);
             oos.writeObject(showTimeListToSave);

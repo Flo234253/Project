@@ -25,14 +25,14 @@ public abstract class User implements Serializable {
     private static final List<User> userList = new ArrayList<>();
 
     /*Making a file path for saving data */
-    private static final String DATA_FILE = "users.ser";
+    private static final String DATA_FILE = "data/users.ser";
 
     /*Start the list so we have sample data and also load user date to see if some user
     had been added before then save it all together*/
     static {
         loadUserData();
 
-        //userList.add(new Manager("Saboor2@example.com", "Pass1234"));
+        userList.add(new Manager("Saboor2@example.com", "Pass1234"));
         // userList.add(new Manager("sarah.lee@example.com", "Admin2023"));
       //userList.add(new Manager("john.doe@example.com", "Manager45"));
       // userList.add(new Client("henryRobert@gmail.ca", "1234"));

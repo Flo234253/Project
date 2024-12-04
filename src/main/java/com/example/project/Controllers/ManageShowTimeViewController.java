@@ -116,19 +116,16 @@ public class ManageShowTimeViewController {
         ObservableList<ShowTime> showTimeList = FXCollections.observableArrayList();
 
         // Attempt to load saved showtimes from file
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("showtimes.ser"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data/showtimes.ser"))) {
             // Deserialize the List<ShowTime>
             List<ShowTime> deserializedList = (List<ShowTime>) ois.readObject();
-            showTimeList.addAll(deserializedList);
+            if (deserializedList != null && !deserializedList.isEmpty()) {
+                // If file contains showtimes, add them to the list
+                showTimeList.addAll(deserializedList);
+            }
+            // If the file is empty or no showtimes, showTimeList will remain empty
         } catch (IOException | ClassNotFoundException e) {
-            // If no saved file or error, use the sample data
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
-
-            // Sample showtimes data
-            showTimeList.addAll(List.of(
-                    new ShowTime(1, LocalDateTime.parse("11/19/2024 18:00", formatter), "Inception", "1"),
-                    new ShowTime(2, LocalDateTime.parse("11/19/2024 21:00", formatter), "Titanic", "2")
-            ));
+            // If no saved file or error, showTimeList will remain empty
         }
 
         // Return the ObservableList to bind to the TableView
@@ -136,13 +133,12 @@ public class ManageShowTimeViewController {
     }
 
     private void saveShowTimes(ObservableList<ShowTime> showTimeList) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("showtimes.ser"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/showtimes.ser"))) {
             oos.writeObject(showTimeList);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
 
     /**
