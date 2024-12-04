@@ -138,7 +138,7 @@ public class AddShowTimeViewController {
 
 
     private void saveShowTimes(ObservableList<ShowTime> showTimeList) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("showtimes.ser"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/showtimes.ser"))) {
             // Convert ObservableList to List before serialization
             List<ShowTime> showTimeListToSave = new ArrayList<>(showTimeList);
             oos.writeObject(showTimeListToSave);

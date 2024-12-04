@@ -116,7 +116,7 @@ public class ManageShowTimeViewController {
         ObservableList<ShowTime> showTimeList = FXCollections.observableArrayList();
 
         // Attempt to load saved showtimes from file
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("showtimes.ser"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data/showtimes.ser"))) {
             // Deserialize the List<ShowTime>
             List<ShowTime> deserializedList = (List<ShowTime>) ois.readObject();
             if (deserializedList != null && !deserializedList.isEmpty()) {
@@ -133,7 +133,7 @@ public class ManageShowTimeViewController {
     }
 
     private void saveShowTimes(ObservableList<ShowTime> showTimeList) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("showtimes.ser"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data/showtimes.ser"))) {
             oos.writeObject(showTimeList);
         } catch (IOException e) {
             e.printStackTrace();

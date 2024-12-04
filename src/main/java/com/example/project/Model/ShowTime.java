@@ -18,7 +18,13 @@ import java.time.format.DateTimeFormatter;
  * </p>
  */
 public class ShowTime implements Serializable {
-
+    /**
+     * A unique identifier for the serialized version of this class.
+     * <p>
+     * Ensures compatibility during deserialization. If the class structure changes,
+     * the {@code serialVersionUID} should be updated to avoid {@link java.io.InvalidClassException}.
+     * </p>
+     */
     @Serial
     private static final long serialVersionUID = 1L;
 

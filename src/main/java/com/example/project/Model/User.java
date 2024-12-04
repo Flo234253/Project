@@ -25,7 +25,7 @@ public abstract class User implements Serializable {
     private static final List<User> userList = new ArrayList<>();
 
     /*Making a file path for saving data */
-    private static final String DATA_FILE = "users.ser";
+    private static final String DATA_FILE = "data/users.ser";
 
     /*Start the list so we have sample data and also load user date to see if some user
     had been added before then save it all together*/
