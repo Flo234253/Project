@@ -4,7 +4,6 @@ import Helpers.AlertHelper;
 import com.example.project.Model.ScreeningRoom;
 import javafx.fxml.FXML;
 import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.control.ButtonType;
@@ -26,6 +25,7 @@ public class AddScreenRoomController {
     private ScreeningRoom newRoom;
     private boolean isSaved = false;
     private Stage stage;
+    private ObservableList<ScreeningRoom> existingRooms;
 
     /**
      * Sets the stage for this controller.
@@ -34,6 +34,15 @@ public class AddScreenRoomController {
      */
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    /**
+     * Sets the existing rooms list for validation purposes.
+     *
+     * @param existingRooms The list of existing screening rooms.
+     */
+    public void setExistingRooms(ObservableList<ScreeningRoom> existingRooms) {
+        this.existingRooms = existingRooms;
     }
 
     /**
@@ -54,7 +63,6 @@ public class AddScreenRoomController {
         return isSaved;
     }
 
-    // Todo: add confirmation message
     /**
      * Handles the Save button click event.
      * Validates the input fields and creates a new ScreeningRoom object.
@@ -72,7 +80,7 @@ public class AddScreenRoomController {
             }
 
             // Validate room name uniqueness
-            if (isRoomNameDuplicate(roomName)) {
+            if (existingRooms != null && isRoomNameDuplicate(roomName, existingRooms)) {
                 throw new IllegalArgumentException("Room name must be unique.");
             }
 
@@ -105,7 +113,6 @@ public class AddScreenRoomController {
         }
     }
 
-    // Todo: look if i have to move this to another class
     /**
      * Parses and validates the capacity input.
      *
@@ -131,26 +138,17 @@ public class AddScreenRoomController {
         return capacity;
     }
 
-    // Todo: look if i have to move this to another class
     /**
      * Checks if the room name is already used in the list of existing rooms.
      *
-     * @param roomName The room name to check.
+     * @param roomName      The room name to check.
+     * @param existingRooms The list of existing screening rooms.
      * @return True if the name is a duplicate, false otherwise.
      */
-    private boolean isRoomNameDuplicate(String roomName) {
-        // Retrieve the current list of rooms
-        ObservableList<ScreeningRoom> existingRooms = FXCollections.observableArrayList(
-                // Example: Add existing ScreeningRoom instances here
-                new ScreeningRoom("Room 1", 100, "IMAX"),
-                new ScreeningRoom("Room 2", 150, "3D")
-        );
-
-        // Check if the room name already exists
+    private boolean isRoomNameDuplicate(String roomName, ObservableList<ScreeningRoom> existingRooms) {
         return existingRooms.stream().anyMatch(room -> room.getName().equalsIgnoreCase(roomName));
     }
 
-    // Todo: look if i have to move this to another class
     /**
      * Validates that the provided feature is allowed.
      *
@@ -162,7 +160,6 @@ public class AddScreenRoomController {
         return allowedFeatures.contains(feature);
     }
 
-    // Todo: add confirmation message
     /**
      * Handles the Cancel button click event.
      * Closes the window without saving.

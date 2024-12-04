@@ -113,7 +113,7 @@ public class ManagerDashBoardViewController {
             Parent root = loader.load();
 
             Stage newStage = new Stage();
-            newStage.setScene(new Scene(root, 560, 550));
+            newStage.setScene(new Scene(root, 550, 550));
             newStage.setTitle(title);
             newStage.show();
 

@@ -6,9 +6,8 @@ import javafx.stage.Stage;
 import Helpers.AlertHelper;
 import javafx.scene.control.ButtonType;
 
+import java.util.List; // Import List from java.util
 import java.util.Optional;
-
-// Todo:javadoc
 
 /**
  * Controller for the "Modify Screening Room" view.
@@ -26,6 +25,8 @@ public class ModifyScreeningRoomController {
     private TextField aTypeField;
 
     private Stage aStage;
+
+    private boolean isSaved = false;
 
     /**
      * Sets the stage for the view. The stage is used to control the window.
@@ -49,7 +50,6 @@ public class ModifyScreeningRoomController {
         aTypeField.setText(pType);
     }
 
-    // Todo:add confirmation message
     /**
      * Saves the changes made to the screening room and closes the view.
      * <p>
@@ -68,44 +68,27 @@ public class ModifyScreeningRoomController {
     @FXML
     private void onSaveButtonClicked() {
         try {
+            String newName = aNameField.getText().trim();
+            String newCapacityText = aCapacityField.getText().trim();
+            String newType = aTypeField.getText().trim();
+
             // Validate input fields
-            String newName = aNameField.getText();
-            String newCapacityText = aCapacityField.getText();
-            String newType = aTypeField.getText();
-
-            // Check if name or type fields are empty
-            if (newName == null || newName.trim().isEmpty()) {
-                throw new IllegalArgumentException("Room name cannot be empty.");
-            }
-            if (newType == null || newType.trim().isEmpty()) {
-                throw new IllegalArgumentException("Room type cannot be empty.");
-            }
-
-            // Validate and parse capacity
-            int newCapacity;
-            try {
-                newCapacity = Integer.parseInt(newCapacityText);
-                if (newCapacity <= 0) {
-                    throw new IllegalArgumentException("Capacity must be a positive number.");
-                }
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Capacity must be a valid integer.");
-            }
+            validateName(newName);
+            int newCapacity = validateCapacity(newCapacityText);
+            validateFeature(newType);
 
             // Show confirmation alert before saving
             Optional<ButtonType> result = AlertHelper.showConfirmationAlert("Confirm Save", null,
                     "Are you sure you want to save the changes to this screening room?");
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 // Save the updated data
-                // TODO: Add logic to save the updated data to the model or database
+                isSaved = true;
 
                 // Show confirmation that the screening room has been saved
                 AlertHelper.showInformationAlert("Screening Room Saved", null, "The screening room has been successfully saved.");
 
                 // Close the window
-                if (aStage != null) {
-                    aStage.close();
-                }
+                closeWindow();
             }
 
         } catch (IllegalArgumentException e) {
@@ -114,7 +97,6 @@ public class ModifyScreeningRoomController {
         }
     }
 
-    // Todo:add confirmation message
     /**
      * Cancels the operation and closes the view.
      * Triggered by the Cancel button.
@@ -124,9 +106,102 @@ public class ModifyScreeningRoomController {
         Optional<ButtonType> result = AlertHelper.showConfirmationAlert("Confirm Cancel", null,
                 "Are you sure you want to cancel? Any unsaved changes will be lost.");
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            if (aStage != null) {
-                aStage.close();
-            }
+            closeWindow();
         }
+    }
+
+    /**
+     * Validates the room name.
+     *
+     * @param name The name to validate.
+     * @throws IllegalArgumentException if the name is invalid.
+     */
+    private void validateName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Room name cannot be empty.");
+        }
+    }
+
+    /**
+     * Parses and validates the capacity input.
+     *
+     * @param capacityStr The capacity string to parse and validate.
+     * @return The parsed capacity as an integer.
+     * @throws IllegalArgumentException if the capacity is not valid.
+     */
+    private int validateCapacity(String capacityStr) {
+        int capacity;
+        try {
+            capacity = Integer.parseInt(capacityStr);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Capacity must be a numeric value.");
+        }
+
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Capacity must be a positive number.");
+        }
+        if (capacity > 255) {
+            throw new IllegalArgumentException("Capacity cannot exceed 255.");
+        }
+
+        return capacity;
+    }
+
+    /**
+     * Validates the feature input.
+     *
+     * @param feature The feature to validate.
+     * @throws IllegalArgumentException if the feature is invalid.
+     */
+    private void validateFeature(String feature) {
+        List<String> allowedFeatures = List.of("IMAX", "3D", "Standard");
+        if (feature == null || !allowedFeatures.contains(feature.trim())) {
+            throw new IllegalArgumentException("Invalid feature. Allowed values are: IMAX, 3D, Standard.");
+        }
+    }
+
+    /**
+     * Closes the current window.
+     */
+    private void closeWindow() {
+        if (aStage != null) {
+            aStage.close();
+        }
+    }
+
+    /**
+     * Checks if the room was successfully saved.
+     *
+     * @return True if saved, false otherwise.
+     */
+    public boolean isSaved() {
+        return isSaved;
+    }
+
+    /**
+     * Gets the updated room name.
+     *
+     * @return The updated room name.
+     */
+    public String getUpdatedName() {
+        return aNameField.getText().trim();
+    }
+
+    /**
+     * Gets the updated room capacity.
+     *
+     * @return The updated room capacity.
+     */
+    public int getUpdatedCapacity() {
+        return Integer.parseInt(aCapacityField.getText().trim());
+    }
+
+    /**
+     * Gets the updated room features.
+     *
+     * @return The updated room features.
+     */
+    public String getUpdatedFeatures() {
+        return aTypeField.getText().trim();
     }
 }
