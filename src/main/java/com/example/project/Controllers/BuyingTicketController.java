@@ -138,8 +138,9 @@ public class BuyingTicketController implements Initializable {
             String movieName = showtime.getMovie();
             String time = showtime.getDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"));
 
-            String displayText = String.format("%s - Showtime: %s", movieName, time);
+            String displayText = movieName + " ShowtTime: " + time;
             moveAndShowtimeListView.getItems().add(displayText);
+
         }
     }
 
@@ -151,7 +152,7 @@ public class BuyingTicketController implements Initializable {
         try {
             int ticketCount = Integer.parseInt(numberOfTickets);
             double totalPrice = ticketCount * TICKET_PRICE;
-            priceLabel1.setText("Total Price: $" + String.format("%.2f", totalPrice));
+            priceLabel1.setText("Total Price: $" + totalPrice);
         } catch (NumberFormatException e) {
             priceLabel1.setText("Total Price: $0.00");
         }
@@ -207,17 +208,17 @@ public class BuyingTicketController implements Initializable {
         Ticket eTicket = new Ticket(uniqueID, purchaseDateTime, matchedShowtime, ticketCount);
         saveTicketToFile(eTicket);
 
-        // Show confirmation alert
         Helpers.AlertHelper.showInformationAlert(
                 "Ticket Purchase Successful",
                 null,
-                String.format("Ticket ID: %d\nPurchase Date/Time: %s\nMovie: %s\nNumber of Tickets: %d\nTotal Price: $%.2f",
-                        eTicket.getID(),
-                        eTicket.getPurchaseDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm")),
-                        matchedShowtime.getMovie(),
-                        ticketCount,
-                        ticketCount * TICKET_PRICE)
+                "Ticket ID: " + eTicket.getID() +
+                        "\nPurchase Date/Time: " + eTicket.getPurchaseDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm")) +
+                        "\nMovie: " + matchedShowtime.getMovie() +
+                        "\nTickets: " + ticketCount +
+                        "\nTotal Price: $" + (ticketCount * TICKET_PRICE)
         );
+
+
     }
 
     /**
