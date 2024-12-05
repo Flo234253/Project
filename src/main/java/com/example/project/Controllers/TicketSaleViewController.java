@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 /**
  * Controller class for the Ticket Sales view.
  */
-//ToDo
+
 public class TicketSaleViewController {
 
     /**
