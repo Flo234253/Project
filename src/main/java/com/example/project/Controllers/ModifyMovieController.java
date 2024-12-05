@@ -9,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -18,50 +17,117 @@ import java.util.Optional;
 /**
  * Controller class for the Modify Movie view.
  * <p>
- * This class allows users to modify the information of an existing movie, including its title,
- * genre, release date, duration, actors, director, and description.
- * It also provides functionality to save or cancel the modifications.
+ * This class allows manager to modify the information of an existing movie, including its title,
+ * genre, release date, duration, actors, director, and description. It also provides
+ * functionality to save or cancel modifications made to the movie details.
  * </p>
  */
 public class ModifyMovieController implements Serializable {
 
+    /**
+     * TextField for the title of the movie.
+     * <p>
+     * This field allows the manager to view and modify the movie title.
+     * The updated title will be saved upon confirmation.
+     * </p>
+     */
     @FXML
     private TextField aTitleField;
 
+    /**
+     * TextField for the genres of the movie.
+     * <p>
+     * This field allows the manager to view and modify the genres associated with the movie.
+     * Genres are expected to be input as a comma-separated list.
+     * </p>
+     */
     @FXML
     private TextField aGenreField;
 
+    /**
+     * TextField for the release date of the movie.
+     * <p>
+     * This field allows the manager to view and modify the release date.
+     * It should be provided in the format "YYYY-MM-DD".
+     * </p>
+     */
     @FXML
     private TextField aReleaseDateField;
 
+    /**
+     * TextField for the duration of the movie.
+     * <p>
+     * This field allows the manager to view and modify the duration of the movie.
+     * Duration is expected to be in the format "XX min" (e.g., "120 min").
+     * </p>
+     */
     @FXML
     private TextField aDurationField;
 
+    /**
+     * TextField for the actors in the movie.
+     * <p>
+     * This field allows the manager to view and modify the actors involved in the movie.
+     * It should be a comma-separated list of actors.
+     * </p>
+     */
     @FXML
     private TextField aActorsField;
 
+    /**
+     * TextField for the director of the movie.
+     * <p>
+     * This field allows the manager to view and modify the director of the movie.
+     * </p>
+     */
     @FXML
     private TextField aDirectorField;
 
+    /**
+     * TextField for the description or synopsis of the movie.
+     * <p>
+     * This field allows the manager to view and modify the description of the movie.
+     * </p>
+     */
     @FXML
     private TextField aDescriptionField;
 
+    /**
+     * The stage representing the current window of the Modify Movie view.
+     * <p>
+     * This stage is used for window management, such as closing the current view after saving or cancelling.
+     * </p>
+     */
     private Stage aStage;
+
+    /**
+     * The movie object that is being modified.
+     * <p>
+     * This represents the movie whose details are being modified. It is updated and saved upon confirmation.
+     * </p>
+     */
     private Movie aMovie;
 
     /**
-     * Sets the stage for the view.
+     * Sets the stage for the Modify Movie view.
+     * <p>
+     * The stage is used to control the window operations, such as closing it after modifications.
+     * </p>
      *
-     * @param pStage The stage to set.
+     * @param pStage The Stage object representing the current window.
      */
     public void setStage(Stage pStage) {
         this.aStage = pStage;
     }
 
     /**
-     * Populates the fields with the details of the movie.
+     * Populates the text fields with the current details of the movie.
+     * <p>
+     * This method sets the fields to display the current information of the movie being modified.
+     * It allows the manager to see the existing values before making changes.
+     * </p>
      *
-     * @param movie The movie to modify.
+     * @param movie The movie whose details are being modified.
      */
     public void setMovieDetails(Movie movie) {
         this.aMovie = movie;
@@ -77,12 +143,16 @@ public class ModifyMovieController implements Serializable {
 
     /**
      * Handles the Save button click event.
-     * Validates input fields and saves the modified movie details.
+     * <p>
+     * This method extracts the manager inputs, validates them, and saves the modifications
+     * to the movie details if they are valid. It then displays a confirmation alert
+     * and closes the view if the manager confirms the changes.
+     * </p>
      */
     @FXML
     private void onSaveButtonClicked() {
         try {
-            // Extract and validate inputs using a loop
+            // Extract and validate inputs
             Movie updatedMovie = extractMovieFromInputFields();
 
             // Show confirmation alert before saving
@@ -91,8 +161,6 @@ public class ModifyMovieController implements Serializable {
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 // Update movie details
                 updateMovieDetails(updatedMovie);
-
-                // TODO: Implement persistence (e.g., saving to a database, CSV, or serialization)
 
                 // Show confirmation that the movie has been saved
                 AlertHelper.showInformationAlert("Movie Saved", null, "The movie has been successfully saved.");
@@ -109,7 +177,10 @@ public class ModifyMovieController implements Serializable {
 
     /**
      * Handles the Cancel button click event.
-     * Cancels the operation and closes the view.
+     * <p>
+     * This method cancels the current operation, discards any unsaved changes,
+     * and closes the Modify Movie view upon manager confirmation.
+     * </p>
      */
     @FXML
     private void onCancelButtonClicked() {
@@ -123,9 +194,14 @@ public class ModifyMovieController implements Serializable {
     }
 
     /**
-     * Extracts and validates the input fields to create a Movie object.
+     * Extracts and validates the input fields to create a new Movie object.
+     * <p>
+     * This method reads data from the input fields, performs validation checks,
+     * and creates a new Movie object with the updated information.
+     * If any field is invalid, it throws an IllegalArgumentException with the appropriate error message.
+     * </p>
      *
-     * @return A Movie object based on the input fields.
+     * @return A Movie object with the updated details.
      * @throws IllegalArgumentException if any input field is invalid.
      */
     private Movie extractMovieFromInputFields() throws IllegalArgumentException {
@@ -177,6 +253,10 @@ public class ModifyMovieController implements Serializable {
 
     /**
      * Updates the movie details with the provided Movie object.
+     * <p>
+     * This method takes a Movie object with updated details and replaces the current movie's
+     * details with these new values.
+     * </p>
      *
      * @param updatedMovie The updated movie information.
      */
@@ -192,6 +272,10 @@ public class ModifyMovieController implements Serializable {
 
     /**
      * Parses the genre input into a list of Genre objects.
+     * <p>
+     * This method takes a comma-separated list of genres and converts it into a list of Genre objects.
+     * It validates that each genre is allowed and throws an exception if any genre is invalid.
+     * </p>
      *
      * @param genresInput The input string containing genres (comma-separated).
      * @return A list of Genre objects.

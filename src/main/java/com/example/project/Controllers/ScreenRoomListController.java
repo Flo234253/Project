@@ -20,44 +20,103 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Controller class for the "Screening Room List" view.
- * This class manages the form for adding, consulting, editing, deleting, and saving a screening room.
+ * Controller class for managing the "Screening Room List" view.
+ * <p>
+ * This class provides the functionality to manage a list of screening rooms, including
+ * adding, consulting, editing, deleting, and saving the screening room details.
+ * It interacts with the TableView component to display data and manages manager interactions
+ * such as adding or deleting screening rooms.
+ * </p>
  */
 public class ScreenRoomListController {
 
+    /**
+     * Path to the serialized file for saving/loading screening room data.
+     * <p>
+     * This constant is used to specify the file path where screening room data is serialized
+     * and saved to persist the information between application restarts.
+     * </p>
+     */
     private static final String SCREEN_ROOMS_FILE_PATH = "data/screening_rooms.ser";
 
+    /**
+     * TextField for searching screening rooms.
+     * <p>
+     * Allows the manager to input keywords to filter screening rooms by their names or features.
+     * </p>
+     */
     @FXML
     private TextField aSearchField;
 
+    /**
+     * Button to refresh the list of screening rooms.
+     * <p>
+     * This button resets the search filter to display all screening rooms again.
+     * </p>
+     */
     @FXML
     private Button aRefreshButton;
 
+    /**
+     * TableView for displaying the list of screening rooms.
+     * <p>
+     * This table shows the screening rooms in a list format, with each room represented by a row.
+     * </p>
+     */
     @FXML
     private TableView<ScreeningRoom> aScreenRoomTableView;
 
+    /**
+     * TableColumn for displaying the name of each screening room in the TableView.
+     * <p>
+     * This column binds to the "name" property of the ScreeningRoom objects to display their names.
+     * </p>
+     */
     @FXML
     private TableColumn<ScreeningRoom, String> nameColumn;
 
+    /**
+     * Button to consult the details of the selected screening room.
+     */
     @FXML
     private Button aConsultButton;
 
-    @FXML
-    private Button aAddButton;
-
+    /**
+     * Button to edit the selected screening room.
+     */
     @FXML
     private Button aEditButton;
 
+    /**
+     * Button to delete the selected screening room from the list.
+     */
     @FXML
     private Button aDeleteButton;
 
+    /**
+     * List for storing the screening rooms.
+     * <p>
+     * This list holds the ScreeningRoom objects for persistence purposes.
+     * </p>
+     */
     private List<ScreeningRoom> aScreenRoomList;
+
+    /**
+     * ObservableList for UI operations.
+     * <p>
+     * This list is used to manage the screening rooms within the TableView,
+     * allowing automatic updates to the UI when the data changes.
+     * </p>
+     */
     private ObservableList<ScreeningRoom> aScreenRooms;
 
     /**
      * Initializes the controller.
-     * This method is called after the FXML file has been loaded. It sets up the TableView,
-     * adds the columns to the screening room properties, and disables buttons when no room is selected.
+     * <p>
+     * This method is called after the FXML file has been loaded.
+     * It sets up the TableView by adding the columns for screening room properties
+     * and disables buttons when no room is selected.
+     * </p>
      */
     @FXML
     public void initialize() {
@@ -66,23 +125,27 @@ public class ScreenRoomListController {
         // Set the cell value factory for the name column to bind the data
         nameColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getName()));
 
-        // Populate the TableView
+        // Populate the TableView with the list of screening rooms
         aScreenRoomTableView.setItems(aScreenRooms);
 
         // Disable buttons when no screening room is selected
-        aScreenRoomTableView.getSelectionModel().selectedItemProperty().addListener((_, _, newVal) -> {
+        aScreenRoomTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newVal) -> {
             boolean isSelected = newVal != null;
             aConsultButton.setDisable(!isSelected);
             aEditButton.setDisable(!isSelected);
             aDeleteButton.setDisable(!isSelected);
         });
 
-        // Disable Refresh button by default
+        // Disable the Refresh button by default until a search is performed
         aRefreshButton.setDisable(true);
     }
 
     /**
-     * Loads screening rooms from the serialized file or a predefined list if no file exists.
+     * Loads screening rooms from the serialized file or creates a default list if no file exists.
+     * <p>
+     * The method first ensures that the data directory exists, then attempts to load screening rooms
+     * from the serialized file. If the file is not found, it creates a default set of screening rooms.
+     * </p>
      */
     private void loadScreenRooms() {
         ensureDataDirectoryExists(); // Ensure the "data" directory exists before loading
@@ -107,6 +170,10 @@ public class ScreenRoomListController {
 
     /**
      * Saves the current list of screening rooms to the serialized file.
+     * <p>
+     * This method persists the list of screening rooms to a file, ensuring that
+     * data is saved between application sessions.
+     * </p>
      */
     private void saveScreenRooms() {
         ensureDataDirectoryExists(); // Ensure the "data" directory exists before saving
@@ -114,7 +181,10 @@ public class ScreenRoomListController {
     }
 
     /**
-     * Ensures that the data directory exists.
+     * Ensures that the "data" directory exists.
+     * <p>
+     * If the directory does not exist, it creates it to provide a location to save serialized data.
+     * </p>
      */
     private void ensureDataDirectoryExists() {
         File dataDir = new File("data");
@@ -126,7 +196,7 @@ public class ScreenRoomListController {
     /**
      * Creates a predefined list of screening rooms to be used when no serialized data exists.
      *
-     * @return the list of default screening rooms
+     * @return The list of default screening rooms.
      */
     private List<ScreeningRoom> createDefaultScreeningRooms() {
         return new ArrayList<>(List.of(
@@ -138,7 +208,10 @@ public class ScreenRoomListController {
 
     /**
      * Refreshes the TableView to display all screening rooms.
-     * Triggered by the "Refresh" button.
+     * <p>
+     * This method is triggered by the "Refresh" button and resets the TableView to display
+     * the complete list of screening rooms, removing any filters that were applied.
+     * </p>
      */
     @FXML
     private void onRefreshButtonClicked() {
@@ -148,7 +221,11 @@ public class ScreenRoomListController {
 
     /**
      * Filters the screening room list based on the input from the search field.
-     * If no room name matches the input, an alert is displayed to the manager.
+     * <p>
+     * This method filters the screening rooms displayed in the TableView based on the manager's
+     * input in the search field. If no rooms match the search input, an alert is displayed.
+     * Triggered by the "Search" button.
+     * </p>
      */
     @FXML
     private void onSearchButtonClicked() {
@@ -176,6 +253,10 @@ public class ScreenRoomListController {
 
     /**
      * Opens a new window to display the information about the selected screening room.
+     * <p>
+     * This method is triggered by the "Consult" button and allows the manager to view
+     * the details of the selected screening room in a new window.
+     * </p>
      */
     @FXML
     private void onConsultButtonClicked() {
@@ -205,6 +286,12 @@ public class ScreenRoomListController {
 
     /**
      * Opens a new window for adding a new room to the list.
+     * <p>
+     * This method allows the manager to add a new screening room to the list by opening
+     * a new window with an input form. After the manager saves the new room, it is added
+     * to the ObservableList and the serialized file.
+     * Triggered by the "Add" button.
+     * </p>
      */
     @FXML
     private void onAddButtonClicked() {
@@ -234,6 +321,11 @@ public class ScreenRoomListController {
 
     /**
      * Opens a new window for editing the details of the selected room.
+     * <p>
+     * This method is triggered by the "Edit" button and allows the manager to modify
+     * the details of a selected screening room in a new window. Once editing is complete,
+     * the changes are saved.
+     * </p>
      */
     @FXML
     private void onEditButtonClicked() {
@@ -272,6 +364,11 @@ public class ScreenRoomListController {
 
     /**
      * Deletes the selected room from the list.
+     * <p>
+     * This method removes the selected screening room from the list and updates the serialized data.
+     * A confirmation alert is displayed to the manager before deletion.
+     * Triggered by the "Delete" button.
+     * </p>
      */
     @FXML
     private void onDeleteButtonClicked() {

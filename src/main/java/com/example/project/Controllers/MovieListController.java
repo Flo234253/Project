@@ -26,58 +26,112 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Controller class for managing the movie list view.
- * Provides functionality for searching, consulting, adding, editing, and deleting movies.
+ * Controller class for managing the Movie List view.
+ * <p>
+ * This class provides the functionality to manage a list of movies, including:
+ * searching, consulting, adding, editing, and deleting movies.
+ * It interacts with the TableView UI component to display movies to the manager.
+ * </p>
  */
 public class MovieListController {
 
     /**
      * Path to the serialized file for saving/loading movie data.
+     * <p>
+     * This file is used to persist movie data between sessions.
+     * It stores the serialized version of the movie list to allow
+     * data to be saved and restored.
+     * </p>
      */
     private static final String MOVIES_FILE_PATH = "data/movies.ser";
 
+    /**
+     * TextField for searching movies.
+     * <p>
+     * This field is used by the manager to enter keywords to search for specific movies
+     * by their title or genres.
+     * </p>
+     */
     @FXML
     private TextField aSearchField;
 
+    /**
+     * Button to refresh the list of movies.
+     * <p>
+     * This button resets the search filter to display all movies again.
+     * </p>
+     */
     @FXML
     private Button aRefreshButton;
 
+    /**
+     * TableView component to display the list of movies.
+     * <p>
+     * This table displays all the movies in the list along with their respective details.
+     * It allows manager to select movies for consultation, editing, or deletion.
+     * </p>
+     */
     @FXML
     private TableView<Movie> aMovieTableView;
 
+    /**
+     * TableColumn for displaying the title of each movie in the TableView.
+     * <p>
+     * This column shows the title attribute of the Movie objects in the TableView.
+     * </p>
+     */
     @FXML
     private TableColumn<Movie, String> titleColumn;
 
+    /**
+     * TableColumn for displaying the genres of each movie in the TableView.
+     * <p>
+     * This column shows the genres attribute of the Movie objects, represented as a comma-separated string.
+     * </p>
+     */
     @FXML
     private TableColumn<Movie, String> genreColumn;
 
+    /**
+     * Button to consult the selected movie details.
+     */
     @FXML
     private Button aConsultButton;
 
-    @FXML
-    private Button aAddButton;
-
+    /**
+     * Button to edit the selected movie's details.
+     */
     @FXML
     private Button aEditButton;
 
+    /**
+     * Button to delete the selected movie from the list.
+     */
     @FXML
     private Button aDeleteButton;
 
     /**
-     * List for storing the movies (serializable).
+     * List for storing the movies.
+     * <p>
+     * This list holds Movie objects and is used for serialization purposes.
+     * </p>
      */
     private List<Movie> aMovieList;
 
     /**
      * ObservableList for UI operations.
+     * <p>
+     * This list is used to manage the movies in the TableView,
+     * allowing automatic updates to the UI when the data changes.
+     * </p>
      */
     private ObservableList<Movie> aMovies;
 
     /**
      * Initializes the controller.
      * <p>
-     * This method is called after the FXML file has been loaded. It sets up the TableView,
-     * adds the columns to the movies properties, and disables buttons when no movie is selected.
+     * This method is called after the FXML file has been loaded.
+     * It sets up the TableView by adding columns for movie properties and disables buttons when no movie is selected.
      * </p>
      */
     @FXML
@@ -87,6 +141,7 @@ public class MovieListController {
         // Adds the Title column to the Movie model's title property
         titleColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getTitle()));
 
+        // Adds the Genre column by extracting and joining all genres into a single comma-separated string
         genreColumn.setCellValueFactory(data -> {
             String genres = data.getValue().getGenres().stream()
                     .map(Genre::getName)
@@ -94,28 +149,33 @@ public class MovieListController {
             return new javafx.beans.property.SimpleStringProperty(genres);
         });
 
-        // Populate the TableView
+        // Populate the TableView with the ObservableList
         aMovieTableView.setItems(aMovies);
 
-        // Disable buttons when no movie is selected
-        aMovieTableView.getSelectionModel().selectedItemProperty().addListener((_, _, newVal) -> {
-            boolean isSelected = newVal != null;
+        // Disable buttons if no movie is selected in the TableView
+        aMovieTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            boolean isSelected = newValue != null;
             aConsultButton.setDisable(!isSelected);
             aEditButton.setDisable(!isSelected);
             aDeleteButton.setDisable(!isSelected);
         });
 
-        // Disable Refresh button by default
+        // Disable Refresh button by default until a search is performed
         aRefreshButton.setDisable(true);
     }
 
     /**
-     * Loads movies from the serialized file or a predefined list if no file exists.
+     * Loads movies from the serialized file or creates a default list if no file exists.
+     * <p>
+     * The method first ensures the data directory exists, then checks for the serialized data file.
+     * If the file is found, it loads the movies; otherwise, it creates a predefined list of default movies.
+     * </p>
      */
     private void loadMovies() {
         ensureDataDirectoryExists(); // Ensure the "data" directory exists before loading
 
         File dataFile = new File(MOVIES_FILE_PATH);
+
         if (dataFile.exists()) {
             // Load serialized data if available
             aMovieList = SerializationHelper.loadData(MOVIES_FILE_PATH);
@@ -133,9 +193,12 @@ public class MovieListController {
         aMovies = FXCollections.observableArrayList(aMovieList);
     }
 
-
     /**
      * Ensures that the data directory exists.
+     * <p>
+     * If the "data" directory does not exist, it creates one.
+     * This ensures that there is a place to save the serialized data file.
+     * </p>
      */
     private void ensureDataDirectoryExists() {
         File dataDir = new File("data");
@@ -147,7 +210,7 @@ public class MovieListController {
     /**
      * Creates a predefined list of movies to be used when no serialized data exists.
      *
-     * @return the list of default movies
+     * @return The list of default Movie objects.
      */
     private List<Movie> createDefaultMovies() {
         return new ArrayList<>(List.of(
@@ -158,13 +221,12 @@ public class MovieListController {
         ));
     }
 
-
-
-
-
     /**
      * Refreshes the TableView to display all movies.
-     * Triggered by the Refresh button.
+     * <p>
+     * This method is triggered by the "Refresh" button.
+     * It resets any search filters and displays the complete movie list.
+     * </p>
      */
     @FXML
     private void onRefreshButtonClicked() {
@@ -175,6 +237,7 @@ public class MovieListController {
      * Filters movies based on the input from the search field.
      * <p>
      * If no movies match the input, an alert is displayed to the manager.
+     * This method is triggered by the "Search" button.
      * </p>
      */
     @FXML
@@ -208,7 +271,11 @@ public class MovieListController {
     }
 
     /**
-     * Opens a new window to display the information about the selected movie.
+     * Opens a new window to display information about the selected movie.
+     * <p>
+     * This method is triggered by the "Consult" button and allows the manager to view the details
+     * of the selected movie in a new window.
+     * </p>
      */
     @FXML
     private void onConsultButtonClicked() {
@@ -247,7 +314,10 @@ public class MovieListController {
 
     /**
      * Opens a new window for adding a new movie to the list.
-     * After the user saves a new movie, it is added to the observable movie list.
+     * <p>
+     * After the manager saves a new movie, it is added to the ObservableList.
+     * Triggered by the "Add" button.
+     * </p>
      */
     @FXML
     private void onAddButtonClicked() {
@@ -278,6 +348,10 @@ public class MovieListController {
 
     /**
      * Saves the current list of movies to the serialized file.
+     * <p>
+     * This method ensures that the movie list persists between sessions.
+     * It saves the list to a file defined by the MOVIES_FILE_PATH constant.
+     * </p>
      */
     private void saveMovies() {
         ensureDataDirectoryExists(); // Ensure the "data" directory exists before saving
@@ -286,6 +360,10 @@ public class MovieListController {
 
     /**
      * Opens a new window for editing the details of the selected movie.
+     * <p>
+     * Triggered by the "Edit" button, this method allows the manager to modify
+     * the details of a selected movie. Once editing is complete, it saves the changes.
+     * </p>
      */
     @FXML
     private void onEditButtonClicked() {
@@ -320,7 +398,8 @@ public class MovieListController {
     /**
      * Deletes the selected movie from the list.
      * <p>
-     * Displays a confirmation alert before deletion.
+     * This method prompts the manager for confirmation before deleting the selected movie.
+     * Triggered by the "Delete" button.
      * </p>
      */
     @FXML
